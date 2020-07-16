@@ -18,5 +18,9 @@ extension AVPlayer {
     func statePublisher() -> Publishers.PlayerStatePublisher {
         return Publishers.PlayerStatePublisher(playerItem: self.currentItem)
     }
+    
+    func ratePublisher() -> Publishers.PlayerRatePublisher {
+        return Publishers.PlayerRatePublisher(player: self)
+    }
 }
 

@@ -8,7 +8,7 @@
         <!--AV Player View Controller-->
         <scene sceneID="eex-0l-mCd">
             <objects>
-                <avPlayerViewController showsPlaybackControls="NO" videoGravity="AVLayerVideoGravityResizeAspect" id="iWD-4j-pvw" customClass="ViewController" customModule="AVFoundation_Demo" customModuleProvider="target" sceneMemberID="viewController"/>
+                <avPlayerViewController videoGravity="AVLayerVideoGravityResizeAspect" id="iWD-4j-pvw" customClass="ViewController" customModule="AVFoundation_Combine" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hlu-xj-n6d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1005" y="157"/>

@@ -41,6 +41,20 @@ class ViewController: AVPlayerViewController {
             }
             .store(in: &subscriptions)
         
+        player.ratePublisher()
+            .sink { (rate) in
+                print("rate changed:")
+                switch rate {
+                case 0:
+                    print(">> paused")
+                case 1:
+                    print(">> playing")
+                default:
+                    print(">> \(rate)")
+                }
+            }
+            .store(in: &subscriptions)
+        
         self.player = player
     }
     
