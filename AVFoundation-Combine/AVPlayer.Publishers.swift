@@ -14,5 +14,9 @@ extension AVPlayer {
     func playheadProgressPublisher(interval: TimeInterval = 0.25) -> Publishers.PlayheadProgressPublisher {
         return Publishers.PlayheadProgressPublisher(interval: interval, player: self)
     }
+    
+    func statePublisher() -> Publishers.PlayerStatePublisher {
+        return Publishers.PlayerStatePublisher(playerItem: self.currentItem)
+    }
 }
 

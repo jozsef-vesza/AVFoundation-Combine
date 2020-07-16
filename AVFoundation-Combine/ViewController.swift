@@ -21,7 +21,23 @@ class ViewController: AVPlayerViewController {
         
         player.playheadProgressPublisher()
             .sink { (time) in
-                print("received value: \(time)")
+                print("received playhead progress: \(time)")
+            }
+            .store(in: &subscriptions)
+        
+        player.statePublisher()
+            .sink { state in
+                print("received status:")
+                switch state {
+                case .unknown:
+                    print(">> unknown")
+                case .readyToPlay:
+                    print(">> ready to play")
+                case .failed:
+                    print(">> failed")
+                @unknown default:
+                    print(">> other")
+                }
             }
             .store(in: &subscriptions)
         
