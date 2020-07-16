@@ -45,7 +45,9 @@ extension Publishers {
             
             if stateObserverToken == nil, requested > .none {
                 stateObserverToken = playerItem?.observe(\.status) { [weak self] (item, _) in
-                    _ = self?.subscriber?.receive(item.status)
+                    guard let self = self else { return }
+                    self.requested -= .max(1)
+                    _ = self.subscriber?.receive(item.status)
                 }
             }
         }
