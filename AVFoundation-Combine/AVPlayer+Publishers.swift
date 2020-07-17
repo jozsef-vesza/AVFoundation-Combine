@@ -12,15 +12,15 @@ import AVKit
 
 public extension AVPlayer {
     func playheadProgressPublisher(interval: TimeInterval = 0.25) -> Publishers.PlayheadProgressPublisher {
-        return Publishers.PlayheadProgressPublisher(interval: interval, player: self)
+        Publishers.PlayheadProgressPublisher(interval: interval, player: self)
     }
     
     func statePublisher() -> Publishers.PlayerItemStatePublisher {
-        return Publishers.PlayerItemStatePublisher(playerItem: self.currentItem)
+        Publishers.PlayerItemStatePublisher(playerItem: self.currentItem)
     }
     
     func ratePublisher() -> Publishers.PlayerRatePublisher {
-        return Publishers.PlayerRatePublisher(player: self)
+        Publishers.PlayerRatePublisher(player: self)
     }
     
     func isPlaybackLikelyToKeepUpPublisher() ->Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
