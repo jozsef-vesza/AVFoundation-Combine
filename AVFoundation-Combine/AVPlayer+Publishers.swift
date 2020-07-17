@@ -31,7 +31,7 @@ public extension AVPlayer {
     /// Publisher for the `status` property in `AVPlayer.currentItem`
     /// - Returns: Publisher for the `status` property in `AVPlayer.currentItem`
     func statusPublisher() -> Publishers.PlayerItemStatusPublisher {
-        Publishers.PlayerItemStatusPublisher(playerItem: self.currentItem)
+        currentItem?.statusPublisher()
     }
     
     /// Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`
