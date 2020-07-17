@@ -16,13 +16,13 @@ public extension AVPlayerItem {
     /// - Returns: Publisher for the `isPlaybackLikelyToKeepUp` property.
     func isPlaybackLikelyToKeepUpPublisher() -> Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
         let keyPath: KeyPath<AVPlayerItem, Bool> = \.isPlaybackLikelyToKeepUp
-        return Publishers.KVObservingPlayerItemPublisher(playerItem: self, keyPath: keyPath)
+        return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath)
     }
     
     /// Publisher for the `status` property.
     /// - Returns: Publisher for the `status` property.
     func statusPublisher() -> Publishers.PlayerItemStatusPublisher {
         let keyPath: KeyPath<AVPlayerItem, AVPlayerItem.Status> = \.status
-        return Publishers.KVObservingPlayerItemPublisher(playerItem: self, keyPath: keyPath)
+        return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath)
     }
 }

@@ -16,8 +16,7 @@
 		BB4A48E224C090560004DBA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB4A48E024C090560004DBA5 /* LaunchScreen.storyboard */; };
 		BB4A48EA24C090900004DBA5 /* PlayheadProgressPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */; };
 		BB4A48EE24C090D00004DBA5 /* AVPlayer+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */; };
-		BBC7B70C24C1B62F00093E88 /* KVObservingPlayerPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC7B70B24C1B62F00093E88 /* KVObservingPlayerPublisher.swift */; };
-		BBC7B70E24C1C1B100093E88 /* KVObservingPlayerItemPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC7B70D24C1C1B100093E88 /* KVObservingPlayerItemPublisher.swift */; };
+		BBC7B70C24C1B62F00093E88 /* KVObservingPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC7B70B24C1B62F00093E88 /* KVObservingPublisher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +31,7 @@
 		BB4A48E324C090560004DBA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadProgressPublisher.swift; sourceTree = "<group>"; };
 		BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Publishers.swift"; sourceTree = "<group>"; };
-		BBC7B70B24C1B62F00093E88 /* KVObservingPlayerPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVObservingPlayerPublisher.swift; sourceTree = "<group>"; };
-		BBC7B70D24C1C1B100093E88 /* KVObservingPlayerItemPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVObservingPlayerItemPublisher.swift; sourceTree = "<group>"; };
+		BBC7B70B24C1B62F00093E88 /* KVObservingPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVObservingPublisher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */,
-				BBC7B70B24C1B62F00093E88 /* KVObservingPlayerPublisher.swift */,
-				BBC7B70D24C1C1B100093E88 /* KVObservingPlayerItemPublisher.swift */,
+				BBC7B70B24C1B62F00093E88 /* KVObservingPublisher.swift */,
 			);
 			path = Publishers;
 			sourceTree = "<group>";
@@ -175,8 +172,7 @@
 				4FF363DE24C17FF700153AA5 /* AVPlayerItem+Publishers.swift in Sources */,
 				BB4A48D624C090540004DBA5 /* AppDelegate.swift in Sources */,
 				BB4A48D824C090540004DBA5 /* SceneDelegate.swift in Sources */,
-				BBC7B70E24C1C1B100093E88 /* KVObservingPlayerItemPublisher.swift in Sources */,
-				BBC7B70C24C1B62F00093E88 /* KVObservingPlayerPublisher.swift in Sources */,
+				BBC7B70C24C1B62F00093E88 /* KVObservingPublisher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

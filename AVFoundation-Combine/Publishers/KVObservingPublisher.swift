@@ -1,5 +1,5 @@
 //
-//  PlayerPublisher.swift
+//  KVObservingPublisher.swift
 //  AVFoundation-Combine
 //
 //  Created by József Vesza on 2020. 07. 17..
@@ -11,36 +11,36 @@ import Combine
 import AVKit
 
 public extension Publishers {
-    struct KVObservingPlayerPublisher<ObservedValue>: Publisher {
+    struct KVObservingPublisher<ObservedType: NSObject, ObservedValue>: Publisher {
         public typealias Failure = Never
         public typealias Output = ObservedValue
         
-        private let player: AVPlayer
-        private let keyPath: KeyPath<AVPlayer, ObservedValue>
+        private let observedObject: ObservedType
+        private let keyPath: KeyPath<ObservedType, ObservedValue>
         
-        init(player: AVPlayer, keyPath: KeyPath<AVPlayer, ObservedValue>) {
-            self.player = player
+        init(observedObject: ObservedType, keyPath: KeyPath<ObservedType, ObservedValue>) {
+            self.observedObject = observedObject
             self.keyPath = keyPath
         }
         
         public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
-            let subscription = PlayerSubscription(subscriber: subscriber,
-                                                  player: player,
-                                                  keyPath: keyPath)
+            let subscription = KVObservingSubscription(subscriber: subscriber,
+                                                       observedObject: observedObject,
+                                                       keyPath: keyPath)
             subscriber.receive(subscription: subscription)
         }
     }
     
-    private final class PlayerSubscription<S: Subscriber, ObservedValue>: Subscription where S.Input == ObservedValue {
+    private final class KVObservingSubscription<S: Subscriber, ObservedType: NSObject, ObservedValue>: Subscription where S.Input == ObservedValue {
         private var subscriber: S?
         private var requested: Subscribers.Demand = .none
         private var stateObserverToken: NSKeyValueObservation? = nil
         
-        private let player: AVPlayer
-        private let keyPath: KeyPath<AVPlayer, ObservedValue>
+        private let observedObject: ObservedType
+        private let keyPath: KeyPath<ObservedType, ObservedValue>
         
-        init(subscriber: S, player: AVPlayer, keyPath: KeyPath<AVPlayer, ObservedValue>) {
-            self.player = player
+        init(subscriber: S, observedObject: ObservedType, keyPath: KeyPath<ObservedType, ObservedValue>) {
+            self.observedObject = observedObject
             self.subscriber = subscriber
             self.keyPath = keyPath
         }
@@ -49,8 +49,9 @@ public extension Publishers {
             requested += demand
             
             if stateObserverToken == nil, requested > .none {
-                stateObserverToken = player.observe(keyPath, options: [.old, .new]) { [weak self] (player, change) in
-                    guard let self = self, let newValue = change.newValue else { return }
+                stateObserverToken = observedObject.observe(keyPath, options: [.old, .new]) { [weak self] (object, change) in
+                    guard let self = self else { return }
+                    let newValue = change.newValue ?? object[keyPath: self.keyPath]
                     self.requested -= .max(1)
                     _ = self.subscriber?.receive(newValue)
                 }
