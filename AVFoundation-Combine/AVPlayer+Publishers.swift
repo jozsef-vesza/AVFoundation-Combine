@@ -31,12 +31,12 @@ public extension AVPlayer {
     /// Publisher for the `status` property in `AVPlayer.currentItem`
     /// - Returns: Publisher for the `status` property in `AVPlayer.currentItem`
     func statusPublisher() -> Publishers.PlayerItemStatusPublisher {
-        currentItem?.statusPublisher()
+        Publishers.PlayerItemStatusPublisher(playerItem: currentItem)
     }
     
     /// Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`
     /// - Returns: Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`
-    func isPlaybackLikelyToKeepUpPublisher() -> Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
-        currentItem?.isPlaybackLikelyToKeepUpPublisher()
+    func isPlaybackLikelyToKeepUpPublisher() ->Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
+        Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher(playerItem: currentItem)
     }
 }
