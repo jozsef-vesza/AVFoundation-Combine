@@ -11,6 +11,9 @@ import Combine
 import AVKit
 
 extension AVPlayerItem {
+    
+    /// Publisher for the `isPlaybackLikelyToKeepUp` property.
+    /// - Returns: Publisher for the `isPlaybackLikelyToKeepUp` property.
     func isPlaybackLikelyToKeepUpPublisher() -> Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
         Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher(playerItem: self)
     }
