@@ -10,10 +10,10 @@ import Foundation
 import Combine
 import AVKit
 
-extension Publishers {
-    struct PlayerStatePublisher: Publisher {
-        typealias Output = AVPlayerItem.Status
-        typealias Failure = Never
+public extension Publishers {
+    struct PlayerItemStatePublisher: Publisher {
+        public typealias Output = AVPlayerItem.Status
+        public typealias Failure = Never
         
         private let playerItem: AVPlayerItem?
         
@@ -21,14 +21,14 @@ extension Publishers {
             self.playerItem = playerItem
         }
         
-        func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
-            let subscription = PlayerStateSubscription(subscriber: subscriber,
+        public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
+            let subscription = PlayerItemStateSubscription(subscriber: subscriber,
                                                        playerItem: playerItem)
             subscriber.receive(subscription: subscription)
         }
     }
     
-    private final class PlayerStateSubscription<S: Subscriber>: Subscription where S.Input == AVPlayerItem.Status {
+    private final class PlayerItemStateSubscription<S: Subscriber>: Subscription where S.Input == AVPlayerItem.Status {
         private var subscriber: S?
         private var requested: Subscribers.Demand = .none
         private var stateObserverToken: NSKeyValueObservation? = nil

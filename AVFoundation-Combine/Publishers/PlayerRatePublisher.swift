@@ -10,10 +10,10 @@ import Foundation
 import Combine
 import AVKit
 
-extension Publishers {
+public extension Publishers {
     struct PlayerRatePublisher: Publisher {
-        typealias Output = Float
-        typealias Failure = Never
+        public typealias Output = Float
+        public typealias Failure = Never
         
         private let player: AVPlayer
         
@@ -21,7 +21,7 @@ extension Publishers {
             self.player = player
         }
         
-        func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
+        public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
             let subscription = PlayerRateSubscription(subscriber: subscriber,
                                                       player: player)
             subscriber.receive(subscription: subscription)
