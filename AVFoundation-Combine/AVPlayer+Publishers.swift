@@ -10,7 +10,7 @@ import Foundation
 import Combine
 import AVKit
 
-extension AVPlayer {
+public extension AVPlayer {
     func playheadProgressPublisher(interval: TimeInterval = 0.25) -> Publishers.PlayheadProgressPublisher {
         return Publishers.PlayheadProgressPublisher(interval: interval, player: self)
     }

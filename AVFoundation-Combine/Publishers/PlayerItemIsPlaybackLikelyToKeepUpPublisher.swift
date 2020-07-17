@@ -10,10 +10,10 @@ import Foundation
 import Combine
 import AVKit
 
-extension Publishers {
+public extension Publishers {
     struct PlayerItemIsPlaybackLikelyToKeepUpPublisher: Publisher {
-        typealias Output = Bool
-        typealias Failure = Never
+        public typealias Output = Bool
+        public typealias Failure = Never
         
         private let playerItem: AVPlayerItem?
         
@@ -21,7 +21,7 @@ extension Publishers {
             self.playerItem = playerItem
         }
         
-        func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
+        public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
             let subscription = PlayerItemIsPlaybackLikelyToKeepSubscription(subscriber: subscriber,
                                                       playerItem: playerItem)
             subscriber.receive(subscription: subscription)

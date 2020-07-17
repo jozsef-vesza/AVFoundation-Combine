@@ -10,7 +10,7 @@ import Foundation
 import Combine
 import AVKit
 
-extension AVPlayerItem {
+public extension AVPlayerItem {
     
     /// Publisher for the `isPlaybackLikelyToKeepUp` property.
     /// - Returns: Publisher for the `isPlaybackLikelyToKeepUp` property.
