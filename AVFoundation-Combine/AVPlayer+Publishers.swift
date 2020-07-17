@@ -15,8 +15,8 @@ public extension AVPlayer {
         return Publishers.PlayheadProgressPublisher(interval: interval, player: self)
     }
     
-    func statePublisher() -> Publishers.PlayerStatePublisher {
-        return Publishers.PlayerStatePublisher(playerItem: self.currentItem)
+    func statePublisher() -> Publishers.PlayerItemStatePublisher {
+        return Publishers.PlayerItemStatePublisher(playerItem: self.currentItem)
     }
     
     func ratePublisher() -> Publishers.PlayerRatePublisher {

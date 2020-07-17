@@ -11,7 +11,7 @@ import Combine
 import AVKit
 
 public extension Publishers {
-    struct PlayerStatePublisher: Publisher {
+    struct PlayerItemStatePublisher: Publisher {
         public typealias Output = AVPlayerItem.Status
         public typealias Failure = Never
         

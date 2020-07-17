@@ -17,7 +17,7 @@
 		BB4A48E224C090560004DBA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB4A48E024C090560004DBA5 /* LaunchScreen.storyboard */; };
 		BB4A48EA24C090900004DBA5 /* PlayheadProgressPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */; };
 		BB4A48EE24C090D00004DBA5 /* AVPlayer+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */; };
-		BB4A48F024C093EF0004DBA5 /* PlayerStatePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48EF24C093EF0004DBA5 /* PlayerStatePublisher.swift */; };
+		BB4A48F024C093EF0004DBA5 /* PlayerItemStatePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48EF24C093EF0004DBA5 /* PlayerItemStatePublisher.swift */; };
 		BB4A48F224C0A4D80004DBA5 /* PlayerRatePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48F124C0A4D80004DBA5 /* PlayerRatePublisher.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,7 +34,7 @@
 		BB4A48E324C090560004DBA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadProgressPublisher.swift; sourceTree = "<group>"; };
 		BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Publishers.swift"; sourceTree = "<group>"; };
-		BB4A48EF24C093EF0004DBA5 /* PlayerStatePublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatePublisher.swift; sourceTree = "<group>"; };
+		BB4A48EF24C093EF0004DBA5 /* PlayerItemStatePublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerItemStatePublisher.swift; sourceTree = "<group>"; };
 		BB4A48F124C0A4D80004DBA5 /* PlayerRatePublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRatePublisher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,7 +83,7 @@
 			children = (
 				BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */,
 				BB4A48F124C0A4D80004DBA5 /* PlayerRatePublisher.swift */,
-				BB4A48EF24C093EF0004DBA5 /* PlayerStatePublisher.swift */,
+				BB4A48EF24C093EF0004DBA5 /* PlayerItemStatePublisher.swift */,
 				4FF363DB24C17FE500153AA5 /* PlayerItemIsPlaybackLikelyToKeepUpPublisher.swift */,
 			);
 			path = Publishers;
@@ -180,7 +180,7 @@
 				4FF363DE24C17FF700153AA5 /* AVPlayerItem+Publishers.swift in Sources */,
 				BB4A48D624C090540004DBA5 /* AppDelegate.swift in Sources */,
 				BB4A48D824C090540004DBA5 /* SceneDelegate.swift in Sources */,
-				BB4A48F024C093EF0004DBA5 /* PlayerStatePublisher.swift in Sources */,
+				BB4A48F024C093EF0004DBA5 /* PlayerItemStatePublisher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
