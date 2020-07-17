@@ -17,7 +17,7 @@ player.playheadProgressPublisher()
 ```
 
 ### `PlayerRatePublisher`
-`PlayerRatePublisher` will emit an event whenever the rate of the observed player changes. It can be useful to present custom UI when the player is paused, or fast-forwarding/rewinding.
+`PlayerRatePublisher` will emit an event whenever the rate of the observed player changes. It can be useful to present custom UI when the player is paused, or fast-forwarding/rewinding. (see https://developer.apple.com/documentation/avfoundation/avplayer/1388846-rate)
 ```swift
 player.ratePublisher()
     .sink { (rate) in
@@ -35,7 +35,8 @@ player.ratePublisher()
 ```
 
 ### `PlayerItemStatePublisher`
-`PlayerItemStatePublisher` will emit an event when the status of the player's `playerItem` changes. It can be useful to defer work until the item is ready to play.
+`PlayerItemStatePublisher` will emit an event when the status of the player's `playerItem` changes. It can be useful to defer work until the item is ready to play. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1389493-status)
+
 ```swift
 player.statePublisher()
     .sink { state in
@@ -54,13 +55,17 @@ player.statePublisher()
     .store(in: &subscriptions)
 ```
 
-### `PlayerItemIsPlaybackLikelyToKeepUpPublisher`
-`PlayerItemIsPlaybackLikelyToKeepUpPublisher` will emit an event when the value of `isPlaybackLikelyToKeepUpPublisher` in the player's `playerItem` changes. This property communicates a prediction of playability.
+`PlayerItemStatePublisher` is also available as `AVPlayerItem.statePublisher()`.
 
-```
+### `PlayerItemIsPlaybackLikelyToKeepUpPublisher`
+`PlayerItemIsPlaybackLikelyToKeepUpPublisher` will emit an event when the value of `isPlaybackLikelyToKeepUpPublisher` in the player's `playerItem` changes. This property communicates a prediction of playability. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1390348-isplaybacklikelytokeepup)
+
+```swift
 player.isPlaybackLikelyToKeepUpPublisher()
     .sink {isPlaybackLikelyToKeepUp in
         print(">> isPlaybackLikelyToKeepUp \(isPlaybackLikelyToKeepUp) ")
     }
     .store(in: &subscriptions)
 ```
+
+`PlayerItemIsPlaybackLikelyToKeepUpPublisher` is also available as `AVPlayerItem.isPlaybackLikelyToKeepUpPublisher()`.
