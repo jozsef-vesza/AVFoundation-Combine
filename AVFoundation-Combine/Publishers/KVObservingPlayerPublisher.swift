@@ -1,8 +1,8 @@
 //
-//  PlayerRatePublisher.swift
+//  PlayerPublisher.swift
 //  AVFoundation-Combine
 //
-//  Created by József Vesza on 2020. 07. 16..
+//  Created by József Vesza on 2020. 07. 17..
 //  Copyright © 2020. József Vesza. All rights reserved.
 //
 
@@ -11,43 +11,48 @@ import Combine
 import AVKit
 
 public extension Publishers {
-    struct PlayerRatePublisher: Publisher {
-        public typealias Output = Float
+    struct KVObservingPlayerPublisher<ObservedValue>: Publisher {
         public typealias Failure = Never
+        public typealias Output = ObservedValue
         
         private let player: AVPlayer
+        private let keyPath: KeyPath<AVPlayer, ObservedValue>
         
-        init(player: AVPlayer) {
+        init(player: AVPlayer, keyPath: KeyPath<AVPlayer, ObservedValue>) {
             self.player = player
+            self.keyPath = keyPath
         }
         
         public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
-            let subscription = PlayerRateSubscription(subscriber: subscriber,
-                                                      player: player)
+            let subscription = PlayerSubscription(subscriber: subscriber,
+                                                  player: player,
+                                                  keyPath: keyPath)
             subscriber.receive(subscription: subscription)
         }
     }
     
-    private final class PlayerRateSubscription<S: Subscriber>: Subscription where S.Input == Float {
+    private final class PlayerSubscription<S: Subscriber, ObservedValue>: Subscription where S.Input == ObservedValue {
         private var subscriber: S?
         private var requested: Subscribers.Demand = .none
         private var stateObserverToken: NSKeyValueObservation? = nil
         
         private let player: AVPlayer
+        private let keyPath: KeyPath<AVPlayer, ObservedValue>
         
-        init(subscriber: S, player: AVPlayer) {
+        init(subscriber: S, player: AVPlayer, keyPath: KeyPath<AVPlayer, ObservedValue>) {
             self.player = player
             self.subscriber = subscriber
+            self.keyPath = keyPath
         }
         
         func request(_ demand: Subscribers.Demand) {
             requested += demand
             
             if stateObserverToken == nil, requested > .none {
-                stateObserverToken = player.observe(\.rate) { [weak self] (player, _) in
-                    guard let self = self else { return }
+                stateObserverToken = player.observe(keyPath, options: [.old, .new]) { [weak self] (player, change) in
+                    guard let self = self, let newValue = change.newValue else { return }
                     self.requested -= .max(1)
-                    _ = self.subscriber?.receive(player.rate)
+                    _ = self.subscriber?.receive(newValue)
                 }
             }
         }
@@ -59,5 +64,6 @@ public extension Publishers {
         }
     }
 }
+
 
 

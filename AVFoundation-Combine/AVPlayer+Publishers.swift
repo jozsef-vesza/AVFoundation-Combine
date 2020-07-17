@@ -10,6 +10,12 @@ import Foundation
 import Combine
 import AVKit
 
+public extension Publishers {
+    typealias PlayerRatePublisher = KVObservingPlayerPublisher<Float>
+    typealias PlayerItemStatusPublisher = KVObservingPlayerItemPublisher<AVPlayerItem.Status>
+    typealias PlayerItemIsPlaybackLikelyToKeepUpPublisher = KVObservingPlayerItemPublisher<Bool>
+}
+
 public extension AVPlayer {
     
     // MARK: AVPlayer Publishers
@@ -23,7 +29,8 @@ public extension AVPlayer {
     /// Publisher for the `rate` property.
     /// - Returns: Publisher for the `rate` property.
     func ratePublisher() -> Publishers.PlayerRatePublisher {
-        Publishers.PlayerRatePublisher(player: self)
+        let keyPath: KeyPath<AVPlayer, Float> = \.rate
+        return Publishers.KVObservingPlayerPublisher<Float>(player: self, keyPath: keyPath)
     }
     
     // MARK: AVPlayerItem Publishers
@@ -31,12 +38,14 @@ public extension AVPlayer {
     /// Publisher for the `status` property in `AVPlayer.currentItem`
     /// - Returns: Publisher for the `status` property in `AVPlayer.currentItem`
     func statusPublisher() -> Publishers.PlayerItemStatusPublisher {
-        Publishers.PlayerItemStatusPublisher(playerItem: currentItem)
+        let keyPath: KeyPath<AVPlayerItem, AVPlayerItem.Status> = \.status
+        return Publishers.KVObservingPlayerItemPublisher(playerItem: currentItem, keyPath: keyPath)
     }
     
     /// Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`
     /// - Returns: Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`
     func isPlaybackLikelyToKeepUpPublisher() -> Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
-        Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher(playerItem: currentItem)
+        let keyPath: KeyPath<AVPlayerItem, Bool> = \.isPlaybackLikelyToKeepUp
+        return Publishers.KVObservingPlayerItemPublisher(playerItem: currentItem, keyPath: keyPath)
     }
 }
