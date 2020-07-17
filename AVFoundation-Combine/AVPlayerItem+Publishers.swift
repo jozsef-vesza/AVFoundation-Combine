@@ -15,12 +15,14 @@ public extension AVPlayerItem {
     /// Publisher for the `isPlaybackLikelyToKeepUp` property.
     /// - Returns: Publisher for the `isPlaybackLikelyToKeepUp` property.
     func isPlaybackLikelyToKeepUpPublisher() -> Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
-        Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher(playerItem: self)
+        let keyPath: KeyPath<AVPlayerItem, Bool> = \.isPlaybackLikelyToKeepUp
+        return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath)
     }
     
     /// Publisher for the `status` property.
     /// - Returns: Publisher for the `status` property.
     func statusPublisher() -> Publishers.PlayerItemStatusPublisher {
-        Publishers.PlayerItemStatusPublisher(playerItem: self)
+        let keyPath: KeyPath<AVPlayerItem, AVPlayerItem.Status> = \.status
+        return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath)
     }
 }

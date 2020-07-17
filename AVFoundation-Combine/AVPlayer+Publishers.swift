@@ -10,6 +10,12 @@ import Foundation
 import Combine
 import AVKit
 
+public extension Publishers {
+    typealias PlayerRatePublisher = KVObservingPublisher<AVPlayer, Float>
+    typealias PlayerItemStatusPublisher = KVObservingPublisher<AVPlayerItem, AVPlayerItem.Status>
+    typealias PlayerItemIsPlaybackLikelyToKeepUpPublisher = KVObservingPublisher<AVPlayerItem, Bool>
+}
+
 public extension AVPlayer {
     
     // MARK: AVPlayer Publishers
@@ -23,20 +29,29 @@ public extension AVPlayer {
     /// Publisher for the `rate` property.
     /// - Returns: Publisher for the `rate` property.
     func ratePublisher() -> Publishers.PlayerRatePublisher {
-        Publishers.PlayerRatePublisher(player: self)
+        let keyPath: KeyPath<AVPlayer, Float> = \.rate
+        return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath)
     }
     
     // MARK: AVPlayerItem Publishers
     
     /// Publisher for the `status` property in `AVPlayer.currentItem`
     /// - Returns: Publisher for the `status` property in `AVPlayer.currentItem`
-    func statusPublisher() -> Publishers.PlayerItemStatusPublisher {
-        Publishers.PlayerItemStatusPublisher(playerItem: currentItem)
+    func statusPublisher() -> AnyPublisher<AVPlayerItem.Status, Never> {
+        guard let currentItem = currentItem else {
+            return Empty().eraseToAnyPublisher()
+        }
+        let keyPath: KeyPath<AVPlayerItem, AVPlayerItem.Status> = \.status
+        return Publishers.KVObservingPublisher(observedObject: currentItem, keyPath: keyPath).eraseToAnyPublisher()
     }
     
     /// Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`
     /// - Returns: Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`
-    func isPlaybackLikelyToKeepUpPublisher() -> Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
-        Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher(playerItem: currentItem)
+    func isPlaybackLikelyToKeepUpPublisher() -> AnyPublisher<Bool, Never> {
+        guard let currentItem = currentItem else {
+            return Empty().eraseToAnyPublisher()
+        }
+        let keyPath: KeyPath<AVPlayerItem, Bool> = \.isPlaybackLikelyToKeepUp
+        return Publishers.KVObservingPublisher(observedObject: currentItem, keyPath: keyPath).eraseToAnyPublisher()
     }
 }
