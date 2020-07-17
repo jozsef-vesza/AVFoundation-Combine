@@ -22,5 +22,9 @@ extension AVPlayer {
     func ratePublisher() -> Publishers.PlayerRatePublisher {
         return Publishers.PlayerRatePublisher(player: self)
     }
+    
+    func isPlaybackLikelyToKeepUpPublisher() ->Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
+        Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher(playerItem: self.currentItem)
+    }
 }
 
