@@ -37,7 +37,6 @@ public extension AVPlayer {
     /// Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`
     /// - Returns: Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`
     func isPlaybackLikelyToKeepUpPublisher() ->Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher {
-        Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher(playerItem: self.currentItem)
+        currentItem?.isPlaybackLikelyToKeepUpPublisher()
     }
 }
-
