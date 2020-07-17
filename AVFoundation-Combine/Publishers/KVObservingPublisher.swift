@@ -34,7 +34,7 @@ public extension Publishers {
     private final class KVObservingSubscription<S: Subscriber, ObservedType: NSObject, ObservedValue>: Subscription where S.Input == ObservedValue {
         private var subscriber: S?
         private var requested: Subscribers.Demand = .none
-        private var stateObserverToken: NSKeyValueObservation? = nil
+        private var observationToken: NSKeyValueObservation? = nil
         
         private let observedObject: ObservedType
         private let keyPath: KeyPath<ObservedType, ObservedValue>
@@ -48,8 +48,8 @@ public extension Publishers {
         func request(_ demand: Subscribers.Demand) {
             requested += demand
             
-            if stateObserverToken == nil, requested > .none {
-                stateObserverToken = observedObject.observe(keyPath, options: [.old, .new]) { [weak self] (object, change) in
+            if observationToken == nil, requested > .none {
+                observationToken = observedObject.observe(keyPath, options: [.old, .new]) { [weak self] (object, change) in
                     guard let self = self else { return }
                     let newValue = change.newValue ?? object[keyPath: self.keyPath]
                     self.requested -= .max(1)
@@ -59,8 +59,8 @@ public extension Publishers {
         }
         
         func cancel() {
-            stateObserverToken?.invalidate()
-            stateObserverToken = nil
+            observationToken?.invalidate()
+            observationToken = nil
             subscriber = nil
         }
     }
