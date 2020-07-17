@@ -28,10 +28,10 @@ public extension AVPlayer {
     
     // MARK: AVPlayerItem Publishers
     
-    /// Publisher for the `state` property in `AVPlayer.currentItem`
-    /// - Returns: Publisher for the `state` property in `AVPlayer.currentItem`
-    func statePublisher() -> Publishers.PlayerItemStatePublisher {
-        Publishers.PlayerItemStatePublisher(playerItem: self.currentItem)
+    /// Publisher for the `status` property in `AVPlayer.currentItem`
+    /// - Returns: Publisher for the `status` property in `AVPlayer.currentItem`
+    func statusPublisher() -> Publishers.PlayerItemStatusPublisher {
+        Publishers.PlayerItemStatusPublisher(playerItem: self.currentItem)
     }
     
     /// Publisher for the `isPlaybackLikelyToKeepUp` property in `AVPlayer.currentItem`

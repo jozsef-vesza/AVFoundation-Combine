@@ -18,9 +18,9 @@ public extension AVPlayerItem {
         Publishers.PlayerItemIsPlaybackLikelyToKeepUpPublisher(playerItem: self)
     }
     
-    /// Publisher for the `state` property.
-    /// - Returns: Publisher for the `state` property.
-    func statePublisher() -> Publishers.PlayerItemStatePublisher {
-        Publishers.PlayerItemStatePublisher(playerItem: self)
+    /// Publisher for the `status` property.
+    /// - Returns: Publisher for the `status` property.
+    func statusPublisher() -> Publishers.PlayerItemStatusPublisher {
+        Publishers.PlayerItemStatusPublisher(playerItem: self)
     }
 }

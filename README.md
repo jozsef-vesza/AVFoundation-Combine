@@ -34,14 +34,14 @@ player.ratePublisher()
     .store(in: &subscriptions)
 ```
 
-### `PlayerItemStatePublisher`
-`PlayerItemStatePublisher` will emit an event when the status of the player's `playerItem` changes. It can be useful to defer work until the item is ready to play. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1389493-status)
+### `PlayerItemStatusPublisher`
+`PlayerItemStatusPublisher` will emit an event when the status of the player's `playerItem` changes. It can be useful to defer work until the item is ready to play. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1389493-status)
 
 ```swift
-player.statePublisher()
-    .sink { state in
+player.statusPublisher()
+    .sink { status in
         print("received status:")
-        switch state {
+        switch status {
         case .unknown:
             print(">> unknown")
         case .readyToPlay:
@@ -55,7 +55,7 @@ player.statePublisher()
     .store(in: &subscriptions)
 ```
 
-`PlayerItemStatePublisher` is also available as `AVPlayerItem.statePublisher()`.
+`PlayerItemStatusPublisher` is also available as `AVPlayerItem.statusPublisher()`.
 
 ### `PlayerItemIsPlaybackLikelyToKeepUpPublisher`
 `PlayerItemIsPlaybackLikelyToKeepUpPublisher` will emit an event when the value of `isPlaybackLikelyToKeepUpPublisher` in the player's `playerItem` changes. This property communicates a prediction of playability. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1390348-isplaybacklikelytokeepup)

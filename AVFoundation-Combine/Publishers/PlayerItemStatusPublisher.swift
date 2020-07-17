@@ -11,7 +11,7 @@ import Combine
 import AVKit
 
 public extension Publishers {
-    struct PlayerItemStatePublisher: Publisher {
+    struct PlayerItemStatusPublisher: Publisher {
         public typealias Output = AVPlayerItem.Status
         public typealias Failure = Never
         
@@ -22,13 +22,13 @@ public extension Publishers {
         }
         
         public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
-            let subscription = PlayerItemStateSubscription(subscriber: subscriber,
+            let subscription = PlayerItemStatusSubscription(subscriber: subscriber,
                                                        playerItem: playerItem)
             subscriber.receive(subscription: subscription)
         }
     }
     
-    private final class PlayerItemStateSubscription<S: Subscriber>: Subscription where S.Input == AVPlayerItem.Status {
+    private final class PlayerItemStatusSubscription<S: Subscriber>: Subscription where S.Input == AVPlayerItem.Status {
         private var subscriber: S?
         private var requested: Subscribers.Demand = .none
         private var stateObserverToken: NSKeyValueObservation? = nil
