@@ -25,10 +25,10 @@ class ViewController: AVPlayerViewController {
             }
             .store(in: &subscriptions)
         
-        player.statePublisher()
-            .sink { state in
+        player.statusPublisher()
+            .sink { status in
                 print("received status:")
-                switch state {
+                switch status {
                 case .unknown:
                     print(">> unknown")
                 case .readyToPlay:
@@ -52,6 +52,12 @@ class ViewController: AVPlayerViewController {
                 default:
                     print(">> \(rate)")
                 }
+            }
+            .store(in: &subscriptions)
+        
+        player.isPlaybackLikelyToKeepUpPublisher()
+            .sink {isPlaybackLikelyToKeepUp in
+                print(">> isPlaybackLikelyToKeepUp \(isPlaybackLikelyToKeepUp) ")
             }
             .store(in: &subscriptions)
         

@@ -10,10 +10,10 @@ import Foundation
 import Combine
 import AVKit
 
-extension Publishers {
+public extension Publishers {
     struct PlayheadProgressPublisher: Publisher {
-        typealias Output = TimeInterval
-        typealias Failure = Never
+        public typealias Output = TimeInterval
+        public typealias Failure = Never
         
         private let interval: TimeInterval
         private let player: AVPlayer
@@ -23,7 +23,7 @@ extension Publishers {
             self.interval = interval
         }
         
-        func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
+        public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
             let subscription = PlayheadProgressSubscription(subscriber: subscriber,
                                                             interval: interval,
                                                             player: player)
