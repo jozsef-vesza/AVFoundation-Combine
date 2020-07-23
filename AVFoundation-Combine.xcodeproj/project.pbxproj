@@ -17,7 +17,18 @@
 		BB4A48EA24C090900004DBA5 /* PlayheadProgressPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */; };
 		BB4A48EE24C090D00004DBA5 /* AVPlayer+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */; };
 		BBC7B70C24C1B62F00093E88 /* KVObservingPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC7B70B24C1B62F00093E88 /* KVObservingPublisher.swift */; };
+		BBFA8ACC24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFA8ACB24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BBFA8AC624C9D7B300AC9D67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4A48CA24C090540004DBA5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BB4A48D124C090540004DBA5;
+			remoteInfo = "AVFoundation-Combine";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayerItem+Publishers.swift"; sourceTree = "<group>"; };
@@ -32,10 +43,20 @@
 		BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadProgressPublisher.swift; sourceTree = "<group>"; };
 		BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Publishers.swift"; sourceTree = "<group>"; };
 		BBC7B70B24C1B62F00093E88 /* KVObservingPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVObservingPublisher.swift; sourceTree = "<group>"; };
+		BBFA8AC124C9D7B300AC9D67 /* AVFoundation-CombineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AVFoundation-CombineTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBFA8AC524C9D7B300AC9D67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBFA8ACB24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVObservingPublisherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BB4A48CF24C090540004DBA5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBFA8ABE24C9D7B300AC9D67 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -49,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				BB4A48D424C090540004DBA5 /* AVFoundation-Combine */,
+				BBFA8AC224C9D7B300AC9D67 /* AVFoundation-CombineTests */,
 				BB4A48D324C090540004DBA5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -57,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */,
+				BBFA8AC124C9D7B300AC9D67 /* AVFoundation-CombineTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +118,15 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BBFA8AC224C9D7B300AC9D67 /* AVFoundation-CombineTests */ = {
+			isa = PBXGroup;
+			children = (
+				BBFA8AC524C9D7B300AC9D67 /* Info.plist */,
+				BBFA8ACB24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift */,
+			);
+			path = "AVFoundation-CombineTests";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -115,18 +147,40 @@
 			productReference = BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BBFA8AC024C9D7B300AC9D67 /* AVFoundation-CombineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBFA8ACA24C9D7B300AC9D67 /* Build configuration list for PBXNativeTarget "AVFoundation-CombineTests" */;
+			buildPhases = (
+				BBFA8ABD24C9D7B300AC9D67 /* Sources */,
+				BBFA8ABE24C9D7B300AC9D67 /* Frameworks */,
+				BBFA8ABF24C9D7B300AC9D67 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BBFA8AC724C9D7B300AC9D67 /* PBXTargetDependency */,
+			);
+			name = "AVFoundation-CombineTests";
+			productName = "AVFoundation-CombineTests";
+			productReference = BBFA8AC124C9D7B300AC9D67 /* AVFoundation-CombineTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		BB4A48CA24C090540004DBA5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = "József Vesza";
 				TargetAttributes = {
 					BB4A48D124C090540004DBA5 = {
 						CreatedOnToolsVersion = 11.5;
+					};
+					BBFA8AC024C9D7B300AC9D67 = {
+						CreatedOnToolsVersion = 11.6;
+						TestTargetID = BB4A48D124C090540004DBA5;
 					};
 				};
 			};
@@ -144,6 +198,7 @@
 			projectRoot = "";
 			targets = (
 				BB4A48D124C090540004DBA5 /* AVFoundation-Combine */,
+				BBFA8AC024C9D7B300AC9D67 /* AVFoundation-CombineTests */,
 			);
 		};
 /* End PBXProject section */
@@ -156,6 +211,13 @@
 				BB4A48E224C090560004DBA5 /* LaunchScreen.storyboard in Resources */,
 				BB4A48DF24C090560004DBA5 /* Assets.xcassets in Resources */,
 				BB4A48DD24C090540004DBA5 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBFA8ABF24C9D7B300AC9D67 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +238,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BBFA8ABD24C9D7B300AC9D67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBFA8ACC24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BBFA8AC724C9D7B300AC9D67 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BB4A48D124C090540004DBA5 /* AVFoundation-Combine */;
+			targetProxy = BBFA8AC624C9D7B300AC9D67 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		BB4A48DB24C090540004DBA5 /* Main.storyboard */ = {
@@ -348,6 +426,48 @@
 			};
 			name = Release;
 		};
+		BBFA8AC824C9D7B300AC9D67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2Q6B2J7LRM;
+				INFOPLIST_FILE = "AVFoundation-CombineTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "hu.jozsefvesza.AVFoundation-CombineTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AVFoundation-Combine.app/AVFoundation-Combine";
+			};
+			name = Debug;
+		};
+		BBFA8AC924C9D7B300AC9D67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2Q6B2J7LRM;
+				INFOPLIST_FILE = "AVFoundation-CombineTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "hu.jozsefvesza.AVFoundation-CombineTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AVFoundation-Combine.app/AVFoundation-Combine";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -365,6 +485,15 @@
 			buildConfigurations = (
 				BB4A48E724C090560004DBA5 /* Debug */,
 				BB4A48E824C090560004DBA5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BBFA8ACA24C9D7B300AC9D67 /* Build configuration list for PBXNativeTarget "AVFoundation-CombineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBFA8AC824C9D7B300AC9D67 /* Debug */,
+				BBFA8AC924C9D7B300AC9D67 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
