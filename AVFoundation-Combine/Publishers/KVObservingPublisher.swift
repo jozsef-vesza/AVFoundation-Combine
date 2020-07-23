@@ -50,15 +50,18 @@ public extension Publishers {
                 subscriber?.receive(completion: .finished)
                 return
             }
+            
             requested += demand
             
             if observationToken == nil, requested > .none {
                 observationToken = observedObject.observe(keyPath, options: [.old, .new]) { [weak self] (object, change) in
                     guard let self = self, let subscriber = self.subscriber else { return }
                     let newValue = change.newValue ?? object[keyPath: self.keyPath]
-                    let newDemand = subscriber.receive(newValue)
+                    self.requested -= .max(1)
+                    let additionalDemand = subscriber.receive(newValue)
+                    self.requested += additionalDemand
                     
-                    if newDemand == .none {
+                    if self.requested == .none {
                         subscriber.receive(completion: .finished)
                     }
                 }
