@@ -58,6 +58,24 @@ class KVObservingPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
+    func testWhenNoValuesAreRequested_ItCompletesImmediately() {
+        // given
+        let expectedValues: [Int] = []
+        var receivedValues: [Int] = []
+        
+        let subscriber = CountSubscriber(demand: 0) { values in
+            receivedValues = values
+        }
+        
+        sut.subscribe(subscriber)
+        
+        // when
+        (0..<5).forEach { _ in counter.increment() }
+        
+        // then
+        XCTAssertEqual(receivedValues, expectedValues)
+    }
+    
     func testWhenOnlyOneValueIsRequested_ItCompletesAfterEmittingOneValue() {
         // given
         let expectedValues = [1]
