@@ -25,7 +25,7 @@ class KVObservingPublisherTests: XCTestCase {
         subscriptions = []
     }
     
-    func testWhenCounterIsIncremented_TheNewCountIsPublished() {
+    func testWhenCounterIsIncremented_ItEmitsTheNewValue() {
         // given
         let expectation = XCTestExpectation(description: "Value should be received")
         sut.sink { _ in
@@ -40,29 +40,31 @@ class KVObservingPublisherTests: XCTestCase {
         wait(for: [expectation], timeout: 0)
     }
     
-    func testWhenTwoValuesAreReceived_ItEmitsTwoValues() {
+    func testWhenCounterIsIncrementedTwice_ItEmitsTwoValues() {
         // given
-        let expectation = XCTestExpectation(description: "Value should be received")
-        sut.sink { _ in
-            expectation.fulfill()
+        let expectedValues = [1, 2]
+        var receivedValues: [Int] = []
+        
+        sut.sink { value in
+            receivedValues.append(value)
         }
         .store(in: &subscriptions)
         
         // when
         counter.increment()
+        counter.increment()
         
         // then
-        wait(for: [expectation], timeout: 0)
+        XCTAssertEqual(receivedValues, expectedValues)
     }
     
     func testWhenOnlyOneValueIsRequested_ItCompletesAfterEmittingOneValue() {
         // given
-        let expectation = XCTestExpectation(description: "Value sould be 1")
-        let expectedValue = 1
+        let expectedValues = [1]
+        var receivedValues: [Int] = []
         
-        let subscriber = CountSubscriber(expectedDemand: expectedValue) { finalValue in
-            XCTAssertEqual(finalValue, expectedValue)
-            expectation.fulfill()
+        let subscriber = CountSubscriber(demand: 1) { values in
+            receivedValues = values
         }
         
         sut.subscribe(subscriber)
@@ -71,7 +73,25 @@ class KVObservingPublisherTests: XCTestCase {
         (0..<5).forEach { _ in counter.increment() }
         
         // then
-        wait(for: [expectation], timeout: 1)
+        XCTAssertEqual(receivedValues, expectedValues)
+    }
+    
+    func testWhenTwoValuesAreRequested_ItCompletesAfterEmittingTwoValues() {
+        // given
+        let expectedValues = [1, 2]
+        var receivedValues: [Int] = []
+        
+        let subscriber = CountSubscriber(demand: 2) { values in
+            receivedValues = values
+        }
+        
+        sut.subscribe(subscriber)
+        
+        // when
+        (0..<5).forEach { _ in counter.increment() }
+        
+        // then
+        XCTAssertEqual(receivedValues, expectedValues)
     }
 }
 
@@ -87,30 +107,29 @@ class CountSubscriber: Subscriber {
     typealias Input = Int
     typealias Failure = Never
     
-    private(set) var receivedValue = 0
+    let demand: Int
+    let onComplete: ([Int]) -> Void
     
-    let expectedDemand: Int
-    let onComplete: (Int) -> Void
-    
+    private var receivedValues: [Int] = []
     private var subscription: Subscription? = nil
     
-    init(expectedDemand: Int, onComplete: @escaping (Int) -> Void) {
-        self.expectedDemand = expectedDemand
+    init(demand: Int, onComplete: @escaping ([Int]) -> Void) {
+        self.demand = demand
         self.onComplete = onComplete
     }
     
     func receive(subscription: Subscription) {
         self.subscription = subscription
-        subscription.request(.max(expectedDemand))
+        subscription.request(.max(demand))
     }
     
     func receive(_ input: Int) -> Subscribers.Demand {
-        receivedValue = input
+        receivedValues.append(input)
         return .none
     }
     
     func receive(completion: Subscribers.Completion<Never>) {
-        onComplete(receivedValue)
+        onComplete(receivedValues)
         subscription = nil
     }
 }
