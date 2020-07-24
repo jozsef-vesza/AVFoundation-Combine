@@ -46,24 +46,19 @@ public extension Publishers {
         }
         
         func request(_ demand: Subscribers.Demand) {
-            guard demand > .none else {
-                subscriber?.receive(completion: .finished)
-                return
-            }
-            
             requested += demand
+            
+            completeIfNeeded()
             
             if observationToken == nil, requested > .none {
                 observationToken = observedObject.observe(keyPath, options: [.old, .new]) { [weak self] (object, change) in
                     guard let self = self, let subscriber = self.subscriber else { return }
                     let newValue = change.newValue ?? object[keyPath: self.keyPath]
                     self.requested -= .max(1)
-                    let additionalDemand = subscriber.receive(newValue)
-                    self.requested += additionalDemand
+                    let newDemand = subscriber.receive(newValue)
+                    self.requested += newDemand
                     
-                    if self.requested == .none {
-                        subscriber.receive(completion: .finished)
-                    }
+                    self.completeIfNeeded()
                 }
             }
         }
@@ -72,6 +67,12 @@ public extension Publishers {
             observationToken?.invalidate()
             observationToken = nil
             subscriber = nil
+        }
+        
+        private func completeIfNeeded() {
+            if requested == .none {
+                subscriber?.receive(completion: .finished)
+            }
         }
     }
 }
