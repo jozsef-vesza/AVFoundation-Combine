@@ -18,6 +18,7 @@
 		BB4A48EE24C090D00004DBA5 /* AVPlayer+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */; };
 		BBC7B70C24C1B62F00093E88 /* KVObservingPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC7B70B24C1B62F00093E88 /* KVObservingPublisher.swift */; };
 		BBFA8ACC24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFA8ACB24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift */; };
+		BBFA8ACE24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFA8ACD24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift */; };
 		BBFA8AD024CAD74600AC9D67 /* TestSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFA8ACF24CAD74600AC9D67 /* TestSubscriber.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		BBFA8AC124C9D7B300AC9D67 /* AVFoundation-CombineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AVFoundation-CombineTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBFA8AC524C9D7B300AC9D67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBFA8ACB24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVObservingPublisherTests.swift; sourceTree = "<group>"; };
+		BBFA8ACD24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadProgressPublisherTests.swift; sourceTree = "<group>"; };
 		BBFA8ACF24CAD74600AC9D67 /* TestSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSubscriber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +127,7 @@
 			children = (
 				BBFA8AC524C9D7B300AC9D67 /* Info.plist */,
 				BBFA8ACB24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift */,
+				BBFA8ACD24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift */,
 				BBFA8ACF24CAD74600AC9D67 /* TestSubscriber.swift */,
 			);
 			path = "AVFoundation-CombineTests";
@@ -247,6 +250,7 @@
 			files = (
 				BBFA8ACC24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift in Sources */,
 				BBFA8AD024CAD74600AC9D67 /* TestSubscriber.swift in Sources */,
+				BBFA8ACE24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

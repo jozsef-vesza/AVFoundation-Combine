@@ -63,7 +63,7 @@ class KVObservingPublisherTests: XCTestCase {
         let expectedValues: [Int] = []
         var receivedValues: [Int] = []
         
-        let subscriber = CountSubscriber(demand: 0) { values in
+        let subscriber = TestSubscriber<Int>(demand: 0) { values in
             receivedValues = values
         }
         
@@ -81,7 +81,7 @@ class KVObservingPublisherTests: XCTestCase {
         let expectedValues = [1]
         var receivedValues: [Int] = []
         
-        let subscriber = CountSubscriber(demand: 1) { values in
+        let subscriber = TestSubscriber<Int>(demand: 1) { values in
             receivedValues = values
         }
         
@@ -99,7 +99,7 @@ class KVObservingPublisherTests: XCTestCase {
         let expectedValues = [1, 2]
         var receivedValues: [Int] = []
         
-        let subscriber = CountSubscriber(demand: 2) { values in
+        let subscriber = TestSubscriber<Int>(demand: 2) { values in
             receivedValues = values
         }
         
@@ -118,36 +118,5 @@ class Counter: NSObject {
     
     func increment() {
         count += 1
-    }
-}
-
-class CountSubscriber: Subscriber {
-    typealias Input = Int
-    typealias Failure = Never
-    
-    let demand: Int
-    let onComplete: ([Int]) -> Void
-    
-    private var receivedValues: [Int] = []
-    private var subscription: Subscription? = nil
-    
-    init(demand: Int, onComplete: @escaping ([Int]) -> Void) {
-        self.demand = demand
-        self.onComplete = onComplete
-    }
-    
-    func receive(subscription: Subscription) {
-        self.subscription = subscription
-        subscription.request(.max(demand))
-    }
-    
-    func receive(_ input: Int) -> Subscribers.Demand {
-        receivedValues.append(input)
-        return .none
-    }
-    
-    func receive(completion: Subscribers.Completion<Never>) {
-        onComplete(receivedValues)
-        subscription = nil
     }
 }
