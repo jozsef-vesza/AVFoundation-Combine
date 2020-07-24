@@ -33,6 +33,13 @@ public extension AVPlayer {
         return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath)
     }
     
+    /// Publisher for the `currentItem` property
+    /// - Returns: Publisher for the `currentItem` property
+    func currentItemPublisher() -> AnyPublisher<AVPlayerItem?, Never> {
+        let keyPath: KeyPath<AVPlayer, AVPlayerItem?> = \.currentItem
+        return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath).eraseToAnyPublisher()
+    }
+    
     // MARK: AVPlayerItem Publishers
     
     /// Publisher for the `status` property in `AVPlayer.currentItem`
