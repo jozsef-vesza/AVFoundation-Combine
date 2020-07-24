@@ -53,9 +53,12 @@ public extension Publishers {
                 timeObserverToken = player.addPeriodicTimeObserver(
                     forInterval: interval,
                     queue: DispatchQueue.main, using: { [weak self] time in
-                        guard let self = self else { return }
+                        guard let self = self, let subscriber = self.subscriber else { return }
                         self.requested -= .max(1)
-                        _ = self.subscriber?.receive(time.seconds)
+                        let newDemand = subscriber.receive(time.seconds)
+                        self.requested += newDemand
+                        
+                        self.completeIfNeeded()
                 })
             }
         }
@@ -66,6 +69,12 @@ public extension Publishers {
             }
             timeObserverToken = nil
             subscriber = nil
+        }
+        
+        private func completeIfNeeded() {
+            if requested == .none {
+                subscriber?.receive(completion: .finished)
+            }
         }
     }
 }
