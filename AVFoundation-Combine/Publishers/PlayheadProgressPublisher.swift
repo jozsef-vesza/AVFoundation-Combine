@@ -47,19 +47,16 @@ public extension Publishers {
         
         func request(_ demand: Subscribers.Demand) {
             requested += demand
+            completeIfNeeded()
+            guard timeObserverToken == nil, requested > .none else { return }
             
-            if timeObserverToken == nil, requested > .none {
-                let interval = CMTime(seconds: self.interval, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                timeObserverToken = player.addPeriodicTimeObserver(
-                    forInterval: interval,
-                    queue: DispatchQueue.main, using: { [weak self] time in
-                        guard let self = self, let subscriber = self.subscriber else { return }
-                        self.requested -= .max(1)
-                        let newDemand = subscriber.receive(time.seconds)
-                        self.requested += newDemand
-                        
-                        self.completeIfNeeded()
-                })
+            let interval = CMTime(seconds: self.interval, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+            timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] time in
+                guard let self = self, let subscriber = self.subscriber else { return }
+                self.requested -= .max(1)
+                let newDemand = subscriber.receive(time.seconds)
+                self.requested += newDemand
+                self.completeIfNeeded()
             }
         }
         
