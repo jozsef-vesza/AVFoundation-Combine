@@ -48,7 +48,7 @@ public extension Publishers {
         func request(_ demand: Subscribers.Demand) {
             requested += demand
             completeIfNeeded()
-            guard timeObserverToken == nil, requested > .none else { return }
+            guard observationToken == nil, requested > .none else { return }
             
             observationToken = observedObject.observe(keyPath, options: [.old, .new]) { [weak self] (object, change) in
                 guard let self = self, let subscriber = self.subscriber else { return }
