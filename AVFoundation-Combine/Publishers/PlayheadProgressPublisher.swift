@@ -47,7 +47,6 @@ public extension Publishers {
         
         func request(_ demand: Subscribers.Demand) {
             requested += demand
-            completeIfNeeded()
             guard timeObserverToken == nil, requested > .none else { return }
             
             let interval = CMTime(seconds: self.interval, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
