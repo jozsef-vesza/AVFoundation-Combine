@@ -23,6 +23,13 @@ class TestSubscriber<T>: Subscriber {
         self.onComplete = onComplete
     }
     
+    func startRequestingValues(_ demand: Int) {
+        guard let subscription = subscription else {
+            fatalError("requestValues(_:) may only be called after subscribing")
+        }
+        subscription.request(.max(demand))
+    }
+    
     func receive(subscription: Subscription) {
         self.subscription = subscription
         subscription.request(.max(demand))

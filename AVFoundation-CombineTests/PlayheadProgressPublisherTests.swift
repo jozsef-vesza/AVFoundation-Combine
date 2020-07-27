@@ -56,7 +56,7 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedTimes, expectedTimes)
     }
     
-    func testWhenNoValuesAreRequested_ItCompletesImmediately() {
+    func testWhenNoValuesAreRequested_ItEmitsNoValues() {
         // given
         let expectedValues: [TimeInterval] = []
         var receivedValues: [TimeInterval] = []
@@ -70,6 +70,28 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let timeUpdates: [TimeInterval] = [1, 2, 3, 4, 5]
         
         // when
+        timeUpdates.forEach { time in player.updateClosure?(CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))) }
+        
+        // then
+        XCTAssertEqual(receivedValues, expectedValues)
+    }
+    
+    func testWhenValuesAreRequested_ItStartsEmittingValues() {
+        // given
+        let expectedValues: [TimeInterval] = [1, 2, 3, 4, 5]
+        var receivedValues: [TimeInterval] = []
+        
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { values in
+            receivedValues = values
+        }
+        
+        sut.subscribe(subscriber)
+        
+        let timeUpdates: [TimeInterval] = [1, 2, 3, 4, 5]
+        
+        // when
+        subscriber.startRequestingValues(5)
+        
         timeUpdates.forEach { time in player.updateClosure?(CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))) }
         
         // then
