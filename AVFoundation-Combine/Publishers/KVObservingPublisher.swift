@@ -56,7 +56,9 @@ public extension Publishers {
                 let newDemand = subscriber.receive(newValue)
                 self.requested += newDemand
                 
-                self.completeIfNeeded()
+                if self.requested == .none {
+                    subscriber.receive(completion: .finished)
+                }
             }
         }
         

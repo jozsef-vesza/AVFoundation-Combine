@@ -55,7 +55,10 @@ public extension Publishers {
                 self.requested -= .max(1)
                 let newDemand = subscriber.receive(time.seconds)
                 self.requested += newDemand
-                self.completeIfNeeded()
+                
+                if self.requested == .none {
+                    subscriber.receive(completion: .finished)
+                }
             }
         }
         
@@ -65,12 +68,6 @@ public extension Publishers {
             }
             timeObserverToken = nil
             subscriber = nil
-        }
-        
-        private func completeIfNeeded() {
-            if requested == .none {
-                subscriber?.receive(completion: .finished)
-            }
         }
     }
 }
