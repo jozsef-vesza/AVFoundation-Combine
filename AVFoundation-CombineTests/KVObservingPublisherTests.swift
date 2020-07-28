@@ -25,7 +25,7 @@ class KVObservingPublisherTests: XCTestCase {
         subscriptions = []
     }
     
-    func testWhenCounterIsIncremented_ItEmitsTheNewValue() {
+    func testWhenDemandIsUnlimited_AndCounterIsIncremented_ItEmitsTheNewValue() {
         // given
         let expectation = XCTestExpectation(description: "Value should be received")
         sut.sink { _ in
@@ -40,7 +40,7 @@ class KVObservingPublisherTests: XCTestCase {
         wait(for: [expectation], timeout: 0)
     }
     
-    func testWhenCounterIsIncrementedTwice_ItEmitsTwoValues() {
+    func testWhenDemandIsUnlimited_AndCounterIsIncrementedTwice_ItEmitsTwoValues() {
         // given
         let expectedValues = [1, 2]
         var receivedValues: [Int] = []
@@ -58,7 +58,7 @@ class KVObservingPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenNoValuesAreRequested_ItEmitsNoValues() {
+    func testWhenDemandIsZero_ItEmitsNoValues() {
         // given
         let expectedValues: [Int] = []
         var receivedValues: [Int] = []
@@ -76,7 +76,7 @@ class KVObservingPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenValuesAreRequested_ItStartsEmittingValues() {
+    func testWhenInitialDemandIsZero_AndThenFiveValuesAreRequested_ItEmitsFiveValues() {
         // given
         let expectedValues: [Int] = [1, 2, 3, 4, 5]
         var receivedValues: [Int] = []
@@ -96,7 +96,7 @@ class KVObservingPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenOnlyOneValueIsRequested_ItCompletesAfterEmittingOneValue() {
+    func testWhenDemandIsOne_ItCompletesAfterEmittingOneValue() {
         // given
         let expectedValues = [1]
         var receivedValues: [Int] = []
@@ -114,7 +114,7 @@ class KVObservingPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenTwoValuesAreRequested_ItCompletesAfterEmittingTwoValues() {
+    func testWhenDemandIsTwo_ItCompletesAfterEmittingTwoValues() {
         // given
         let expectedValues = [1, 2]
         var receivedValues: [Int] = []

@@ -26,7 +26,7 @@ class PlayheadProgressPublisherTests: XCTestCase {
         subscriptions = []
     }
     
-    func testWhenTimeIsUpdated_ItEmitsTheNewTime() {
+    func testWhenDemandIsUnlimited_AndTimeIsUpdated_ItEmitsTheNewTime() {
         var receivedTimes: [TimeInterval] = []
         let expectedTimes: [TimeInterval] = [1]
         sut.sink { time in
@@ -41,7 +41,7 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedTimes, expectedTimes)
     }
     
-    func testWhenTimeIsUpdatedTwice_ItEmitsTheNewTimes() {
+    func testWhenDemandIsUnlimited_AndTimeIsUpdatedTwice_ItEmitsTheNewTimes() {
         var receivedTimes: [TimeInterval] = []
         let expectedTimes: [TimeInterval] = [1, 2]
         sut.sink { time in
@@ -56,7 +56,7 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedTimes, expectedTimes)
     }
     
-    func testWhenNoValuesAreRequested_ItEmitsNoValues() {
+    func testWhenDemandIsZero_ItEmitsNoValues() {
         // given
         let expectedValues: [TimeInterval] = []
         var receivedValues: [TimeInterval] = []
@@ -76,7 +76,7 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenValuesAreRequested_ItStartsEmittingValues() {
+    func testWhenInitialDemandIsZero_AndThenFiveValuesAreRequested_ItEmitsFiveValues() {
         // given
         let expectedValues: [TimeInterval] = [1, 2, 3, 4, 5]
         var receivedValues: [TimeInterval] = []
@@ -98,7 +98,7 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenOnlyOneValueIsRequested_ItCompletesAfterEmittingOneValue() {
+    func testWhenDemandIsOne_ItCompletesAfterEmittingOneValue() {
         // given
         let expectedValues: [TimeInterval] = [1]
         var receivedValues: [TimeInterval] = []
@@ -118,7 +118,7 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenTwoValuesAreRequested_ItCompletesAfterEmittingTwoValues() {
+    func testWhenDemandIsTwo_ItCompletesAfterEmittingTwoValues() {
         // given
         let expectedValues: [TimeInterval] = [1, 2]
         var receivedValues: [TimeInterval] = []
