@@ -21,6 +21,7 @@ class ViewController: AVPlayerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let player = AVPlayer()
         
         player.currentItemPublisher()
@@ -34,7 +35,7 @@ class ViewController: AVPlayerViewController {
                 print(">> received playhead progress: \(time)")
             }
             .store(in: &subscriptions)
-        
+
         player.statusPublisher()
             .sink { status in
                 print("received status:")
@@ -50,7 +51,7 @@ class ViewController: AVPlayerViewController {
                 }
             }
             .store(in: &subscriptions)
-        
+
         player.ratePublisher()
             .sink { (rate) in
                 print("rate changed:")
@@ -64,7 +65,7 @@ class ViewController: AVPlayerViewController {
                 }
             }
             .store(in: &subscriptions)
-        
+
         player.isPlaybackLikelyToKeepUpPublisher()
             .sink {isPlaybackLikelyToKeepUp in
                 print(">> isPlaybackLikelyToKeepUp \(isPlaybackLikelyToKeepUp) ")
