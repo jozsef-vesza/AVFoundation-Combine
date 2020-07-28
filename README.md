@@ -1,4 +1,4 @@
-# AVFoundation-Combine ![](https://app.bitrise.io/app/eb242bc1129ada7c/status.svg?token=ScMXJ8iAaPN9Ir9-wOGixQ&branch=master)
+# AVFoundation-Combine [![Build Status](https://app.bitrise.io/app/eb242bc1129ada7c/status.svg?token=ScMXJ8iAaPN9Ir9-wOGixQ)](https://app.bitrise.io/app/eb242bc1129ada7c)
 Combine extensions for AVFoundation
 
 The purpose of this project is to add Combine wrappers around AVFoundation (specifically AVPlayer) APIs.
