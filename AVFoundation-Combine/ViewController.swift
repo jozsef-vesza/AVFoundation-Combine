@@ -25,6 +25,7 @@ class ViewController: AVPlayerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         player = AVPlayer()
         
         player?.currentItemPublisher()
