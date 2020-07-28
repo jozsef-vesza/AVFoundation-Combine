@@ -139,8 +139,27 @@ class PlayheadProgressPublisherTests: XCTestCase {
     }
 }
 
+/// Mock AVPlayer implementation.
+///
+/// By overriding `AVPlayer.addPeriodicTimeObserver(forInterval:queue:using:)`
+/// it can capture the method's `block` parameter, which it can use to post arbitrary progress updates.
+///
 class MockAVPlayer: AVPlayer {
-    var updateClosure: ((CMTime) -> Void)?
+    /// Closure to use for posting an arbitrary progress update.
+    ///
+    /// Usage:
+    /// Subscribe to progress updates.
+    /// This will invoke `addPeriodicTimeObserver(forInterval:queue:using:)`
+    /// which allows the mock to capture the update closure:
+    /// ```
+    /// Publishers.PlayheadProgressPublisher(player: player).sink {}
+    /// ```
+    /// Then the mock can be used to post arbitrary progress updates:
+    /// ```
+    /// player.updateClosure?(10)
+    /// ```
+    ///
+    var updateClosure: ((_ time: CMTime) -> Void)?
     
     override func addPeriodicTimeObserver(forInterval interval: CMTime,
                                           queue: DispatchQueue?,
