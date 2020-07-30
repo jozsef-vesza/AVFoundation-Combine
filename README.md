@@ -1,4 +1,4 @@
-![Combine wrappers for AVPlayer](images/Header.png)
+![Combine wrappers for AVPlayer](images/header.png)
 
 # AVFoundation-Combine
 Combine extensions for AVFoundation
