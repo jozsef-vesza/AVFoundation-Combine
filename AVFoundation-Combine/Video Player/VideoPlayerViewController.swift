@@ -29,6 +29,9 @@ class VideoPlayerViewController: AVPlayerViewController {
     /// Button that toggles playback. In this example, it changes its image and accessibility label based on `AVPlayer.rate`
     private var playbackButton: UIButton!
     
+    /// Image that indicates the video is loading or buffering, it changes its visibility based on `AVPlayerItem.isPlaybackLikelyToKeepUp` and `AVPlayerItem.isPlaybackBufferEmpty`
+    private var loadingIndicator: UIImageView!
+    
     // MARK: UI setup
     
     private func setupUI() {
@@ -58,6 +61,19 @@ class VideoPlayerViewController: AVPlayerViewController {
         playbackButton.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
         playbackButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
         playbackButton.addTarget(self, action: #selector(togglePlayback), for: .touchUpInside)
+        
+        // Loading indicator
+        loadingIndicator = UIImageView(image: UIImage(named: "Loading"))
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        contentOverlayView.addSubview(loadingIndicator)
+        loadingIndicator.centerYAnchor.constraint(equalTo: contentOverlayView.centerYAnchor).isActive = true
+        loadingIndicator.centerXAnchor.constraint(equalTo: contentOverlayView.centerXAnchor).isActive = true
+        let animation = CABasicAnimation(keyPath: "transform.rotation")
+        animation.fromValue = 0
+        animation.toValue = (Double.pi * 2)
+        animation.duration = 0.5
+        animation.repeatCount = Float.infinity
+        loadingIndicator.layer.add(animation, forKey: "rotation")
     }
     
     // MARK: Actions
@@ -109,14 +125,16 @@ class VideoPlayerViewController: AVPlayerViewController {
     
     private func subscribeToPlayerItemPublishers() {
         player?.isPlaybackLikelyToKeepUpPublisher()
-            .sink {isPlaybackLikelyToKeepUp in
+            .sink {[weak self] isPlaybackLikelyToKeepUp in
                 print(">> isPlaybackLikelyToKeepUp \(isPlaybackLikelyToKeepUp) ")
+                self?.loadingIndicator.isHidden = true
         }
         .store(in: &subscriptions)
         
         player?.isPlaybackBufferEmptyPublisher()
-            .sink {isPlaybackBufferEmpty in
+            .sink {[weak self] isPlaybackBufferEmpty in
                 print(">> isPlaybackBufferEmpty \(isPlaybackBufferEmpty) ")
+                self?.loadingIndicator.isHidden = false
         }
         .store(in: &subscriptions)
         
