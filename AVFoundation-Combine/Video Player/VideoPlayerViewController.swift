@@ -89,6 +89,7 @@ class VideoPlayerViewController: AVPlayerViewController {
         player?.ratePublisher()
             .sink {[weak self] (rate) in
                 print("rate changed:")
+                self?.playbackButton.accessibilityLabel = rate == 0.0 ? "Play" : "Pause"
                 switch rate {
                 case 0.0:
                     print(">> paused")
