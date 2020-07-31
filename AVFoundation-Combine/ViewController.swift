@@ -14,6 +14,10 @@ import Combine
 class ViewController: AVPlayerViewController {
     
     /// A sample video URL
+    ///
+    /// **Big Buck Bunny (2008)**
+    ///
+    /// A recently awoken enormous and utterly adorable fluffy rabbit is heartlessly harassed by a flying squirrel's gang of rodents who are determined to squash his happiness.
     private let videoURL = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!
     
     /// A set to store all our Publisher susbcriptions
@@ -21,21 +25,57 @@ class ViewController: AVPlayerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let player = AVPlayer()
         
-        player.currentItemPublisher()
-            .sink { item in
+        player = AVPlayer()
+        
+        player?.currentItemPublisher()
+            .sink {[weak self] item in
                 print(">> current item: \(String(describing: item))")
-            }
-            .store(in: &subscriptions)
+                if item != nil {
+                    self?.subscribeToPlayerItemPublishers()
+                }
+        }
+        .store(in: &subscriptions)
         
-        player.playheadProgressPublisher()
+        player?.playheadProgressPublisher()
             .sink { (time) in
                 print(">> received playhead progress: \(time)")
-            }
-            .store(in: &subscriptions)
+        }
+        .store(in: &subscriptions)
         
-        player.statusPublisher()
+        player?.ratePublisher()
+            .sink { (rate) in
+                print("rate changed:")
+                switch rate {
+                case 0.0:
+                    print(">> paused")
+                case 1.0:
+                    print(">> playing")
+                default:
+                    print(">> \(rate)")
+                }
+        }
+        .store(in: &subscriptions)
+        
+        // Load our sample video
+        player?.replaceCurrentItem(with: AVPlayerItem(url: videoURL))
+        
+    }
+    
+    private func subscribeToPlayerItemPublishers() {
+        player?.isPlaybackLikelyToKeepUpPublisher()
+            .sink {isPlaybackLikelyToKeepUp in
+                print(">> isPlaybackLikelyToKeepUp \(isPlaybackLikelyToKeepUp) ")
+        }
+        .store(in: &subscriptions)
+        
+        player?.isPlaybackBufferEmptyPublisher()
+            .sink {isPlaybackBufferEmpty in
+                print(">> isPlaybackBufferEmpty \(isPlaybackBufferEmpty) ")
+        }
+        .store(in: &subscriptions)
+        
+        player?.statusPublisher()
             .sink { status in
                 print("received status:")
                 switch status {
@@ -48,32 +88,8 @@ class ViewController: AVPlayerViewController {
                 @unknown default:
                     print(">> other")
                 }
-            }
-            .store(in: &subscriptions)
-        
-        player.ratePublisher()
-            .sink { (rate) in
-                print("rate changed:")
-                switch rate {
-                case 0.0:
-                    print(">> paused")
-                case 1.0:
-                    print(">> playing")
-                default:
-                    print(">> \(rate)")
-                }
-            }
-            .store(in: &subscriptions)
-        
-        player.isPlaybackLikelyToKeepUpPublisher()
-            .sink {isPlaybackLikelyToKeepUp in
-                print(">> isPlaybackLikelyToKeepUp \(isPlaybackLikelyToKeepUp) ")
-            }
-            .store(in: &subscriptions)
-        
-        // Load our sample video
-        player.replaceCurrentItem(with: AVPlayerItem(url: videoURL))
-        self.player = player
+        }
+        .store(in: &subscriptions)
     }
     
     override func viewWillAppear(_ animated: Bool) {
