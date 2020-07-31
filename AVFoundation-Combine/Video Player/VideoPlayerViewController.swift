@@ -32,6 +32,9 @@ class VideoPlayerViewController: AVPlayerViewController {
     /// Image that indicates the video is loading or buffering, it changes its visibility based on `AVPlayerItem.isPlaybackLikelyToKeepUp` and `AVPlayerItem.isPlaybackBufferEmpty`
     private var loadingIndicator: UIImageView!
     
+    /// This slider acts as the playback progress indication, its value is updated by observing `AVPlayer.playheadProgressPublisher`
+    private var progressSlider: UISlider!
+    
     // MARK: UI setup
     
     private func setupUI() {
@@ -74,6 +77,14 @@ class VideoPlayerViewController: AVPlayerViewController {
         animation.duration = 0.5
         animation.repeatCount = Float.infinity
         loadingIndicator.layer.add(animation, forKey: "rotation")
+        
+        // Progress indicator
+        progressSlider = UISlider()
+        progressSlider.translatesAutoresizingMaskIntoConstraints = false
+        contentOverlayView.addSubview(progressSlider)
+        progressSlider.leadingAnchor.constraint(equalTo: playbackButton.trailingAnchor, constant: 20.0).isActive = true
+        progressSlider.trailingAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.trailingAnchor, constant: -20.0).isActive = true
+        progressSlider.centerYAnchor.constraint(equalTo: playbackButton.centerYAnchor, constant: 0.0).isActive = true
     }
     
     // MARK: Actions
@@ -97,8 +108,9 @@ class VideoPlayerViewController: AVPlayerViewController {
         .store(in: &subscriptions)
         
         player?.playheadProgressPublisher()
-            .sink { (time) in
+            .sink {[weak self] (time) in
                 print(">> received playhead progress: \(time)")
+                self?.progressSlider.value = Float(time)
         }
         .store(in: &subscriptions)
         
@@ -149,6 +161,8 @@ class VideoPlayerViewController: AVPlayerViewController {
                     print(">> unknown")
                 case .readyToPlay:
                     print(">> ready to play")
+                    guard let item = self?.player?.currentItem else { return }
+                    self?.progressSlider.maximumValue = Float(item.duration.seconds)
                 case .failed:
                     print(">> failed")
                 @unknown default:
