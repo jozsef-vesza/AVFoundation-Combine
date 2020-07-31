@@ -79,6 +79,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		4F627A4624D4589900998BF7 /* Video Player */ = {
+			isa = PBXGroup;
+			children = (
+				BB4A48D924C090540004DBA5 /* VideoPlayerViewController.swift */,
+			);
+			path = "Video Player";
+			sourceTree = "<group>";
+		};
 		BB4A48C924C090540004DBA5 = {
 			isa = PBXGroup;
 			children = (
@@ -100,9 +108,9 @@
 		BB4A48D424C090540004DBA5 /* AVFoundation-Combine */ = {
 			isa = PBXGroup;
 			children = (
+				4F627A4624D4589900998BF7 /* Video Player */,
 				4F627A4524D4585200998BF7 /* Extensions */,
 				BB4A48E324C090560004DBA5 /* Info.plist */,
-				BB4A48D924C090540004DBA5 /* VideoPlayerViewController.swift */,
 				BB4A48EB24C090990004DBA5 /* Publishers */,
 				BB4A48EC24C090A40004DBA5 /* Supporting Files */,
 			);
