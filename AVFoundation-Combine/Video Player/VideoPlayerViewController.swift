@@ -23,8 +23,13 @@ class VideoPlayerViewController: AVPlayerViewController {
     /// A `Set` to store all our `Publisher` susbcriptions
     private var subscriptions = Set<AnyCancellable>()
     
+    private func setupUI() {
+        view.backgroundColor = UIColor(named: "Background")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         
         player = AVPlayer()
         
