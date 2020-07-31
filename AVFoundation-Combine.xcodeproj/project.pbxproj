@@ -10,7 +10,7 @@
 		4FF363DE24C17FF700153AA5 /* AVPlayerItem+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */; };
 		BB4A48D624C090540004DBA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D524C090540004DBA5 /* AppDelegate.swift */; };
 		BB4A48D824C090540004DBA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D724C090540004DBA5 /* SceneDelegate.swift */; };
-		BB4A48DA24C090540004DBA5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D924C090540004DBA5 /* ViewController.swift */; };
+		BB4A48DA24C090540004DBA5 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D924C090540004DBA5 /* VideoPlayerViewController.swift */; };
 		BB4A48DD24C090540004DBA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB4A48DB24C090540004DBA5 /* Main.storyboard */; };
 		BB4A48DF24C090560004DBA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB4A48DE24C090560004DBA5 /* Assets.xcassets */; };
 		BB4A48E224C090560004DBA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB4A48E024C090560004DBA5 /* LaunchScreen.storyboard */; };
@@ -37,7 +37,7 @@
 		BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AVFoundation-Combine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB4A48D524C090540004DBA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB4A48D724C090540004DBA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BB4A48D924C090540004DBA5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BB4A48D924C090540004DBA5 /* VideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewController.swift; sourceTree = "<group>"; };
 		BB4A48DC24C090540004DBA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BB4A48DE24C090560004DBA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB4A48E124C090560004DBA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -70,6 +70,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F627A4524D4585200998BF7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */,
+				4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		BB4A48C924C090540004DBA5 = {
 			isa = PBXGroup;
 			children = (
@@ -91,10 +100,9 @@
 		BB4A48D424C090540004DBA5 /* AVFoundation-Combine */ = {
 			isa = PBXGroup;
 			children = (
+				4F627A4524D4585200998BF7 /* Extensions */,
 				BB4A48E324C090560004DBA5 /* Info.plist */,
-				BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */,
-				4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */,
-				BB4A48D924C090540004DBA5 /* ViewController.swift */,
+				BB4A48D924C090540004DBA5 /* VideoPlayerViewController.swift */,
 				BB4A48EB24C090990004DBA5 /* Publishers */,
 				BB4A48EC24C090A40004DBA5 /* Supporting Files */,
 			);
@@ -234,7 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB4A48DA24C090540004DBA5 /* ViewController.swift in Sources */,
+				BB4A48DA24C090540004DBA5 /* VideoPlayerViewController.swift in Sources */,
 				BB4A48EE24C090D00004DBA5 /* AVPlayer+Publishers.swift in Sources */,
 				BB4A48EA24C090900004DBA5 /* PlayheadProgressPublisher.swift in Sources */,
 				4FF363DE24C17FF700153AA5 /* AVPlayerItem+Publishers.swift in Sources */,
