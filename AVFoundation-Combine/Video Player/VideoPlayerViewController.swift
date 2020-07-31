@@ -122,20 +122,16 @@ class VideoPlayerViewController: AVPlayerViewController {
         player?.statusPublisher()
             .sink { [weak self] status in
                 print("received status:")
+                self?.playbackButton.isEnabled = status == .readyToPlay
+                self?.playbackButton.alpha = status == .readyToPlay ? 1.0 : 0.25
+                self?.logoImageView.alpha = status == .readyToPlay ? 1.0 : 0.5
                 switch status {
                 case .unknown:
                     print(">> unknown")
-                    self?.playbackButton.isEnabled = false
-                    self?.playbackButton.alpha = 0.25
                 case .readyToPlay:
                     print(">> ready to play")
-                    self?.logoImageView.alpha = 0.5
-                    self?.playbackButton.isEnabled = true
-                    self?.playbackButton.alpha = 1.0
                 case .failed:
                     print(">> failed")
-                    self?.playbackButton.isEnabled = false
-                    self?.playbackButton.alpha = 0.25
                 @unknown default:
                     print(">> other")
                 }
