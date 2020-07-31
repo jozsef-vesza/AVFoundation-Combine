@@ -23,14 +23,30 @@ class VideoPlayerViewController: AVPlayerViewController {
     /// A `Set` to store all our `Publisher` susbcriptions
     private var subscriptions = Set<AnyCancellable>()
     
+    /// Logo image on the top left corner. In this example, it will become semi-transparent when `AVPlayerItem.status == .readyToPlay`
+    private var logoImageView: UIImageView!
+    
+    // MARK: UI setup
+    
     private func setupUI() {
         view.backgroundColor = UIColor(named: "Background")
+        showsPlaybackControls = false
+        guard let contentOverlayView = contentOverlayView else {
+            fatalError("`contentOverlayView` is required.")
+        }
+        
+        // Logo image on the top left corner
+        logoImageView = UIImageView(image: UIImage(named: "AVLogo"))
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        contentOverlayView.addSubview(logoImageView)
+        logoImageView.topAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.topAnchor, constant: 20.0).isActive = true
+        logoImageView.leadingAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.leadingAnchor, constant: 20.0).isActive = true
+        
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        
+    // MARK: Video Player setup
+    
+    private func setupAVPlayer() {
         player = AVPlayer()
         
         player?.currentItemPublisher()
@@ -64,7 +80,6 @@ class VideoPlayerViewController: AVPlayerViewController {
         
         // Load our sample video
         player?.replaceCurrentItem(with: AVPlayerItem(url: videoURL))
-        
     }
     
     private func subscribeToPlayerItemPublishers() {
@@ -81,13 +96,14 @@ class VideoPlayerViewController: AVPlayerViewController {
         .store(in: &subscriptions)
         
         player?.statusPublisher()
-            .sink { status in
+            .sink { [weak self] status in
                 print("received status:")
                 switch status {
                 case .unknown:
                     print(">> unknown")
                 case .readyToPlay:
                     print(">> ready to play")
+                    self?.logoImageView.alpha = 0.5
                 case .failed:
                     print(">> failed")
                 @unknown default:
@@ -95,6 +111,14 @@ class VideoPlayerViewController: AVPlayerViewController {
                 }
         }
         .store(in: &subscriptions)
+    }
+    
+    // MARK: Lifecycle overrides
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupAVPlayer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
