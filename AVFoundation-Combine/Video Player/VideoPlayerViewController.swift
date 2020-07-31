@@ -23,8 +23,11 @@ class VideoPlayerViewController: AVPlayerViewController {
     /// A `Set` to store all our `Publisher` susbcriptions
     private var subscriptions = Set<AnyCancellable>()
     
-    /// Logo image on the top left corner. In this example, it will become semi-transparent when `AVPlayerItem.status == .readyToPlay`
+    /// Logo image on the top left corner. In this example, it becomes semi-transparent when `AVPlayerItem.status == .readyToPlay`
     private var logoImageView: UIImageView!
+    
+    /// Button that toggles playback. In this example, it changes its image and accessibility label based on `AVPlayer.rate`
+    private var playbackButton: UIButton!
     
     // MARK: UI setup
     
@@ -42,6 +45,25 @@ class VideoPlayerViewController: AVPlayerViewController {
         logoImageView.topAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.topAnchor, constant: 20.0).isActive = true
         logoImageView.leadingAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.leadingAnchor, constant: 20.0).isActive = true
         
+        // Playback Button
+        playbackButton = UIButton(type: .custom)
+        playbackButton.backgroundColor = UIColor.black.withAlphaComponent(0.25)
+        playbackButton.layer.cornerRadius = 20.0
+        playbackButton.layer.masksToBounds = true
+        playbackButton.tintColor = .white
+        playbackButton.translatesAutoresizingMaskIntoConstraints = false
+        contentOverlayView.addSubview(playbackButton)
+        playbackButton.bottomAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.bottomAnchor, constant: -20.0).isActive = true
+        playbackButton.leadingAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.leadingAnchor, constant: 20.0).isActive = true
+        playbackButton.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
+        playbackButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        playbackButton.addTarget(self, action: #selector(togglePlayback), for: .touchUpInside)
+    }
+    
+    // MARK: Actions
+    
+    @objc private func togglePlayback() {
+        player?.rate == 0.0 ? player?.play() : player?.pause()
     }
     
     // MARK: Video Player setup
@@ -65,13 +87,15 @@ class VideoPlayerViewController: AVPlayerViewController {
         .store(in: &subscriptions)
         
         player?.ratePublisher()
-            .sink { (rate) in
+            .sink {[weak self] (rate) in
                 print("rate changed:")
                 switch rate {
                 case 0.0:
                     print(">> paused")
+                    self?.playbackButton.setImage(UIImage(named: "Play"), for: .normal)
                 case 1.0:
                     print(">> playing")
+                    self?.playbackButton.setImage(UIImage(named: "Pause"), for: .normal)
                 default:
                     print(">> \(rate)")
                 }
@@ -101,11 +125,17 @@ class VideoPlayerViewController: AVPlayerViewController {
                 switch status {
                 case .unknown:
                     print(">> unknown")
+                    self?.playbackButton.isEnabled = false
+                    self?.playbackButton.alpha = 0.25
                 case .readyToPlay:
                     print(">> ready to play")
                     self?.logoImageView.alpha = 0.5
+                    self?.playbackButton.isEnabled = true
+                    self?.playbackButton.alpha = 1.0
                 case .failed:
                     print(">> failed")
+                    self?.playbackButton.isEnabled = false
+                    self?.playbackButton.alpha = 0.25
                 @unknown default:
                     print(">> other")
                 }
