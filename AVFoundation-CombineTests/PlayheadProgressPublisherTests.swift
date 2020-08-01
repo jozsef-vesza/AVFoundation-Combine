@@ -137,6 +137,27 @@ class PlayheadProgressPublisherTests: XCTestCase {
         // then
         XCTAssertEqual(receivedValues, expectedValues)
     }
+    
+    func testWhenInitialDemandIsOne_AndAnAdditionalValueIsRequested_ItEmitsTwoValues() {
+        // given
+        let expectedValues: [TimeInterval] = [1, 2]
+        var receivedValues: [TimeInterval] = []
+        
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1, onValueReceived: { value in
+            return value == 1 ? 1 : 0
+        }, onComplete: { values in
+            receivedValues = values
+        })
+        sut.subscribe(subscriber)
+        
+        let timeUpdates: [TimeInterval] = [1, 2, 3, 4, 5]
+        
+        // when
+        timeUpdates.forEach { time in player.updateClosure?(CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))) }
+        
+        // then
+        XCTAssertEqual(receivedValues, expectedValues)
+    }
 }
 
 /// Mock AVPlayer implementation.
