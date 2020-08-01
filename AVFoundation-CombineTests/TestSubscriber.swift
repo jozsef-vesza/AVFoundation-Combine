@@ -15,6 +15,7 @@ class TestSubscriber<T>: Subscriber {
     
     private let demand: Int
     private let onComplete: ([T]) -> Void
+    private let onValueReceived: (T) -> Int
     
     private var receivedValues: [T] = []
     private var subscription: Subscription? = nil
@@ -24,10 +25,15 @@ class TestSubscriber<T>: Subscriber {
     ///   - demand: the amount of values to demand from the Publisher
     ///   - onComplete: a closure to invoke when the subscription completes.
     ///   - receivedValues: array containing the values received by the Subscriber before completion
+    ///   - onValueReceived: a closure to invoke when the subscription emits a value. Use this method to alter the demand.
+    ///   - receivedValue: the value emitted by the Publisher
     ///
-    init(demand: Int, onComplete: @escaping (_ receivedValues: [T]) -> Void) {
+    init(demand: Int,
+         onValueReceived: @escaping (_ receivedValue: T) -> Int = { _ in return 0 },
+         onComplete: @escaping (_ receivedValues: [T]) -> Void) {
         self.demand = demand
         self.onComplete = onComplete
+        self.onValueReceived = onValueReceived
     }
     
     /// This method will request the specified amount of values from the Publisher
@@ -59,7 +65,8 @@ class TestSubscriber<T>: Subscriber {
     
     func receive(_ input: T) -> Subscribers.Demand {
         receivedValues.append(input)
-        return .none
+        let newDemand = onValueReceived(input)
+        return .max(newDemand)
     }
     
     func receive(completion: Subscribers.Completion<Never>) {
