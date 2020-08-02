@@ -11,7 +11,7 @@ import AVKit
 
 import Combine
 
-class VideoPlayerViewController: AVPlayerViewController {
+final class VideoPlayerViewController: AVPlayerViewController {
     
     /// A sample video URL
     ///
@@ -23,20 +23,12 @@ class VideoPlayerViewController: AVPlayerViewController {
     /// A `Set` to store all our `Publisher` susbcriptions
     private var subscriptions = Set<AnyCancellable>()
     
-    /// Logo image on the top left corner. In this example, it becomes semi-transparent when `AVPlayerItem.status == .readyToPlay`
-    private var logoImageView: UIImageView!
-    
-    /// Button that toggles playback. In this example, it changes its image and accessibility label based on `AVPlayer.rate`
-    private var playbackButton: UIButton!
-    
-    /// Image that indicates the video is loading or buffering, it changes its visibility based on `AVPlayerItem.isPlaybackLikelyToKeepUp` and `AVPlayerItem.isPlaybackBufferEmpty`
-    private var loadingIndicator: UIImageView!
-    
-    /// This slider acts as the playback progress indication, its value is updated by observing `AVPlayer.playheadProgressPublisher`
-    private var progressSlider: UISlider!
-    
     /// A flag to keep track of whether the user is using `progressSlider` to scrub trough the video timeline. Used to prevent the thumb in the slider from jumping back and forth while `seek` is in progress.
     private var isProgressSliderScrubbing: Bool = false
+    
+    lazy private var customUI: VideoPlayerView = {
+        VideoPlayerView()
+    }()
     
     // MARK: UI setup
     
@@ -46,56 +38,20 @@ class VideoPlayerViewController: AVPlayerViewController {
         guard let contentOverlayView = contentOverlayView else {
             fatalError("`contentOverlayView` is required.")
         }
+        customUI.translatesAutoresizingMaskIntoConstraints = false
+        contentOverlayView.addSubview(customUI)
+        [
+            customUI.leadingAnchor.constraint(equalTo: contentOverlayView.leadingAnchor),
+            customUI.trailingAnchor.constraint(equalTo: contentOverlayView.trailingAnchor),
+            customUI.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
+            customUI.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor),
+        ].forEach { $0.isActive = true}
         
-        // Logo image on the top left corner
-        logoImageView = UIImageView(image: UIImage(named: "AVLogo"))
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        contentOverlayView.addSubview(logoImageView)
-        logoImageView.topAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.topAnchor, constant: 20.0).isActive = true
-        logoImageView.leadingAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.leadingAnchor, constant: 20.0).isActive = true
+        customUI.playbackButton.addTarget(self, action: #selector(togglePlayback), for: .touchUpInside)
         
-        // Playback Button
-        playbackButton = UIButton(type: .custom)
-        playbackButton.backgroundColor = UIColor.black.withAlphaComponent(0.25)
-        playbackButton.layer.cornerRadius = 20.0
-        playbackButton.layer.masksToBounds = true
-        playbackButton.tintColor = .white
-        playbackButton.translatesAutoresizingMaskIntoConstraints = false
-        contentOverlayView.addSubview(playbackButton)
-        playbackButton.bottomAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.bottomAnchor, constant: -20.0).isActive = true
-        playbackButton.leadingAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.leadingAnchor, constant: 20.0).isActive = true
-        playbackButton.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
-        playbackButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        playbackButton.addTarget(self, action: #selector(togglePlayback), for: .touchUpInside)
-        
-        // Loading indicator
-        loadingIndicator = UIImageView(image: UIImage(named: "Loading"))
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        contentOverlayView.addSubview(loadingIndicator)
-        loadingIndicator.centerYAnchor.constraint(equalTo: contentOverlayView.centerYAnchor).isActive = true
-        loadingIndicator.centerXAnchor.constraint(equalTo: contentOverlayView.centerXAnchor).isActive = true
-        let animation = CABasicAnimation(keyPath: "transform.rotation")
-        animation.fromValue = 0
-        animation.toValue = (Double.pi * 2)
-        animation.duration = 0.5
-        animation.repeatCount = Float.infinity
-        loadingIndicator.layer.add(animation, forKey: "rotation")
-        
-        // Progress indicator
-        progressSlider = UISlider()
-        progressSlider.tintColor = UIColor(named: "Red")
-        progressSlider.setThumbImage(UIImage(named: "Thumb"), for: .normal)
-        progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedDown), for: .touchDown)
-        progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpOutside)
-        progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpInside)
-        progressSlider.translatesAutoresizingMaskIntoConstraints = false
-        contentOverlayView.addSubview(progressSlider)
-        let trailingConstraint = progressSlider.leadingAnchor.constraint(equalTo: playbackButton.trailingAnchor, constant: 20.0)
-        // Prevents `UIViewAlertForUnsatisfiableConstraints` warning because `UIViewSafeAreaLayoutGuide` is {0,0,0,0} while `UIView` is being laid out
-        trailingConstraint.priority = .defaultLow
-        trailingConstraint.isActive = true
-        progressSlider.trailingAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.trailingAnchor, constant: -20.0).isActive = true
-        progressSlider.centerYAnchor.constraint(equalTo: playbackButton.centerYAnchor, constant: 0.0).isActive = true
+        customUI.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedDown), for: .touchDown)
+        customUI.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpOutside)
+        customUI.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpInside)
     }
     
     // MARK: UI Actions
@@ -107,7 +63,7 @@ class VideoPlayerViewController: AVPlayerViewController {
     }
     
     @objc private func onSliderThumbTouchedUp() {
-        player?.seek(to: CMTime(seconds: Double(progressSlider.value), preferredTimescale: 1)) {[weak self] _ in
+        player?.seek(to: CMTime(seconds: Double(customUI.progressSlider.value), preferredTimescale: 1)) {[weak self] _ in
             self?.isProgressSliderScrubbing = false
         }
     }
@@ -141,21 +97,21 @@ class VideoPlayerViewController: AVPlayerViewController {
                 guard !self.isProgressSliderScrubbing else {
                     return
                 }
-                self.progressSlider.value = Float(time)
+                self.customUI.progressSlider.value = Float(time)
         }
         .store(in: &subscriptions)
         
         player?.ratePublisher()
             .sink {[weak self] (rate) in
                 print("rate changed:")
-                self?.playbackButton.accessibilityLabel = rate == 0.0 ? "Play" : "Pause"
+                self?.customUI.playbackButton.accessibilityLabel = rate == 0.0 ? "Play" : "Pause"
                 switch rate {
                 case 0.0:
                     print(">> paused")
-                    self?.playbackButton.setImage(UIImage(named: "Play"), for: .normal)
+                    self?.customUI.playbackButton.setImage(UIImage(named: "Play"), for: .normal)
                 case 1.0:
                     print(">> playing")
-                    self?.playbackButton.setImage(UIImage(named: "Pause"), for: .normal)
+                    self?.customUI.playbackButton.setImage(UIImage(named: "Pause"), for: .normal)
                 default:
                     print(">> \(rate)")
                 }
@@ -173,31 +129,31 @@ class VideoPlayerViewController: AVPlayerViewController {
                 guard let self = self else {
                     return
                 }
-                self.loadingIndicator.isHidden = true
+                self.customUI.loadingIndicator.isHidden = true
         }
         .store(in: &subscriptions)
         
         player?.isPlaybackBufferEmptyPublisher()
             .sink {[weak self] isPlaybackBufferEmpty in
                 print(">> isPlaybackBufferEmpty \(isPlaybackBufferEmpty) ")
-                self?.loadingIndicator.isHidden = false
+                self?.customUI.loadingIndicator.isHidden = false
         }
         .store(in: &subscriptions)
         
         player?.statusPublisher()
             .sink { [weak self] status in
                 print("received status:")
-                self?.playbackButton.isEnabled = status == .readyToPlay
-                self?.progressSlider.isEnabled = status == .readyToPlay
-                self?.playbackButton.alpha = status == .readyToPlay ? 1.0 : 0.25
-                self?.logoImageView.alpha = status == .readyToPlay ? 0.5 : 1.0
+                self?.customUI.playbackButton.isEnabled = status == .readyToPlay
+                self?.customUI.progressSlider.isEnabled = status == .readyToPlay
+                self?.customUI.playbackButton.alpha = status == .readyToPlay ? 1.0 : 0.25
+                self?.customUI.logoImageView.alpha = status == .readyToPlay ? 0.5 : 1.0
                 switch status {
                 case .unknown:
                     print(">> unknown")
                 case .readyToPlay:
                     print(">> ready to play")
                     guard let item = self?.player?.currentItem else { return }
-                    self?.progressSlider.maximumValue = Float(item.duration.seconds)
+                    self?.customUI.progressSlider.maximumValue = Float(item.duration.seconds)
                 case .failed:
                     print(">> failed")
                 @unknown default:
