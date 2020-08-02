@@ -80,87 +80,78 @@ final class VideoPlayerViewController: AVPlayerViewController {
         player = AVPlayer()
         
         player?.currentItemPublisher()
-            .sink {[weak self] item in
-                print(">> current item: \(String(describing: item))")
-                if item != nil {
-                    self?.subscribeToPlayerItemPublishers()
-                }
-        }
-        .store(in: &subscriptions)
+            .filter { $0 != nil }
+            .sink {[weak self] _ in
+                self?.subscribeToPlayerItemPublishers()
+            }
+            .store(in: &subscriptions)
         
         player?.playheadProgressPublisher()
-            .sink {[weak self] (time) in
-                print(">> received playhead progress: \(time)")
-                guard let self = self else {
-                    return
-                }
-                guard !self.isProgressSliderScrubbing else {
-                    return
-                }
-                self.customUI.progressSlider.value = Float(time)
-        }
-        .store(in: &subscriptions)
+            .filter {progress in
+                !self.isProgressSliderScrubbing
+            }
+            .sink {[weak self] progress in
+                self?.customUI.progressSlider.value = Float(progress)
+            }
+            .store(in: &subscriptions)
         
-        player?.ratePublisher()
-            .sink {[weak self] (rate) in
-                print("rate changed:")
-                self?.customUI.playbackButton.accessibilityLabel = rate == 0.0 ? "Play" : "Pause"
-                switch rate {
-                case 0.0:
-                    print(">> paused")
-                    self?.customUI.playbackButton.setImage(UIImage(named: "Play"), for: .normal)
-                case 1.0:
-                    print(">> playing")
-                    self?.customUI.playbackButton.setImage(UIImage(named: "Pause"), for: .normal)
-                default:
-                    print(">> \(rate)")
-                }
-        }
-        .store(in: &subscriptions)
+        let rateStream = player?.ratePublisher().share()
+        
+        rateStream?.receive(on: DispatchQueue.main)
+            .map { $0 == 0.0 ? "Play" : "Pause" }
+            .assign(to: \.accessibilityLabel, on: customUI.playbackButton)
+            .store(in: &subscriptions)
+        
+        rateStream?.receive(on: DispatchQueue.main)
+            .map { $0 == 0.0 ? UIImage(named: "Play") : UIImage(named: "Pause") }
+            .sink {[weak self] image in
+                self?.customUI.playbackButton.setImage(image, for: .normal)
+            }
+            .store(in: &subscriptions)
         
         // Load our sample video
         player?.replaceCurrentItem(with: AVPlayerItem(url: videoURL))
     }
     
     private func subscribeToPlayerItemPublishers() {
+        
         player?.isPlaybackLikelyToKeepUpPublisher()
-            .sink {[weak self] isPlaybackLikelyToKeepUp in
-                print(">> isPlaybackLikelyToKeepUp \(isPlaybackLikelyToKeepUp) ")
-                guard let self = self else {
-                    return
-                }
-                self.customUI.loadingIndicator.isHidden = true
-        }
-        .store(in: &subscriptions)
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.isHidden, on: customUI.loadingIndicator)
+            .store(in: &subscriptions)
         
         player?.isPlaybackBufferEmptyPublisher()
-            .sink {[weak self] isPlaybackBufferEmpty in
-                print(">> isPlaybackBufferEmpty \(isPlaybackBufferEmpty) ")
-                self?.customUI.loadingIndicator.isHidden = false
-        }
-        .store(in: &subscriptions)
+            .receive(on: DispatchQueue.main)
+            .map { !$0 }
+            .assign(to: \.isHidden, on: customUI.loadingIndicator)
+            .store(in: &subscriptions)
         
-        player?.statusPublisher()
-            .sink { [weak self] status in
-                print("received status:")
-                self?.customUI.playbackButton.isEnabled = status == .readyToPlay
-                self?.customUI.progressSlider.isEnabled = status == .readyToPlay
-                self?.customUI.playbackButton.alpha = status == .readyToPlay ? 1.0 : 0.25
-                self?.customUI.logoImageView.alpha = status == .readyToPlay ? 0.5 : 1.0
-                switch status {
-                case .unknown:
-                    print(">> unknown")
-                case .readyToPlay:
-                    print(">> ready to play")
-                    guard let item = self?.player?.currentItem else { return }
-                    self?.customUI.progressSlider.maximumValue = Float(item.duration.seconds)
-                case .failed:
-                    print(">> failed")
-                @unknown default:
-                    print(">> other")
-                }
-        }
-        .store(in: &subscriptions)
+        let statusStream = player?.statusPublisher().share()
+        
+        statusStream?.receive(on: DispatchQueue.main)
+            .map { $0 == .readyToPlay }
+            .assign(to: \.isEnabled, on: customUI.playbackButton)
+            .store(in: &subscriptions)
+        
+        statusStream?.receive(on: DispatchQueue.main)
+            .map { $0 == .readyToPlay }
+            .assign(to: \.isEnabled, on: customUI.progressSlider)
+            .store(in: &subscriptions)
+        
+        statusStream?.receive(on: DispatchQueue.main)
+            .map { $0 == .readyToPlay ? 1.0 : 0.25 }
+            .assign(to: \.alpha, on: customUI.playbackButton)
+            .store(in: &subscriptions)
+        
+        statusStream?.receive(on: DispatchQueue.main)
+            .map { $0 == .readyToPlay ? 0.5 : 1.0 }
+            .assign(to: \.alpha, on: customUI.logoImageView)
+            .store(in: &subscriptions)
+        
+        player?.durationPublisher()
+            .map { $0.isNumeric ? Float($0.seconds) : 0.0 }
+            .assign(to: \.maximumValue, on: customUI.progressSlider)
+            .store(in: &subscriptions)
     }
     
     // MARK: Lifecycle overrides

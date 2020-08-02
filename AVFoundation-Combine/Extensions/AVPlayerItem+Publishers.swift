@@ -35,4 +35,10 @@ public extension AVPlayerItem {
         let keyPath: KeyPath<AVPlayerItem, AVPlayerItem.Status> = \.status
         return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath).eraseToAnyPublisher()
     }
+    
+    /// Publisher for the `duration` property
+    func durationPublisher() -> AnyPublisher<CMTime, Never> {
+        let keyPath: KeyPath<AVPlayerItem, CMTime> = \.duration
+         return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath).eraseToAnyPublisher()
+    }
 }

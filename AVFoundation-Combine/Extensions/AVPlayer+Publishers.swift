@@ -73,4 +73,12 @@ public extension AVPlayer {
         }
         return currentItem.isPlaybackBufferEmptyPublisher()
     }
+    
+    /// Publisher for the `duration` property
+    func durationPublisher() -> AnyPublisher<CMTime, Never> {
+        guard let currentItem = currentItem else {
+            return Empty().eraseToAnyPublisher()
+        }
+        return currentItem.durationPublisher()
+    }
 }
