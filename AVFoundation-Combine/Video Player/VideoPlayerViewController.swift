@@ -35,6 +35,7 @@ class VideoPlayerViewController: AVPlayerViewController {
     /// This slider acts as the playback progress indication, its value is updated by observing `AVPlayer.playheadProgressPublisher`
     private var progressSlider: UISlider!
     
+    /// A flag to keep track of whether the user is using `progressSlider` to scrub trough the video timeline. Used to prevent the thumb in the slider from jumping back and forth while `seek` is in progress.
     private var isProgressSliderScrubbing: Bool = false
     
     // MARK: UI setup
@@ -89,12 +90,17 @@ class VideoPlayerViewController: AVPlayerViewController {
         progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpInside)
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
         contentOverlayView.addSubview(progressSlider)
-        progressSlider.leadingAnchor.constraint(equalTo: playbackButton.trailingAnchor, constant: 20.0).isActive = true
+        let trailingConstraint = progressSlider.leadingAnchor.constraint(equalTo: playbackButton.trailingAnchor, constant: 20.0)
+        // Prevents `UIViewAlertForUnsatisfiableConstraints` warning because `UIViewSafeAreaLayoutGuide` is {0,0,0,0} while `UIView` is being laid out
+        trailingConstraint.priority = .defaultLow
+        trailingConstraint.isActive = true
         progressSlider.trailingAnchor.constraint(equalTo: contentOverlayView.safeAreaLayoutGuide.trailingAnchor, constant: -20.0).isActive = true
         progressSlider.centerYAnchor.constraint(equalTo: playbackButton.centerYAnchor, constant: 0.0).isActive = true
     }
     
-    // MARK: Actions
+    // MARK: UI Actions
+    
+    // MARK: Scubber
     
     @objc private func onSliderThumbTouchedDown() {
         isProgressSliderScrubbing = true
@@ -105,6 +111,8 @@ class VideoPlayerViewController: AVPlayerViewController {
             self?.isProgressSliderScrubbing = false
         }
     }
+    
+    // MARK: Play / Pause button
     
     @objc private func togglePlayback() {
         player?.rate == 0.0 ? player?.play() : player?.pause()
