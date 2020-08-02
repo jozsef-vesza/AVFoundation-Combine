@@ -76,17 +76,16 @@ final class VideoPlayerViewController: AVPlayerViewController {
     
     // MARK: Video Player setup
     
-    private func setupAVPlayer() {
-        player = AVPlayer()
-        
-        player?.currentItemPublisher()
-            .filter { $0 != nil }
-            .sink {[weak self] _ in
-                self?.subscribeToPlayerItemPublishers()
+    private func setup(_ player: AVPlayer) {
+        player.currentItemPublisher()
+            .compactMap { $0 }
+            .sink {[weak self] item in
+                self?.setup(item)
+                self?.player?.play()
             }
             .store(in: &subscriptions)
         
-        player?.playheadProgressPublisher()
+        player.playheadProgressPublisher()
             .filter {progress in
                 !self.isProgressSliderScrubbing
             }
@@ -95,60 +94,60 @@ final class VideoPlayerViewController: AVPlayerViewController {
             }
             .store(in: &subscriptions)
         
-        let rateStream = player?.ratePublisher().share()
+        let rateStream = player.ratePublisher().share()
         
-        rateStream?.receive(on: DispatchQueue.main)
+        rateStream.receive(on: DispatchQueue.main)
             .map { $0 == 0.0 ? "Play" : "Pause" }
             .assign(to: \.accessibilityLabel, on: customUI.playbackButton)
             .store(in: &subscriptions)
         
-        rateStream?.receive(on: DispatchQueue.main)
+        rateStream.receive(on: DispatchQueue.main)
             .map { $0 == 0.0 ? UIImage(named: "Play") : UIImage(named: "Pause") }
             .sink {[weak self] image in
                 self?.customUI.playbackButton.setImage(image, for: .normal)
             }
             .store(in: &subscriptions)
         
-        // Load our sample video
-        player?.replaceCurrentItem(with: AVPlayerItem(url: videoURL))
+        self.player = player
+        player.replaceCurrentItem(with: AVPlayerItem(url: videoURL))
     }
     
-    private func subscribeToPlayerItemPublishers() {
+    private func setup(_ item: AVPlayerItem) {
         
-        player?.isPlaybackLikelyToKeepUpPublisher()
+        item.isPlaybackLikelyToKeepUpPublisher()
             .receive(on: DispatchQueue.main)
             .assign(to: \.isHidden, on: customUI.loadingIndicator)
             .store(in: &subscriptions)
         
-        player?.isPlaybackBufferEmptyPublisher()
+        item.isPlaybackBufferEmptyPublisher()
             .receive(on: DispatchQueue.main)
             .map { !$0 }
             .assign(to: \.isHidden, on: customUI.loadingIndicator)
             .store(in: &subscriptions)
         
-        let statusStream = player?.statusPublisher().share()
+        let statusStream = item.statusPublisher().share()
         
-        statusStream?.receive(on: DispatchQueue.main)
+        statusStream.receive(on: DispatchQueue.main)
             .map { $0 == .readyToPlay }
             .assign(to: \.isEnabled, on: customUI.playbackButton)
             .store(in: &subscriptions)
         
-        statusStream?.receive(on: DispatchQueue.main)
+        statusStream.receive(on: DispatchQueue.main)
             .map { $0 == .readyToPlay }
             .assign(to: \.isEnabled, on: customUI.progressSlider)
             .store(in: &subscriptions)
         
-        statusStream?.receive(on: DispatchQueue.main)
+        statusStream.receive(on: DispatchQueue.main)
             .map { $0 == .readyToPlay ? 1.0 : 0.25 }
             .assign(to: \.alpha, on: customUI.playbackButton)
             .store(in: &subscriptions)
         
-        statusStream?.receive(on: DispatchQueue.main)
+        statusStream.receive(on: DispatchQueue.main)
             .map { $0 == .readyToPlay ? 0.5 : 1.0 }
             .assign(to: \.alpha, on: customUI.logoImageView)
             .store(in: &subscriptions)
         
-        player?.durationPublisher()
+        item.durationPublisher()
             .map { $0.isNumeric ? Float($0.seconds) : 0.0 }
             .assign(to: \.maximumValue, on: customUI.progressSlider)
             .store(in: &subscriptions)
@@ -159,11 +158,6 @@ final class VideoPlayerViewController: AVPlayerViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupAVPlayer()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        player?.play()
+        setup(AVPlayer())
     }
 }
