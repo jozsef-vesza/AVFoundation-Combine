@@ -11,7 +11,7 @@ import AVKit
 
 import Combine
 
-final class VideoPlayerViewController: AVPlayerViewController {
+final class VideoPlayerViewController: UIViewController {
     
     /// A sample video URL
     ///
@@ -30,25 +30,25 @@ final class VideoPlayerViewController: AVPlayerViewController {
         VideoPlayerView()
     }()
     
+    lazy private var avPlayerViewController: AVPlayerViewController = {
+        AVPlayerViewController()
+    }()
+    
     // MARK: UI setup
     
     private func setupUI() {
-        view.backgroundColor = UIColor(named: "Background")
-        showsPlaybackControls = false
-        guard let contentOverlayView = contentOverlayView else {
+        addChild(avPlayerViewController)
+        avPlayerViewController.entersFullScreenWhenPlaybackBegins = true
+        view.addSubviewAndFillBounds(avPlayerViewController.view)
+        avPlayerViewController.didMove(toParent: self)
+        avPlayerViewController.view.backgroundColor = UIColor(named: "Background")
+        avPlayerViewController.showsPlaybackControls = false
+        guard let contentOverlayView = avPlayerViewController.contentOverlayView else {
             fatalError("`contentOverlayView` is required.")
         }
+        contentOverlayView.addSubviewAndFillBounds(customUI)
         customUI.translatesAutoresizingMaskIntoConstraints = false
-        contentOverlayView.addSubview(customUI)
-        [
-            customUI.leadingAnchor.constraint(equalTo: contentOverlayView.leadingAnchor),
-            customUI.trailingAnchor.constraint(equalTo: contentOverlayView.trailingAnchor),
-            customUI.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
-            customUI.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor),
-        ].forEach { $0.isActive = true}
-        
         customUI.playbackButton.addTarget(self, action: #selector(togglePlayback), for: .touchUpInside)
-        
         customUI.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedDown), for: .touchDown)
         customUI.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpOutside)
         customUI.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpInside)
@@ -63,7 +63,7 @@ final class VideoPlayerViewController: AVPlayerViewController {
     }
     
     @objc private func onSliderThumbTouchedUp() {
-        player?.seek(to: CMTime(seconds: Double(customUI.progressSlider.value), preferredTimescale: 1)) {[weak self] _ in
+        avPlayerViewController.player?.seek(to: CMTime(seconds: Double(customUI.progressSlider.value), preferredTimescale: 1)) {[weak self] _ in
             self?.isProgressSliderScrubbing = false
         }
     }
@@ -71,7 +71,7 @@ final class VideoPlayerViewController: AVPlayerViewController {
     // MARK: Play / Pause button
     
     @objc private func togglePlayback() {
-        player?.rate == 0.0 ? player?.play() : player?.pause()
+        avPlayerViewController.player?.rate == 0.0 ? avPlayerViewController.player?.play() : avPlayerViewController.player?.pause()
     }
     
     // MARK: Video Player setup
@@ -81,7 +81,7 @@ final class VideoPlayerViewController: AVPlayerViewController {
             .compactMap { $0 }
             .sink {[weak self] item in
                 self?.setup(item)
-                self?.player?.play()
+                self?.avPlayerViewController.player?.play()
             }
             .store(in: &subscriptions)
         
@@ -108,7 +108,7 @@ final class VideoPlayerViewController: AVPlayerViewController {
             }
             .store(in: &subscriptions)
         
-        self.player = player
+        avPlayerViewController.player = player
         player.replaceCurrentItem(with: AVPlayerItem(url: videoURL))
     }
     
@@ -161,3 +161,4 @@ final class VideoPlayerViewController: AVPlayerViewController {
         setup(AVPlayer())
     }
 }
+
