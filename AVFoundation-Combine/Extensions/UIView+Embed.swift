@@ -12,6 +12,7 @@ import UIKit
 extension UIView {
     func addSubviewAndFillBounds(_ subview: UIView) {
         addSubview(subview)
+        subview.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             subview.leadingAnchor.constraint(equalTo: leadingAnchor),
             subview.trailingAnchor.constraint(equalTo: trailingAnchor),
