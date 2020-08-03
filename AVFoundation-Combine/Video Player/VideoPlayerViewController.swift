@@ -128,7 +128,6 @@ final class VideoPlayerViewController: UIViewController {
         
         item.isPlaybackBufferEmptyPublisher()
             .receive(on: DispatchQueue.main)
-            .removeDuplicates()
             .map { !$0 }
             .assign(to: \.isHidden, on: videoPlayerContentOverlay.loadingIndicator)
             .store(in: &subscriptions)
@@ -156,6 +155,7 @@ final class VideoPlayerViewController: UIViewController {
         
         item.durationPublisher()
             .map { $0.isNumeric ? Float($0.seconds) : 0.0 }
+            .removeDuplicates()
             .assign(to: \.maximumValue, on: videoPlayerContentOverlay.progressSlider)
             .store(in: &subscriptions)
     }
