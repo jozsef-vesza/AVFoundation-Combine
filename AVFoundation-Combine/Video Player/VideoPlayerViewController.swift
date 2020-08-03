@@ -63,7 +63,7 @@ final class VideoPlayerViewController: UIViewController {
     }
     
     @objc private func onSliderThumbTouchedUp() {
-        avPlayerViewController.player?.seek(to: CMTime(seconds: Double(customUI.progressSlider.value), preferredTimescale: 1)) {[weak self] _ in
+        avPlayerViewController.player?.seek(to: CMTime(seconds: Double(customUI.progressSlider.value), preferredTimescale: 1)) { [weak self] _ in
             self?.isProgressSliderScrubbing = false
         }
     }
@@ -160,4 +160,3 @@ final class VideoPlayerViewController: UIViewController {
         setup(AVPlayer())
     }
 }
-
