@@ -26,6 +26,8 @@ final class VideoPlayerViewController: UIViewController {
     /// A flag to keep track of whether the user is using `progressSlider` to scrub trough the video timeline. Used to prevent the thumb in the slider from jumping back and forth while `seek` is in progress.
     private var isProgressSliderScrubbing: Bool = false
     
+    private var isPlaying: Bool = false
+    
     lazy private var videoPlayerContentOverlay: VideoPlayerContentOverlay = {
         VideoPlayerContentOverlay()
     }()
@@ -71,7 +73,7 @@ final class VideoPlayerViewController: UIViewController {
     // MARK: Play / Pause button
     
     @objc private func togglePlayback() {
-        avPlayerViewController.player?.rate == 0.0 ? avPlayerViewController.player?.play() : avPlayerViewController.player?.pause()
+        isPlaying ? avPlayerViewController.player?.play() : avPlayerViewController.player?.pause()
     }
     
     // MARK: Video Player setup
@@ -94,6 +96,11 @@ final class VideoPlayerViewController: UIViewController {
             .store(in: &subscriptions)
         
         let rateStream = player.ratePublisher().share()
+        
+        rateStream.receive(on: DispatchQueue.main)
+            .map { $0 == 1.0 }
+            .assign(to: \.isPlaying, on: self)
+            .store(in: &subscriptions)
         
         rateStream.receive(on: DispatchQueue.main)
             .map { $0 == 0.0 ? "Play" : "Pause" }
