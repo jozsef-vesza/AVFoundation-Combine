@@ -134,24 +134,23 @@ final class VideoPlayerViewController: UIViewController {
             .store(in: &subscriptions)
         
         let statusStream = item.statusPublisher().share()
+            .map { $0 == .readyToPlay }
         
         statusStream.receive(on: DispatchQueue.main)
-            .map { $0 == .readyToPlay }
             .assign(to: \.isEnabled, on: videoPlayerContentOverlay.playbackButton)
             .store(in: &subscriptions)
         
         statusStream.receive(on: DispatchQueue.main)
-            .map { $0 == .readyToPlay }
             .assign(to: \.isEnabled, on: videoPlayerContentOverlay.progressSlider)
             .store(in: &subscriptions)
         
         statusStream.receive(on: DispatchQueue.main)
-            .map { $0 == .readyToPlay ? 1.0 : 0.25 }
+            .map { $0 ? 1.0 : 0.25 }
             .assign(to: \.alpha, on: videoPlayerContentOverlay.playbackButton)
             .store(in: &subscriptions)
         
         statusStream.receive(on: DispatchQueue.main)
-            .map { $0 == .readyToPlay ? 0.5 : 1.0 }
+            .map { $0 ? 0.5 : 1.0 }
             .assign(to: \.alpha, on: videoPlayerContentOverlay.logoImageView)
             .store(in: &subscriptions)
         
