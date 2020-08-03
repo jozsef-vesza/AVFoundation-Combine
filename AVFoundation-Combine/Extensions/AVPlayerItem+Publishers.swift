@@ -32,4 +32,9 @@ public extension AVPlayerItem {
     func statusPublisher() -> AnyPublisher<AVPlayerItem.Status, Never> {
         publisher(for: \.status).eraseToAnyPublisher()
     }
+    
+    /// Publisher for the `duration` property
+    func durationPublisher() -> AnyPublisher<CMTime, Never> {
+        publisher(for: \.duration).eraseToAnyPublisher()
+    }
 }

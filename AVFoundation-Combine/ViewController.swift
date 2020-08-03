@@ -11,7 +11,7 @@ import AVKit
 
 import Combine
 
-class ViewController: AVPlayerViewController {
+class VideoPlayerViewController: AVPlayerViewController {
     
     /// A sample video URL
     ///
@@ -20,7 +20,7 @@ class ViewController: AVPlayerViewController {
     /// A recently awoken enormous and utterly adorable fluffy rabbit is heartlessly harassed by a flying squirrel's gang of rodents who are determined to squash his happiness.
     private let videoURL = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!
     
-    /// A set to store all our Publisher susbcriptions
+    /// A `Set` to store all our `Publisher` susbcriptions
     private var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
