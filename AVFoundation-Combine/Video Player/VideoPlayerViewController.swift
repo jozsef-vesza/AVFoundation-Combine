@@ -36,6 +36,15 @@ final class VideoPlayerViewController: UIViewController {
         AVPlayerViewController()
     }()
     
+    
+    // MARK: Lifecycle overrides
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setup(AVPlayer())
+    }
+    
     // MARK: UI setup
     
     private func setupUI() {
@@ -159,13 +168,5 @@ final class VideoPlayerViewController: UIViewController {
             .removeDuplicates()
             .assign(to: \.maximumValue, on: videoPlayerContentOverlay.progressSlider)
             .store(in: &subscriptions)
-    }
-    
-    // MARK: Lifecycle overrides
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        setup(AVPlayer())
     }
 }
