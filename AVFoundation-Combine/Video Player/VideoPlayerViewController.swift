@@ -89,9 +89,8 @@ final class VideoPlayerViewController: UIViewController {
             .filter {progress in
                 !self.isProgressSliderScrubbing
             }
-            .sink {[weak self] progress in
-                self?.customUI.progressSlider.value = Float(progress)
-            }
+            .map { Float($0) }
+            .assign(to: \.value, on: customUI.progressSlider)
             .store(in: &subscriptions)
         
         let rateStream = player.ratePublisher().share()
