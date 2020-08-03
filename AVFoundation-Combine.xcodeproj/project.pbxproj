@@ -18,8 +18,6 @@
 		BB4A48E224C090560004DBA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB4A48E024C090560004DBA5 /* LaunchScreen.storyboard */; };
 		BB4A48EA24C090900004DBA5 /* PlayheadProgressPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */; };
 		BB4A48EE24C090D00004DBA5 /* AVPlayer+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */; };
-		BBC7B70C24C1B62F00093E88 /* KVObservingPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC7B70B24C1B62F00093E88 /* KVObservingPublisher.swift */; };
-		BBFA8ACC24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFA8ACB24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift */; };
 		BBFA8ACE24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFA8ACD24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift */; };
 		BBFA8AD024CAD74600AC9D67 /* TestSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFA8ACF24CAD74600AC9D67 /* TestSubscriber.swift */; };
 /* End PBXBuildFile section */
@@ -48,10 +46,8 @@
 		BB4A48E324C090560004DBA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadProgressPublisher.swift; sourceTree = "<group>"; };
 		BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Publishers.swift"; sourceTree = "<group>"; };
-		BBC7B70B24C1B62F00093E88 /* KVObservingPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVObservingPublisher.swift; sourceTree = "<group>"; };
 		BBFA8AC124C9D7B300AC9D67 /* AVFoundation-CombineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AVFoundation-CombineTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBFA8AC524C9D7B300AC9D67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BBFA8ACB24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVObservingPublisherTests.swift; sourceTree = "<group>"; };
 		BBFA8ACD24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadProgressPublisherTests.swift; sourceTree = "<group>"; };
 		BBFA8ACF24CAD74600AC9D67 /* TestSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSubscriber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				BB4A48E924C090900004DBA5 /* PlayheadProgressPublisher.swift */,
-				BBC7B70B24C1B62F00093E88 /* KVObservingPublisher.swift */,
 			);
 			path = Publishers;
 			sourceTree = "<group>";
@@ -148,7 +143,6 @@
 			isa = PBXGroup;
 			children = (
 				BBFA8AC524C9D7B300AC9D67 /* Info.plist */,
-				BBFA8ACB24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift */,
 				BBFA8ACD24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift */,
 				BBFA8ACF24CAD74600AC9D67 /* TestSubscriber.swift */,
 			);
@@ -272,7 +266,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBFA8ACC24C9D7EE00AC9D67 /* KVObservingPublisherTests.swift in Sources */,
 				BBFA8AD024CAD74600AC9D67 /* TestSubscriber.swift in Sources */,
 				BBFA8ACE24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift in Sources */,
 			);

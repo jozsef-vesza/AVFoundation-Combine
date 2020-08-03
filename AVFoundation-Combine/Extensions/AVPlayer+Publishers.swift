@@ -10,36 +10,28 @@ import Foundation
 import Combine
 import AVKit
 
-public extension Publishers {
-    typealias PlayerRatePublisher = KVObservingPublisher<AVPlayer, Float>
-    typealias PlayerItemStatusPublisher = KVObservingPublisher<AVPlayerItem, AVPlayerItem.Status>
-    typealias PlayerItemIsPlaybackLikelyToKeepUpPublisher = KVObservingPublisher<AVPlayerItem, Bool>
-}
-
 public extension AVPlayer {
     
     // MARK: AVPlayer Publishers
     
     /// Publisher tracking playhead progress updates on `AVPlayer`
     /// - Returns: Publisher tracking playhead progress updates on `AVPlayer`
-    func playheadProgressPublisher(interval: TimeInterval = 0.25) -> Publishers.PlayheadProgressPublisher {
-        Publishers.PlayheadProgressPublisher(interval: interval, player: self)
+    func playheadProgressPublisher(interval: TimeInterval = 0.25) -> AnyPublisher<TimeInterval, Never> {
+        Publishers.PlayheadProgressPublisher(interval: interval, player: self).eraseToAnyPublisher()
     }
     
     /// Publisher for the `rate` property.
     /// The current playback rate.
     /// - Returns: Publisher for the `rate` property.
-    func ratePublisher() -> Publishers.PlayerRatePublisher {
-        let keyPath: KeyPath<AVPlayer, Float> = \.rate
-        return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath)
+    func ratePublisher() -> AnyPublisher<Float, Never> {
+        publisher(for: \.rate).eraseToAnyPublisher()
     }
     
     /// Publisher for the `currentItem` property
     /// The player’s current player item.
     /// - Returns: Publisher for the `currentItem` property
     func currentItemPublisher() -> AnyPublisher<AVPlayerItem?, Never> {
-        let keyPath: KeyPath<AVPlayer, AVPlayerItem?> = \.currentItem
-        return Publishers.KVObservingPublisher(observedObject: self, keyPath: keyPath).eraseToAnyPublisher()
+         publisher(for: \.currentItem).eraseToAnyPublisher()
     }
     
     // MARK: AVPlayerItem Publishers
