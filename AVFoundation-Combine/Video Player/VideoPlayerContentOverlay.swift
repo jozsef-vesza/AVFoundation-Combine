@@ -36,32 +36,15 @@ final class VideoPlayerContentOverlay: UIView {
     private func setupUI() {
         backgroundColor = .clear
         
-        // Logo image on the top left corner
         logoImageView = UIImageView(image: UIImage(named: "AVLogo"))
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(logoImageView)
-        logoImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20.0).isActive = true
-        logoImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20.0).isActive = true
         
-        // Playback Button
         playbackButton = UIButton(type: .custom)
         playbackButton.backgroundColor = UIColor.black.withAlphaComponent(0.25)
         playbackButton.layer.cornerRadius = 20.0
         playbackButton.layer.masksToBounds = true
         playbackButton.tintColor = .white
-        playbackButton.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(playbackButton)
-        playbackButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20.0).isActive = true
-        playbackButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20.0).isActive = true
-        playbackButton.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
-        playbackButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        
-        // Loading indicator
+
         loadingIndicator = UIImageView(image: UIImage(named: "Loading"))
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(loadingIndicator)
-        loadingIndicator.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        loadingIndicator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         let animation = CABasicAnimation(keyPath: "transform.rotation")
         animation.fromValue = 0
         animation.toValue = (Double.pi * 2)
@@ -69,17 +52,46 @@ final class VideoPlayerContentOverlay: UIView {
         animation.repeatCount = Float.infinity
         loadingIndicator.layer.add(animation, forKey: "rotation")
         
-        // Progress indicator
         progressSlider = UISlider()
         progressSlider.tintColor = UIColor(named: "Red")
         progressSlider.setThumbImage(UIImage(named: "SliderThumb"), for: .normal)
+    }
+    
+    override func updateConstraints() {
+        super.updateConstraints()
+        
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(logoImageView)
+        NSLayoutConstraint.activate([
+            logoImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20.0),
+            logoImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20.0)
+        ])
+        
+        playbackButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(playbackButton)
+        NSLayoutConstraint.activate([
+            playbackButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20.0),
+            playbackButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20.0),
+            playbackButton.widthAnchor.constraint(equalToConstant: 40.0),
+            playbackButton.heightAnchor.constraint(equalToConstant: 40.0)
+        ])
+        
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(loadingIndicator)
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            loadingIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
+        
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(progressSlider)
         let trailingConstraint = progressSlider.leadingAnchor.constraint(equalTo: playbackButton.trailingAnchor, constant: 20.0)
         // Prevents `UIViewAlertForUnsatisfiableConstraints` warning because `UIViewSafeAreaLayoutGuide` is {0,0,0,0} while `UIView` is being laid out
         trailingConstraint.priority = .defaultLow
-        trailingConstraint.isActive = true
-        progressSlider.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20.0).isActive = true
-        progressSlider.centerYAnchor.constraint(equalTo: playbackButton.centerYAnchor, constant: 0.0).isActive = true
+        NSLayoutConstraint.activate([
+            trailingConstraint,
+            progressSlider.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
+            progressSlider.centerYAnchor.constraint(equalTo: playbackButton.centerYAnchor, constant: 0.0)
+        ])
     }
 }
