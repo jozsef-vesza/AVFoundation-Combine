@@ -73,7 +73,7 @@ final class VideoPlayerViewController: UIViewController {
     // MARK: Play / Pause button
     
     @objc private func togglePlayback() {
-        isPlaying ? avPlayerViewController.player?.play() : avPlayerViewController.player?.pause()
+        isPlaying ? avPlayerViewController.player?.pause() : avPlayerViewController.player?.play()
     }
     
     // MARK: Video Player setup
