@@ -72,7 +72,7 @@ final class VideoPlayerView: UIView {
         // Progress indicator
         progressSlider = UISlider()
         progressSlider.tintColor = UIColor(named: "Red")
-        progressSlider.setThumbImage(UIImage(named: "Thumb"), for: .normal)
+        progressSlider.setThumbImage(UIImage(named: "SliderThumb"), for: .normal)
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(progressSlider)
         let trailingConstraint = progressSlider.leadingAnchor.constraint(equalTo: playbackButton.trailingAnchor, constant: 20.0)
