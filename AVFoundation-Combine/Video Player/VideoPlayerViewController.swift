@@ -128,6 +128,7 @@ final class VideoPlayerViewController: UIViewController {
         
         item.isPlaybackBufferEmptyPublisher()
             .receive(on: DispatchQueue.main)
+            .removeDuplicates()
             .map { !$0 }
             .assign(to: \.isHidden, on: videoPlayerContentOverlay.loadingIndicator)
             .store(in: &subscriptions)
