@@ -1,5 +1,5 @@
 //
-//  VideoPlayerView.swift
+//  VideoPlayerContentOverlay.swift
 //  AVFoundation-Combine
 //
 //  Created by Juan Carlos Ospina Gonzalez on 02/08/2020.
