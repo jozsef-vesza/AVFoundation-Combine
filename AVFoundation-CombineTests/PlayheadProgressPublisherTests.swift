@@ -61,8 +61,9 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = []
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { values in
-            receivedValues = values
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { value in
+            receivedValues.append(value)
+            return 0
         }
         
         sut.subscribe(subscriber)
@@ -81,8 +82,9 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 2, 3, 4, 5]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { values in
-            receivedValues = values
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { value in
+            receivedValues.append(value)
+            return 0
         }
         
         sut.subscribe(subscriber)
@@ -98,13 +100,14 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenDemandIsOne_ItCompletesAfterEmittingOneValue() {
+    func testWhenDemandIsOne_ItEmitsOneValue() {
         // given
         let expectedValues: [TimeInterval] = [1]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { values in
-            receivedValues = values
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+            receivedValues.append(value)
+            return 0
         }
         
         sut.subscribe(subscriber)
@@ -118,13 +121,14 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenDemandIsTwo_ItCompletesAfterEmittingTwoValues() {
+    func testWhenDemandIsTwo_ItEmitsTwoValues() {
         // given
         let expectedValues: [TimeInterval] = [1, 2]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 2) { values in
-            receivedValues = values
+        let subscriber = TestSubscriber<TimeInterval>(demand: 2) { value in
+            receivedValues.append(value)
+            return 0
         }
         
         sut.subscribe(subscriber)
@@ -143,11 +147,11 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 2]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1, onValueReceived: { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+            receivedValues.append(value)
             return value == 1 ? 1 : 0
-        }, onComplete: { values in
-            receivedValues = values
-        })
+        }
+        
         sut.subscribe(subscriber)
         
         let timeUpdates: [TimeInterval] = [1, 2, 3, 4, 5]
