@@ -178,6 +178,28 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
+    func testWhenInitialDemandIsOne_AndNoMoreValuesAreRequested_ThenMoreValuesAreRequested_ItEmitsMoreValues() {
+        // given
+        let expectedValues: [TimeInterval] = [1, 3]
+        var receivedValues: [TimeInterval] = []
+
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+            receivedValues.append(value)
+            return 0
+        }
+        
+        sut.subscribe(subscriber)
+        player.updateClosure?(CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        player.updateClosure?(CMTime(seconds: 2, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        
+        // when
+        subscriber.startRequestingValues(1)
+        player.updateClosure?(CMTime(seconds: 3, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        
+        // then
+        XCTAssertEqual(receivedValues, expectedValues)
+    }
+    
     func testWhenSubscriptionIsCancelled_ItStopsObservingThePlayback() {
         // given
         let subscription = sut.sink(receiveCompletion: { _ in }, receiveValue: { _ in  })
