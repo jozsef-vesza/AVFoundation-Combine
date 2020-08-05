@@ -51,14 +51,10 @@ public extension Publishers {
             
             let interval = CMTime(seconds: self.interval, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
             timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] time in
-                guard let self = self, let subscriber = self.subscriber else { return }
+                guard let self = self, let subscriber = self.subscriber, self.requested > .none else { return }
                 self.requested -= .max(1)
                 let newDemand = subscriber.receive(time.seconds)
                 self.requested += newDemand
-                
-                if self.requested == .none {
-                    subscriber.receive(completion: .finished)
-                }
             }
         }
         

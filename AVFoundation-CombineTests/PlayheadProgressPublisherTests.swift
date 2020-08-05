@@ -61,8 +61,9 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = []
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { values in
-            receivedValues = values
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { value in
+            receivedValues.append(value)
+            return 0
         }
         
         sut.subscribe(subscriber)
@@ -76,13 +77,29 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
+    func testWhenDemandIsZero_ItDoesNotCompleteImmediately() {
+        // given
+        var completed = false
+        
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onComplete: {
+            completed = true
+        })
+        
+        // when
+        sut.subscribe(subscriber)
+        
+        // then
+        XCTAssertFalse(completed)
+    }
+    
     func testWhenInitialDemandIsZero_AndThenFiveValuesAreRequested_ItEmitsFiveValues() {
         // given
         let expectedValues: [TimeInterval] = [1, 2, 3, 4, 5]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { values in
-            receivedValues = values
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { value in
+            receivedValues.append(value)
+            return 0
         }
         
         sut.subscribe(subscriber)
@@ -98,13 +115,14 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenDemandIsOne_ItCompletesAfterEmittingOneValue() {
+    func testWhenDemandIsOne_ItEmitsOneValue() {
         // given
         let expectedValues: [TimeInterval] = [1]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { values in
-            receivedValues = values
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+            receivedValues.append(value)
+            return 0
         }
         
         sut.subscribe(subscriber)
@@ -118,13 +136,14 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
-    func testWhenDemandIsTwo_ItCompletesAfterEmittingTwoValues() {
+    func testWhenDemandIsTwo_ItEmitsTwoValues() {
         // given
         let expectedValues: [TimeInterval] = [1, 2]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 2) { values in
-            receivedValues = values
+        let subscriber = TestSubscriber<TimeInterval>(demand: 2) { value in
+            receivedValues.append(value)
+            return 0
         }
         
         sut.subscribe(subscriber)
@@ -143,11 +162,11 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 2]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1, onValueReceived: { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+            receivedValues.append(value)
             return value == 1 ? 1 : 0
-        }, onComplete: { values in
-            receivedValues = values
-        })
+        }
+        
         sut.subscribe(subscriber)
         
         let timeUpdates: [TimeInterval] = [1, 2, 3, 4, 5]
@@ -157,6 +176,39 @@ class PlayheadProgressPublisherTests: XCTestCase {
         
         // then
         XCTAssertEqual(receivedValues, expectedValues)
+    }
+    
+    func testWhenInitialDemandIsOne_AndNoMoreValuesAreRequested_ThenMoreValuesAreRequested_ItEmitsMoreValues() {
+        // given
+        let expectedValues: [TimeInterval] = [1, 3]
+        var receivedValues: [TimeInterval] = []
+
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+            receivedValues.append(value)
+            return 0
+        }
+        
+        sut.subscribe(subscriber)
+        player.updateClosure?(CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        player.updateClosure?(CMTime(seconds: 2, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        
+        // when
+        subscriber.startRequestingValues(1)
+        player.updateClosure?(CMTime(seconds: 3, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        
+        // then
+        XCTAssertEqual(receivedValues, expectedValues)
+    }
+    
+    func testWhenSubscriptionIsCancelled_ItStopsObservingThePlayback() {
+        // given
+        let subscription = sut.sink(receiveCompletion: { _ in }, receiveValue: { _ in  })
+        
+        // when
+        subscription.cancel()
+        
+        // then
+        XCTAssertTrue(player.timeObserverRemoved)
     }
 }
 
@@ -181,11 +233,18 @@ class MockAVPlayer: AVPlayer {
     /// ```
     ///
     var updateClosure: ((_ time: CMTime) -> Void)?
+    /// A flag to check if the time observer is invalidated upon cancellation
+    var timeObserverRemoved = false
     
     override func addPeriodicTimeObserver(forInterval interval: CMTime,
                                           queue: DispatchQueue?,
                                           using block: @escaping (CMTime) -> Void) -> Any {
         updateClosure = block
         return super.addPeriodicTimeObserver(forInterval: interval, queue: queue, using: block)
+    }
+    
+    override func removeTimeObserver(_ observer: Any) {
+        timeObserverRemoved = true
+        super.removeTimeObserver(observer)
     }
 }
