@@ -77,6 +77,21 @@ class PlayheadProgressPublisherTests: XCTestCase {
         XCTAssertEqual(receivedValues, expectedValues)
     }
     
+    func testWhenDemandIsZero_ItDoesNotCompleteImmediately() {
+        // given
+        var completed = false
+        
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onComplete: { _ in
+            completed = true
+        })
+        
+        // when
+        sut.subscribe(subscriber)
+        
+        // then
+        XCTAssertFalse(completed)
+    }
+    
     func testWhenInitialDemandIsZero_AndThenFiveValuesAreRequested_ItEmitsFiveValues() {
         // given
         let expectedValues: [TimeInterval] = [1, 2, 3, 4, 5]
