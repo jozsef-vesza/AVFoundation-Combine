@@ -200,11 +200,18 @@ class MockAVPlayer: AVPlayer {
     /// ```
     ///
     var updateClosure: ((_ time: CMTime) -> Void)?
+    /// A flag to check if the time observer is invalidated upon cancellation
+    var timeObserverRemoved = false
     
     override func addPeriodicTimeObserver(forInterval interval: CMTime,
                                           queue: DispatchQueue?,
                                           using block: @escaping (CMTime) -> Void) -> Any {
         updateClosure = block
         return super.addPeriodicTimeObserver(forInterval: interval, queue: queue, using: block)
+    }
+    
+    override func removeTimeObserver(_ observer: Any) {
+        timeObserverRemoved = true
+        super.removeTimeObserver(observer)
     }
 }
