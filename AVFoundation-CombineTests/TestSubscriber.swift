@@ -29,8 +29,8 @@ class TestSubscriber<T>: Subscriber {
     ///   - receivedValue: the value emitted by the Publisher
     ///
     init(demand: Int,
-         onValueReceived: @escaping (_ receivedValue: T) -> Int = { _ in return 0 },
-         onComplete: @escaping (_ receivedValues: [T]) -> Void) {
+         onComplete: @escaping (_ receivedValues: [T]) -> Void = { _ in  },
+         onValueReceived: @escaping (_ receivedValue: T) -> Int = { _ in return 0 }) {
         self.demand = demand
         self.onComplete = onComplete
         self.onValueReceived = onValueReceived
