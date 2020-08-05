@@ -177,6 +177,17 @@ class PlayheadProgressPublisherTests: XCTestCase {
         // then
         XCTAssertEqual(receivedValues, expectedValues)
     }
+    
+    func testWhenSubscriptionIsCancelled_ItStopsObservingThePlayback() {
+        // given
+        let subscription = sut.sink(receiveCompletion: { _ in }, receiveValue: { _ in  })
+        
+        // when
+        subscription.cancel()
+        
+        // then
+        XCTAssertTrue(player.timeObserverRemoved)
+    }
 }
 
 /// Mock AVPlayer implementation.
