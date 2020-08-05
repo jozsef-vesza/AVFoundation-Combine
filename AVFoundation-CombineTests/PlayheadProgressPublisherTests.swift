@@ -81,7 +81,7 @@ class PlayheadProgressPublisherTests: XCTestCase {
         // given
         var completed = false
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onComplete: { _ in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onComplete: {
             completed = true
         })
         
