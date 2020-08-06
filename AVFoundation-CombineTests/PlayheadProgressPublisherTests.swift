@@ -210,6 +210,43 @@ class PlayheadProgressPublisherTests: XCTestCase {
         // then
         XCTAssertTrue(player.timeObserverRemoved)
     }
+    
+    func testWhenValuesAreRequestedFromMultipleThreads_RequestsAreSerialized() {
+        // given
+        let requestCount = 1000
+        let expectation = XCTestExpectation(description: "\(requestCount) values should be received")
+        expectation.expectedFulfillmentCount = requestCount
+        
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { _ in
+            expectation.fulfill()
+            return 0
+        }
+        
+        sut.subscribe(subscriber)
+        
+        let deadline = DispatchTime.now() + 0.5
+        let group = DispatchGroup()
+        
+        for _ in 0..<requestCount {
+            group.enter()
+            DispatchQueue.global().asyncAfter(deadline: deadline) {
+                subscriber.startRequestingValues(1)
+                group.leave()
+            }
+        }
+        
+        _ = group.wait(timeout: DispatchTime.now() + 5)
+        
+        let timeUpdates: [TimeInterval] = [1, 2, 3, 4, 5]
+        
+        // when
+        timeUpdates.forEach { time in
+            player.updateClosure?(CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        }
+        
+        // then
+        wait(for: [expectation], timeout: 5)
+    }
 }
 
 /// Mock AVPlayer implementation.
@@ -240,7 +277,7 @@ class MockAVPlayer: AVPlayer {
                                           queue: DispatchQueue?,
                                           using block: @escaping (CMTime) -> Void) -> Any {
         updateClosure = block
-        return super.addPeriodicTimeObserver(forInterval: interval, queue: queue, using: block)
+        return super.addPeriodicTimeObserver(forInterval: interval, queue: queue, using: { _ in })
     }
     
     override func removeTimeObserver(_ observer: Any) {
