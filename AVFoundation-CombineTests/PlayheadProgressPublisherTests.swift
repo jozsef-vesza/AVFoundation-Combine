@@ -244,6 +244,42 @@ class PlayheadProgressPublisherTests: XCTestCase {
         // then
         wait(for: [expectation], timeout: 5)
     }
+    
+    func testWhenRequestAndDemandUpdateAreSentFromDifferentThreads_UpdatesAreSerialized() {
+        // given
+        let requestCount = 1000
+        let expectation = XCTestExpectation(description: "\(requestCount) values should be received")
+        expectation.expectedFulfillmentCount = requestCount / 2
+        
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { _ in
+            expectation.fulfill()
+            return 5
+        }
+        
+        sut.subscribe(subscriber)
+        subscriber.startRequestingValues(1)
+        
+        let group = DispatchGroup()
+        
+        for i in 0..<2000 {
+            group.enter()
+            if i.isMultiple(of: 2) {
+                DispatchQueue.global().async {
+                    subscriber.startRequestingValues(1)
+                    group.leave()
+                }
+            } else {
+                self.player.updateClosure?(CMTime(seconds: TimeInterval(i), preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+                group.leave()
+            }
+            
+        }
+        
+        _ = group.wait(timeout: DispatchTime.now() + 5)
+        
+        // then
+        wait(for: [expectation], timeout: 5)
+    }
 }
 
 /// Mock AVPlayer implementation.
