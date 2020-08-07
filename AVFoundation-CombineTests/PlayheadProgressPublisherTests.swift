@@ -242,18 +242,17 @@ class PlayheadProgressPublisherTests: XCTestCase {
         }
         
         // then
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 1)
     }
     
     func testWhenRequestAndDemandUpdateAreSentFromDifferentThreads_UpdatesAreSerialized() {
         // given
-        let requestCount = 1000
-        let expectation = XCTestExpectation(description: "\(requestCount) values should be received")
-        expectation.expectedFulfillmentCount = requestCount / 2
+        let expectation = XCTestExpectation(description: "1 value should be received")
+        expectation.expectedFulfillmentCount = 1
         
         let subscriber = TestSubscriber<TimeInterval>(demand: 0) { _ in
             expectation.fulfill()
-            return 5
+            return 0
         }
         
         sut.subscribe(subscriber)
@@ -261,24 +260,18 @@ class PlayheadProgressPublisherTests: XCTestCase {
         
         let group = DispatchGroup()
         
-        for i in 0..<2000 {
-            group.enter()
-            if i.isMultiple(of: 2) {
-                DispatchQueue.global().async {
-                    subscriber.startRequestingValues(1)
-                    group.leave()
-                }
-            } else {
-                self.player.updateClosure?(CMTime(seconds: TimeInterval(i), preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
-                group.leave()
-            }
-            
+        group.enter()
+        DispatchQueue.global().async {
+            subscriber.startRequestingValues(1)
+            group.leave()
         }
+        
+        self.player.updateClosure?(CMTime(seconds: TimeInterval(1), preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         
         _ = group.wait(timeout: DispatchTime.now() + 5)
         
         // then
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 1)
     }
 }
 
