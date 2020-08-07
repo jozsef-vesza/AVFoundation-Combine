@@ -39,6 +39,8 @@ public extension Publishers {
         private let interval: TimeInterval
         private let player: AVPlayer
         
+        private let queue = DispatchQueue(label: "PlayheadProgressSubscription.serial")
+        
         init(subscriber: S, interval: TimeInterval = 0.25, player: AVPlayer) {
             self.player = player
             self.subscriber = subscriber
@@ -46,16 +48,26 @@ public extension Publishers {
         }
         
         func request(_ demand: Subscribers.Demand) {
+            queue.sync {
+                processDemand(demand)
+            }
+        }
+        
+        private func processDemand(_ demand: Subscribers.Demand) {
             requested += demand
             guard timeObserverToken == nil, requested > .none else { return }
             
             let interval = CMTime(seconds: self.interval, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
             timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] time in
-                guard let self = self, let subscriber = self.subscriber, self.requested > .none else { return }
-                self.requested -= .max(1)
-                let newDemand = subscriber.receive(time.seconds)
-                self.requested += newDemand
+                self?.sendValue(time)
             }
+        }
+        
+        private func sendValue(_ time: CMTime) {
+            guard let subscriber = subscriber, requested > .none else { return }
+            requested -= .max(1)
+            let newDemand = subscriber.receive(time.seconds)
+            requested += newDemand
         }
         
         func cancel() {
