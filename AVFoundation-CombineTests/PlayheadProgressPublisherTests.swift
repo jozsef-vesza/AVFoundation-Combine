@@ -224,12 +224,11 @@ class PlayheadProgressPublisherTests: XCTestCase {
         
         sut.subscribe(subscriber)
         
-        let deadline = DispatchTime.now() + 0.5
         let group = DispatchGroup()
         
         for _ in 0..<requestCount {
             group.enter()
-            DispatchQueue.global().asyncAfter(deadline: deadline) {
+            DispatchQueue.global().async {
                 subscriber.startRequestingValues(1)
                 group.leave()
             }
