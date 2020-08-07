@@ -237,10 +237,8 @@ class PlayheadProgressPublisherTests: XCTestCase {
         
         _ = group.wait(timeout: DispatchTime.now() + 5)
         
-        let timeUpdates: [TimeInterval] = [1, 2, 3, 4, 5]
-        
         // when
-        timeUpdates.forEach { time in
+        (1...requestCount).map { TimeInterval($0) }.forEach { time in
             player.updateClosure?(CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         }
         
