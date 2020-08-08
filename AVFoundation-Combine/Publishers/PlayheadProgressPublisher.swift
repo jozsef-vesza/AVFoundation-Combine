@@ -74,11 +74,13 @@ public extension Publishers {
         }
         
         func cancel() {
-            if let timeObserverToken = timeObserverToken {
-                player.removeTimeObserver(timeObserverToken)
+            withLock {
+                if let timeObserverToken = timeObserverToken {
+                    player.removeTimeObserver(timeObserverToken)
+                }
+                timeObserverToken = nil
+                subscriber = nil
             }
-            timeObserverToken = nil
-            subscriber = nil
         }
         
         private func withLock(_ operation: () -> Void) {

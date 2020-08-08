@@ -266,7 +266,7 @@ class PlayheadProgressPublisherTests: XCTestCase {
             group.leave()
         }
         
-        self.player.updateClosure?(CMTime(seconds: TimeInterval(1), preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        player.updateClosure?(CMTime(seconds: TimeInterval(1), preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         
         _ = group.wait(timeout: DispatchTime.now() + 5)
         
