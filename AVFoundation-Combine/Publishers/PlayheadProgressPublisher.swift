@@ -39,7 +39,7 @@ public extension Publishers {
         private let interval: TimeInterval
         private let player: AVPlayer
         
-        private let queue = DispatchQueue(label: "PlayheadProgressSubscription.serial")
+        private let lock = NSRecursiveLock()
         
         init(subscriber: S, interval: TimeInterval = 0.25, player: AVPlayer) {
             self.player = player
@@ -48,7 +48,7 @@ public extension Publishers {
         }
         
         func request(_ demand: Subscribers.Demand) {
-            queue.sync {
+            withLock {
                 processDemand(demand)
             }
         }
@@ -64,18 +64,28 @@ public extension Publishers {
         }
         
         private func sendValue(_ time: CMTime) {
-            guard let subscriber = subscriber, requested > .none else { return }
-            requested -= .max(1)
-            let newDemand = subscriber.receive(time.seconds)
-            requested += newDemand
+            withLock {
+                guard let subscriber = subscriber, requested > .none else { return }
+                requested -= .max(1)
+                let newDemand = subscriber.receive(time.seconds)
+                requested += newDemand
+            }
         }
         
         func cancel() {
-            if let timeObserverToken = timeObserverToken {
-                player.removeTimeObserver(timeObserverToken)
+            withLock {
+                if let timeObserverToken = timeObserverToken {
+                    player.removeTimeObserver(timeObserverToken)
+                }
+                timeObserverToken = nil
+                subscriber = nil
             }
-            timeObserverToken = nil
-            subscriber = nil
+        }
+        
+        private func withLock(_ operation: () -> Void) {
+            lock.lock()
+            defer { lock.unlock() }
+            operation()
         }
     }
 }

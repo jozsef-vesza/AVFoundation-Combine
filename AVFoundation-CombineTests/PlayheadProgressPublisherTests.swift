@@ -242,7 +242,36 @@ class PlayheadProgressPublisherTests: XCTestCase {
         }
         
         // then
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func testWhenRequestAndDemandUpdateAreSentFromDifferentThreads_UpdatesAreSerialized() {
+        // given
+        let expectation = XCTestExpectation(description: "1 value should be received")
+        expectation.expectedFulfillmentCount = 1
+        
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { _ in
+            expectation.fulfill()
+            return 0
+        }
+        
+        sut.subscribe(subscriber)
+        subscriber.startRequestingValues(1)
+        
+        let group = DispatchGroup()
+        
+        group.enter()
+        DispatchQueue.global().async {
+            subscriber.startRequestingValues(1)
+            group.leave()
+        }
+        
+        player.updateClosure?(CMTime(seconds: TimeInterval(1), preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        
+        _ = group.wait(timeout: DispatchTime.now() + 5)
+        
+        // then
+        wait(for: [expectation], timeout: 1)
     }
 }
 
