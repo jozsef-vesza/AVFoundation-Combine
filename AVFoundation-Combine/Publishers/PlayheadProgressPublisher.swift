@@ -69,7 +69,6 @@ public extension Publishers {
                 requested -= .max(1)
                 let newDemand = subscriber.receive(time.seconds)
                 requested += newDemand
-                print("value sent: \(time.seconds), new demand: \(requested)")
             }
         }
         
