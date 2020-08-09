@@ -28,6 +28,9 @@ final class VideoPlayerViewController: UIViewController {
     
     private var isPlaying: Bool = false
     
+    /// Reference to the AVPlayer instance used to support replaying
+    private var player: AVPlayer!
+    
     lazy private var videoPlayerContentOverlay: VideoPlayerContentOverlay = {
         VideoPlayerContentOverlay()
     }()
@@ -36,16 +39,20 @@ final class VideoPlayerViewController: UIViewController {
         AVPlayerViewController()
     }()
     
+    private var replayOverlay = UIView()
+    private var replayOverlayConstraints: [NSLayoutConstraint] = []
+    private var replayButton = UIButton()
     
-    // MARK: Lifecycle overrides
+    // MARK: - Lifecycle overrides
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setup(AVPlayer())
+        setupReplayControls()
     }
     
-    // MARK: UI setup
+    // MARK: - UI setup
     
     private func setupUI() {
         addChild(avPlayerViewController)
@@ -65,9 +72,51 @@ final class VideoPlayerViewController: UIViewController {
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpInside)
     }
     
-    // MARK: UI Actions
+    private func setupReplayControls() {
+        replayOverlay.translatesAutoresizingMaskIntoConstraints = false
+        replayOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.addSubview(replayOverlay)
+        
+        replayButton = UIButton(type: .custom)
+        replayButton.tintColor = .white
+        replayButton.setImage(UIImage(named: "Play"), for: .normal)
+        replayButton.translatesAutoresizingMaskIntoConstraints = false
+        replayOverlay.addSubview(replayButton)
+        
+        replayButton.addTarget(self, action: #selector(replay), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            replayButton.centerXAnchor.constraint(equalTo: replayOverlay.centerXAnchor),
+            replayButton.centerYAnchor.constraint(equalTo: replayOverlay.centerYAnchor),
+            replayButton.widthAnchor.constraint(equalToConstant: 44),
+            replayButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
+        
+        avPlayerViewController
+            .publisher(for: \.videoBounds)
+            .removeDuplicates()
+            .filter { $0 != .zero }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] bounds in
+                self?.updateReplayOverlayConstraints(bounds)
+            }
+            .store(in: &subscriptions)
+    }
     
-    // MARK: Scubber
+    private func updateReplayOverlayConstraints(_ bounds: CGRect) {
+        NSLayoutConstraint.deactivate(replayOverlayConstraints)
+        replayOverlayConstraints = [
+            replayOverlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: bounds.origin.x),
+            replayOverlay.topAnchor.constraint(equalTo: view.topAnchor, constant: bounds.origin.y),
+            replayOverlay.widthAnchor.constraint(equalToConstant: bounds.width),
+            replayOverlay.heightAnchor.constraint(equalToConstant: bounds.height)
+        ]
+        NSLayoutConstraint.activate(replayOverlayConstraints)
+    }
+    
+    // MARK: - UI Actions
+    
+    // MARK: - Scubber
     
     @objc private func onSliderThumbTouchedDown() {
         isProgressSliderScrubbing = true
@@ -79,15 +128,23 @@ final class VideoPlayerViewController: UIViewController {
         }
     }
     
-    // MARK: Play / Pause button
+    // MARK: - Play / Pause button
     
     @objc private func togglePlayback() {
         isPlaying ? avPlayerViewController.player?.pause() : avPlayerViewController.player?.play()
     }
     
-    // MARK: Video Player setup
+    // MARK: - Replay button
+    
+    @objc private func replay() {
+        player.seek(to: CMTime.zero)
+        player.play()
+    }
+    
+    // MARK: - Video Player setup
     
     private func setup(_ player: AVPlayer) {
+        self.player = player
         player.currentItemPublisher()
             .compactMap { $0 }
             .sink {[weak self] item in
@@ -104,19 +161,29 @@ final class VideoPlayerViewController: UIViewController {
             .assign(to: \.value, on: videoPlayerContentOverlay.progressSlider)
             .store(in: &subscriptions)
         
-        let rateStream = player.ratePublisher().share()
+        let rateStream = player.ratePublisher()
+            .receive(on: DispatchQueue.main)
+            .handleEvents(receiveOutput: { [weak self] rate in
+                if rate > 0 { self?.replayOverlay.isHidden = true }
+            })
+            .share()
         
-        rateStream.receive(on: DispatchQueue.main)
+        rateStream
+            .map { $0 == 1.0 }
+            .assign(to: \.isHidden, on: replayOverlay)
+            .store(in: &subscriptions)
+        
+        rateStream
             .map { $0 == 1.0 }
             .assign(to: \.isPlaying, on: self)
             .store(in: &subscriptions)
         
-        rateStream.receive(on: DispatchQueue.main)
+        rateStream
             .map { $0 == 0.0 ? "Play" : "Pause" }
             .assign(to: \.accessibilityLabel, on: videoPlayerContentOverlay.playbackButton)
             .store(in: &subscriptions)
         
-        rateStream.receive(on: DispatchQueue.main)
+        rateStream
             .map { $0 == 0.0 ? UIImage(named: "Play") : UIImage(named: "Pause") }
             .sink {[weak self] image in
                 self?.videoPlayerContentOverlay.playbackButton.setImage(image, for: .normal)
@@ -167,6 +234,12 @@ final class VideoPlayerViewController: UIViewController {
             .map { $0.isNumeric ? Float($0.seconds) : 0.0 }
             .removeDuplicates()
             .assign(to: \.maximumValue, on: videoPlayerContentOverlay.progressSlider)
+            .store(in: &subscriptions)
+        
+        item.didPlayToEndPublisher()
+            .sink { [weak self] in
+                self?.replayOverlay.isHidden = false
+            }
             .store(in: &subscriptions)
     }
 }
