@@ -10,6 +10,7 @@
 		4F295DA624D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F295DA524D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift */; };
 		4FB5200A24D7D8B600F6BFD5 /* UIView+Embed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5200924D7D8B600F6BFD5 /* UIView+Embed.swift */; };
 		4FF363DE24C17FF700153AA5 /* AVPlayerItem+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */; };
+		BB0E49DF24E036AC0017DA69 /* AVPlayerItem+PublishersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0E49DE24E036AC0017DA69 /* AVPlayerItem+PublishersTests.swift */; };
 		BB4A48D624C090540004DBA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D524C090540004DBA5 /* AppDelegate.swift */; };
 		BB4A48D824C090540004DBA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D724C090540004DBA5 /* SceneDelegate.swift */; };
 		BB4A48DA24C090540004DBA5 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D924C090540004DBA5 /* VideoPlayerViewController.swift */; };
@@ -36,6 +37,7 @@
 		4F295DA524D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerContentOverlay.swift; sourceTree = "<group>"; };
 		4FB5200924D7D8B600F6BFD5 /* UIView+Embed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Embed.swift"; sourceTree = "<group>"; };
 		4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayerItem+Publishers.swift"; sourceTree = "<group>"; };
+		BB0E49DE24E036AC0017DA69 /* AVPlayerItem+PublishersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayerItem+PublishersTests.swift"; sourceTree = "<group>"; };
 		BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AVFoundation-Combine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB4A48D524C090540004DBA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB4A48D724C090540004DBA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			children = (
 				BBFA8AC524C9D7B300AC9D67 /* Info.plist */,
 				BBFA8ACD24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift */,
+				BB0E49DE24E036AC0017DA69 /* AVPlayerItem+PublishersTests.swift */,
 				BBFA8ACF24CAD74600AC9D67 /* TestSubscriber.swift */,
 			);
 			path = "AVFoundation-CombineTests";
@@ -267,6 +270,7 @@
 			files = (
 				BBFA8AD024CAD74600AC9D67 /* TestSubscriber.swift in Sources */,
 				BBFA8ACE24CACA6E00AC9D67 /* PlayheadProgressPublisherTests.swift in Sources */,
+				BB0E49DF24E036AC0017DA69 /* AVPlayerItem+PublishersTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
