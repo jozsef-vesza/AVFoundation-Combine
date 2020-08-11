@@ -236,7 +236,7 @@ final class VideoPlayerViewController: UIViewController {
             .assign(to: \.maximumValue, on: videoPlayerContentOverlay.progressSlider)
             .store(in: &subscriptions)
         
-        item.didPlayToEndPublisher()
+        item.didPlayToEndTimePublisher()
             .sink { [weak self] in
                 self?.replayOverlay.isHidden = false
             }

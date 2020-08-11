@@ -41,7 +41,7 @@ public extension AVPlayerItem {
     /// Publisher that wraps `Notification.Name.AVPlayerItemDidPlayToEndTime`
     ///
     /// - Returns: Publisher that emits a value  when the item plays to its end time.
-    func didPlayToEndPublisher(_ notificationCenter: NotificationCenter = .default) -> AnyPublisher<Void, Never> {
+    func didPlayToEndTimePublisher(_ notificationCenter: NotificationCenter = .default) -> AnyPublisher<Void, Never> {
         notificationCenter
             .publisher(for: .AVPlayerItemDidPlayToEndTime, object: self)
             .map { _ in () }

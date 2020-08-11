@@ -25,7 +25,7 @@ class AVPlayerItem_PublishersTests: XCTestCase {
         let playerItem = AVPlayerItem(url: URL(string: "https://test.url")!)
         let notificationCenter = NotificationCenter()
         var notificationReceived = false
-        playerItem.didPlayToEndPublisher(notificationCenter).sink {
+        playerItem.didPlayToEndTimePublisher(notificationCenter).sink {
             notificationReceived = true
         }.store(in: &subscriptions)
         
