@@ -39,17 +39,12 @@ final class VideoPlayerViewController: UIViewController {
         AVPlayerViewController()
     }()
     
-    private var replayOverlay = UIView()
-    private var replayOverlayConstraints: [NSLayoutConstraint] = []
-    private var replayButton = UIButton()
-    
     // MARK: - Lifecycle overrides
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setup(AVPlayer())
-        setupReplayControls()
     }
     
     // MARK: - UI setup
@@ -70,48 +65,7 @@ final class VideoPlayerViewController: UIViewController {
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedDown), for: .touchDown)
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpOutside)
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpInside)
-    }
-    
-    private func setupReplayControls() {
-        replayOverlay.translatesAutoresizingMaskIntoConstraints = false
-        replayOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        view.addSubview(replayOverlay)
-        
-        replayButton = UIButton(type: .custom)
-        replayButton.tintColor = .white
-        replayButton.setImage(UIImage(named: "Play"), for: .normal)
-        replayButton.translatesAutoresizingMaskIntoConstraints = false
-        replayOverlay.addSubview(replayButton)
-        
-        replayButton.addTarget(self, action: #selector(replay), for: .touchUpInside)
-        
-        NSLayoutConstraint.activate([
-            replayButton.centerXAnchor.constraint(equalTo: replayOverlay.centerXAnchor),
-            replayButton.centerYAnchor.constraint(equalTo: replayOverlay.centerYAnchor),
-            replayButton.widthAnchor.constraint(equalToConstant: 44),
-            replayButton.heightAnchor.constraint(equalToConstant: 44)
-        ])
-        
-        avPlayerViewController
-            .publisher(for: \.videoBounds)
-            .removeDuplicates()
-            .filter { $0 != .zero }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] bounds in
-                self?.updateReplayOverlayConstraints(bounds)
-            }
-            .store(in: &subscriptions)
-    }
-    
-    private func updateReplayOverlayConstraints(_ bounds: CGRect) {
-        NSLayoutConstraint.deactivate(replayOverlayConstraints)
-        replayOverlayConstraints = [
-            replayOverlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: bounds.origin.x),
-            replayOverlay.topAnchor.constraint(equalTo: view.topAnchor, constant: bounds.origin.y),
-            replayOverlay.widthAnchor.constraint(equalToConstant: bounds.width),
-            replayOverlay.heightAnchor.constraint(equalToConstant: bounds.height)
-        ]
-        NSLayoutConstraint.activate(replayOverlayConstraints)
+        videoPlayerContentOverlay.replayButton.addTarget(self, action: #selector(replay), for: .touchUpInside)
     }
     
     // MARK: - UI Actions
@@ -137,6 +91,8 @@ final class VideoPlayerViewController: UIViewController {
     // MARK: - Replay button
     
     @objc private func replay() {
+        videoPlayerContentOverlay.progressSlider.isHidden = false
+        videoPlayerContentOverlay.playbackButton.isHidden = false
         player.seek(to: CMTime.zero)
         player.play()
     }
@@ -163,14 +119,11 @@ final class VideoPlayerViewController: UIViewController {
         
         let rateStream = player.ratePublisher()
             .receive(on: DispatchQueue.main)
-            .handleEvents(receiveOutput: { [weak self] rate in
-                if rate > 0 { self?.replayOverlay.isHidden = true }
-            })
             .share()
         
         rateStream
             .map { $0 == 1.0 }
-            .assign(to: \.isHidden, on: replayOverlay)
+            .assign(to: \.isHidden, on: videoPlayerContentOverlay.replayOverlay)
             .store(in: &subscriptions)
         
         rateStream
@@ -237,8 +190,10 @@ final class VideoPlayerViewController: UIViewController {
             .store(in: &subscriptions)
         
         item.didPlayToEndTimePublisher()
-            .sink { [weak self] in
-                self?.replayOverlay.isHidden = false
+            .sink { [weak self] _ in
+                self?.videoPlayerContentOverlay.progressSlider.isHidden = true
+                self?.videoPlayerContentOverlay.playbackButton.isHidden = true
+                self?.videoPlayerContentOverlay.replayOverlay.isHidden = false
             }
             .store(in: &subscriptions)
     }
