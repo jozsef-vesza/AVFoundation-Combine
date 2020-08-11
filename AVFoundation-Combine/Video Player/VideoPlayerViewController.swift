@@ -91,6 +91,7 @@ final class VideoPlayerViewController: UIViewController {
     // MARK: - Replay button
     
     @objc private func replay() {
+        videoPlayerContentOverlay.replayOverlay.isHidden = true
         videoPlayerContentOverlay.progressSlider.isHidden = false
         videoPlayerContentOverlay.playbackButton.isHidden = false
         player.seek(to: CMTime.zero)
@@ -120,11 +121,6 @@ final class VideoPlayerViewController: UIViewController {
         let rateStream = player.ratePublisher()
             .receive(on: DispatchQueue.main)
             .share()
-        
-        rateStream
-            .map { $0 == 1.0 }
-            .assign(to: \.isHidden, on: videoPlayerContentOverlay.replayOverlay)
-            .store(in: &subscriptions)
         
         rateStream
             .map { $0 == 1.0 }

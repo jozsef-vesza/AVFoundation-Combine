@@ -62,6 +62,7 @@ final class VideoPlayerContentOverlay: UIView {
         progressSlider.tintColor = UIColor(named: "Red")
         progressSlider.setThumbImage(UIImage(named: "SliderThumb"), for: .normal)
         
+        replayOverlay.isHidden = true
         replayOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         replayButton = UIButton(type: .custom)
         replayButton.tintColor = .white
