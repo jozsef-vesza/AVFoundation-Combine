@@ -12,7 +12,7 @@ import AVKit
 
 public extension AVPlayer {
     
-    // MARK: AVPlayer Publishers
+    // MARK: - AVPlayer Publishers
     
     /// Publisher tracking playhead progress updates on `AVPlayer`
     /// - Returns: Publisher tracking playhead progress updates on `AVPlayer`

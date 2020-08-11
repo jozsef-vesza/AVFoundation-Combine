@@ -23,6 +23,12 @@ final class VideoPlayerContentOverlay: UIView {
     /// This slider acts as the playback progress indication
     private(set) var progressSlider: UISlider!
     
+    /// Semi transparent background that covers the UI when the replay button is shown
+    private(set) var replayOverlay = UIView()
+    
+    /// Button used to restart the stream once it has completed
+    private(set) var replayButton = UIButton()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -55,6 +61,12 @@ final class VideoPlayerContentOverlay: UIView {
         progressSlider = UISlider()
         progressSlider.tintColor = UIColor(named: "Red")
         progressSlider.setThumbImage(UIImage(named: "SliderThumb"), for: .normal)
+        
+        replayOverlay.isHidden = true
+        replayOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        replayButton = UIButton(type: .custom)
+        replayButton.tintColor = .white
+        replayButton.setImage(UIImage(named: "Replay"), for: .normal)
     }
     
     override func updateConstraints() {
@@ -92,6 +104,25 @@ final class VideoPlayerContentOverlay: UIView {
             trailingConstraint,
             progressSlider.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
             progressSlider.centerYAnchor.constraint(equalTo: playbackButton.centerYAnchor, constant: 0.0)
+        ])
+        
+        replayOverlay.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(replayOverlay)
+        NSLayoutConstraint.activate([
+            replayOverlay.leadingAnchor.constraint(equalTo: leadingAnchor),
+            replayOverlay.topAnchor.constraint(equalTo: topAnchor),
+            replayOverlay.trailingAnchor.constraint(equalTo: trailingAnchor),
+            replayOverlay.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+        replayButton.translatesAutoresizingMaskIntoConstraints = false
+        replayOverlay.addSubview(replayButton)
+        
+        NSLayoutConstraint.activate([
+            replayButton.centerXAnchor.constraint(equalTo: replayOverlay.centerXAnchor),
+            replayButton.centerYAnchor.constraint(equalTo: replayOverlay.centerYAnchor),
+            replayButton.widthAnchor.constraint(equalToConstant: 44),
+            replayButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
 }
