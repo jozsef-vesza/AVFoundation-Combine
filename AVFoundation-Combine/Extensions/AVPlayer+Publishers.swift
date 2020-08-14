@@ -16,7 +16,10 @@ public extension AVPlayer {
     
     /// Publisher tracking playhead progress updates on `AVPlayer`
     /// - Parameter interval: The interval at which the underlying playhead observer executes an update
-    /// - SeeAlso: `Publishers.PlayheadProgressPublisher`
+    ///
+    /// # SeeAlso:
+    /// `Publishers.PlayheadProgressPublisher`
+    ///
     func playheadProgressPublisher(interval: TimeInterval = 0.25) -> AnyPublisher<TimeInterval, Never> {
         Publishers.PlayheadProgressPublisher(interval: interval, player: self).eraseToAnyPublisher()
     }
