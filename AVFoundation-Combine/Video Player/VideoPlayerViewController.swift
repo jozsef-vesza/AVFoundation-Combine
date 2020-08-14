@@ -23,14 +23,16 @@ final class VideoPlayerViewController: UIViewController {
     /// A `Set` to store all our `Publisher` susbcriptions
     private var subscriptions = Set<AnyCancellable>()
     
-    /// A flag to keep track of whether the user is using `progressSlider` to scrub trough the video timeline. Used to prevent the thumb in the slider from jumping back and forth while `seek` is in progress.
+    /// A flag to keep track of whether the user is actioning `progressSlider` to scrub trough the video timeline. Used to prevent the thumb in the slider from jumping back and forth while `seek` is in progress.
     private var isProgressSliderScrubbing: Bool = false
     
+    /// A flag that is updated by a subcription to `AVPlayer.rate`. Its main function is to decide wheter to `play()` or `pause()` when the user taps the play/pause button
     private var isPlaying: Bool = false
     
     /// Reference to the AVPlayer instance used to support replaying
     private var player: AVPlayer!
     
+    /// A view with custom controls
     lazy private var videoPlayerContentOverlay: VideoPlayerContentOverlay = {
         VideoPlayerContentOverlay()
     }()

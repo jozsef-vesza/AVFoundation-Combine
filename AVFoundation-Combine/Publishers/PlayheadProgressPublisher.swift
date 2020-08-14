@@ -11,6 +11,7 @@ import Combine
 import AVKit
 
 public extension Publishers {
+    /// Custom `Publisher` implementation that wraps `AVPlayer.addPeriodicTimeObserver(forInterval:queue:using)` to emit values corresponding to the playhead's progress
     struct PlayheadProgressPublisher: Publisher {
         public typealias Output = TimeInterval
         public typealias Failure = Never
@@ -18,6 +19,10 @@ public extension Publishers {
         private let interval: TimeInterval
         private let player: AVPlayer
         
+        /// Initializes `PlayheadProgressPublisher`tracking the playhead's progress of a given `AVPlayer` instance at a given interval.
+        /// - Parameters:
+        ///   - interval: The interval at which the underlying playhead observer executes an update
+        ///   - player: `AVPlayer` whose playhead values are emited by the `Publisher`
         init(interval: TimeInterval = 0.25, player: AVPlayer) {
             self.player = player
             self.interval = interval
