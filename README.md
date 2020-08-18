@@ -1,14 +1,18 @@
 ![Combine wrappers for AVPlayer](images/header.png)
-# AVFoundation-Combine ![Test](https://github.com/jozsef-vesza/AVFoundation-Combine/workflows/Test/badge.svg)
+
+# AVFoundation-Combine
 Combine extensions for AVFoundation
 
-The purpose of this project is to add Combine wrappers around AVFoundation (specifically AVPlayer) APIs.
+The purpose of this project is to add Combine wrappers around AVFoundation (specifically `AVPlayer` and `AVPlayerItem`) APIs. For a full technical rundown and detailed explanation please visit https://jozsef-vesza.dev/
 
 ## Publishers
-All publishers are designed to be lazy: they only start observing AVPlayer's properties when subscribed to.
+All publishers are designed to be lazy: they only start observing properties when subscribed to.
 
-### `playheadProgressPublisher`
-`playheadProgressPublisher` will emit an event whenever the player's playhead updates. It may be used to update a custom progress indicator.
+## AVPlayer
+
+### `playheadProgressPublisher()`
+Emits values when the player's playhead updates. Under the hoood it uses `addPeriodicTimeObserver(forInterval:queue:using:)`. (see https://developer.apple.com/documentation/avfoundation/avplayer/1385829-addperiodictimeobserver)
+
 ```swift
 player.playheadProgressPublisher()
     .sink { (time) in
@@ -17,8 +21,20 @@ player.playheadProgressPublisher()
     .store(in: &subscriptions)
 ```
 
-### `ratePublisher`
-`AVPlayer.ratePublisher` will emit an event whenever the rate of the observed player changes. It can be useful to present custom UI when the player is paused, or fast-forwarding/rewinding. (see https://developer.apple.com/documentation/avfoundation/avplayer/1388846-rate)
+### `currentItemPublisher()`
+Emits values when `currentItem` is updated. (see https://developer.apple.com/documentation/avfoundation/avplayer/1387569-currentitem)
+
+```swift
+player.currentItemPublisher()
+    .compactMap { $0 }
+    .sink { item in
+        player.play()
+    }
+    .store(in: &subscriptions)
+```
+
+### `ratePublisher()`
+Emits values when `rate` is updated. (see https://developer.apple.com/documentation/avfoundation/avplayer/1388846-rate)
 ```swift
 player.ratePublisher()
     .sink { (rate) in
@@ -35,8 +51,10 @@ player.ratePublisher()
     .store(in: &subscriptions)
 ```
 
-### `AVPlayer.statusPublisher`
-`AVPlayer.statusPublisher` will emit an event when the status of the player's `playerItem` changes. It can be useful to defer work until the item is ready to play. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1389493-status)
+## AVPlayerItem
+
+### `statusPublisher()`
+Emits values when `status` is updated. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1389493-status)
 
 ```swift
 player.statusPublisher()
@@ -56,30 +74,50 @@ player.statusPublisher()
     .store(in: &subscriptions)
 ```
 
-`AVPlayer.statusPublisher` is also available as `AVPlayerItem.statusPublisher()`.
+### `durationPublisher()`
 
-### `isPlaybackLikelyToKeepUpPublisher`
-`AVPlayer.isPlaybackLikelyToKeepUpPublisher` will emit an event when the value of `isPlaybackLikelyToKeepUpPublisher` in the player's `playerItem` changes. This property communicates a prediction of playability. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1390348-isplaybacklikelytokeepup)
+Emits values when  `duration` is updated. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1389386-duration)
 
 ```swift
-player.isPlaybackLikelyToKeepUpPublisher()
-    .sink {isPlaybackLikelyToKeepUp in
-        print(">> isPlaybackLikelyToKeepUp \(isPlaybackLikelyToKeepUp) ")
+item.durationPublisher()
+    .sink { duration in
+        print("received duration: \(duration)")
     }
     .store(in: &subscriptions)
 ```
 
-`AVPlayer.isPlaybackBufferEmptyPublisher` is also available as `AVPlayerItem.isPlaybackLikelyToKeepUpPublisher()`.
+### `isPlaybackLikelyToKeepUpPublisher()`
 
-### `isPlaybackBufferEmptyPublisher`
-`isPlaybackBufferEmptyPublisher` will emit an event when the value of `isPlaybackBufferEmptyPublisher` in the player's `playerItem` changes. This property is a Boolean value that indicates whether playback has consumed all buffered media and that playback will stall or end. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1386960-isplaybackbufferempty)
+Emits values when `isPlaybackLikelyToKeepUp` is updated. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1390348-isplaybacklikelytokeepup)
 
 ```swift
-player?.isPlaybackBufferEmptyPublisher()
-    .sink {isPlaybackBufferEmpty in
-        print(">> isPlaybackBufferEmpty \(isPlaybackBufferEmpty) ")
+item.isPlaybackLikelyToKeepUpPublisher()
+    .sink { isPlaybackLikelyToKeep in
+        print("isPlaybackLikelyToKeep: \(isPlaybackLikelyToKeep)")
     }
     .store(in: &subscriptions)
 ```
 
-`AVPlayer.isPlaybackBufferEmptyPublisher()` is also available as `AVPlayerItem.isPlaybackBufferEmptyPublisher()`.
+### `isPlaybackBufferEmptyPublisher()`
+
+Emits values when `isPlaybackBufferEmpty` is updated. (see https://developer.apple.com/documentation/avfoundation/avplayeritem/1386960-isplaybackbufferempty)
+
+```swift
+ item.isPlaybackBufferEmptyPublisher()  
+    .sink { isPlaybackBufferEmpty in
+        print("isPlaybackBufferEmpty: \(isPlaybackBufferEmpty)")
+    }
+    .store(in: &subscriptions)
+```
+
+### `didPlayToEndTimePublisher()`
+
+Emits values when `NotificationCenter` fires `.AVPlayerItemDidPlayToEndTime`. (see https://developer.apple.com/documentation/foundation/nsnotification/name/1388007-avplayeritemfailedtoplaytoendtim)
+
+```swift
+item.didPlayToEndTimePublisher()
+    .sink { notification in
+        print("didPlayToEndTime: \(notification)")
+    }
+    .store(in: &subscriptions)
+```
