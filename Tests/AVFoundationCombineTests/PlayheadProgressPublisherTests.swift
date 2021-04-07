@@ -10,7 +10,7 @@ import XCTest
 import Combine
 import AVFoundation
 
-@testable import AVFoundation_Combine
+@testable import AVFoundationCombine
 
 class PlayheadProgressPublisherTests: XCTestCase {
     var sut: Publishers.PlayheadProgressPublisher!

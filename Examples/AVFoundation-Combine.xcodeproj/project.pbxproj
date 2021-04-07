@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		4F295DA624D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F295DA524D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift */; };
+		4F7B5745261DE93500EFC600 /* AVFoundation-Combine in Frameworks */ = {isa = PBXBuildFile; productRef = 4F7B5744261DE93500EFC600 /* AVFoundation-Combine */; };
 		4FB5200A24D7D8B600F6BFD5 /* UIView+Embed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5200924D7D8B600F6BFD5 /* UIView+Embed.swift */; };
 		4FF363DE24C17FF700153AA5 /* AVPlayerItem+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */; };
 		BB4A48D624C090540004DBA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D524C090540004DBA5 /* AppDelegate.swift */; };
@@ -39,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F7B5745261DE93500EFC600 /* AVFoundation-Combine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +121,9 @@
 			dependencies = (
 			);
 			name = "AVFoundation-Combine";
+			packageProductDependencies = (
+				4F7B5744261DE93500EFC600 /* AVFoundation-Combine */,
+			);
 			productName = "AVFoundation-Combine";
 			productReference = BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */;
 			productType = "com.apple.product-type.application";
@@ -147,6 +152,9 @@
 				Base,
 			);
 			mainGroup = BB4A48C924C090540004DBA5;
+			packageReferences = (
+				4F7B5743261DE93500EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */,
+			);
 			productRefGroup = BB4A48D324C090540004DBA5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -380,6 +388,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4F7B5743261DE93500EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/piterwilson/AVFoundation-Combine";
+			requirement = {
+				branch = "SPM-support";
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4F7B5744261DE93500EFC600 /* AVFoundation-Combine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4F7B5743261DE93500EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */;
+			productName = "AVFoundation-Combine";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BB4A48CA24C090540004DBA5 /* Project object */;
 }

@@ -8,8 +8,9 @@
 
 import UIKit
 import AVKit
-
 import Combine
+
+import AVFoundation-Combine
 
 final class VideoPlayerViewController: UIViewController {
     

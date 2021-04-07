@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AVFoundation-Combine",
+        "repositoryURL": "https://github.com/piterwilson/AVFoundation-Combine",
+        "state": {
+          "branch": "SPM-support",
+          "revision": "b1c2bc88ca12518be559b5ba792e2db62c551c29",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

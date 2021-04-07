@@ -1,6 +1,6 @@
 ![Combine wrappers for AVPlayer](images/header.png)
 
-# AVFoundation-Combine
+# AVFoundationCombine
 Combine extensions for AVFoundation
 
 The purpose of this project is to add Combine wrappers around AVFoundation (specifically `AVPlayer` and `AVPlayerItem`) APIs. For a full technical rundown and detailed explanation please visit https://jozsef-vesza.dev/tags/combine/
