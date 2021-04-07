@@ -9,6 +9,19 @@ You can also check out our talk on the topic:
 
 [![Custom Publishers](https://img.youtube.com/vi/YcVe9L7fEJ0/0.jpg)](https://www.youtube.com/watch?v=YcVe9L7fEJ0)
 
+## Installation
+
+### Swift Package Manager
+
+Once you have a Swift package set up, adding AVFoundationCombine as a dependency can be done by adding it to the dependencies value of your Package.swift.
+
+```
+dependencies: [
+    .package(url: "https://github.com/piterwilson/AVFoundation-Combine", .upToNextMajor(from: "0.0.0"))
+]
+```
+
+
 ## Publishers
 All publishers are designed to be lazy: they only start observing properties when subscribed to.
 

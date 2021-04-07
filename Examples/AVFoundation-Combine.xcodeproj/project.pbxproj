@@ -386,8 +386,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/piterwilson/AVFoundation-Combine";
 			requirement = {
-				branch = "SPM-support";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
