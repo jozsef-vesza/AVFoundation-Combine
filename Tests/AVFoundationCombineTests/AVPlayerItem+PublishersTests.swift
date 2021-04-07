@@ -10,7 +10,7 @@ import XCTest
 import Combine
 import AVFoundation
 
-@testable import AVFoundation_Combine
+@testable import AVFoundationCombine
 
 class AVPlayerItem_PublishersTests: XCTestCase {
     
@@ -35,4 +35,8 @@ class AVPlayerItem_PublishersTests: XCTestCase {
         // then
         XCTAssertTrue(notificationReceived)
     }
+
+    static var allTests = [
+        ("testWhenAVPlayerItemDidPlayToEndTimeNotificationIsSent_ItEmitsAnEvent", testWhenAVPlayerItemDidPlayToEndTimeNotificationIsSent_ItEmitsAnEvent)
+        ]
 }

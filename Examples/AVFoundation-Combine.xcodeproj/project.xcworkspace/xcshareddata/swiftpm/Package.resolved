@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AVFoundationCombine",
+        "repositoryURL": "https://github.com/piterwilson/AVFoundation-Combine",
+        "state": {
+          "branch": null,
+          "revision": "a095c544491fd9473cccb4b587789735811a53e4",
+          "version": "0.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -10,7 +10,7 @@ import XCTest
 import Combine
 import AVFoundation
 
-@testable import AVFoundation_Combine
+@testable import AVFoundationCombine
 
 class PlayheadProgressPublisherTests: XCTestCase {
     var sut: Publishers.PlayheadProgressPublisher!
@@ -61,10 +61,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = []
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -97,10 +97,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 2, 3, 4, 5]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -120,10 +120,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -141,10 +141,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 2]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 2) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 2, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -162,10 +162,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 2]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1, onValueReceived:  { value in
             receivedValues.append(value)
             return value == 1 ? 1 : 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -183,10 +183,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 3]
         var receivedValues: [TimeInterval] = []
 
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         player.updateClosure?(CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
@@ -217,10 +217,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectation = XCTestExpectation(description: "\(requestCount) values should be received")
         expectation.expectedFulfillmentCount = requestCount
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { _ in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onValueReceived:  { _ in
             expectation.fulfill()
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -250,10 +250,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectation = XCTestExpectation(description: "1 value should be received")
         expectation.expectedFulfillmentCount = 1
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { _ in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onValueReceived:  { _ in
             expectation.fulfill()
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         subscriber.startRequestingValues(1)
@@ -273,6 +273,21 @@ class PlayheadProgressPublisherTests: XCTestCase {
         // then
         wait(for: [expectation], timeout: 1)
     }
+
+    static var allTests = [
+        ("testWhenDemandIsUnlimited_AndTimeIsUpdated_ItEmitsTheNewTime", testWhenDemandIsUnlimited_AndTimeIsUpdated_ItEmitsTheNewTime),
+        ("testWhenDemandIsUnlimited_AndTimeIsUpdatedTwice_ItEmitsTheNewTimes", testWhenDemandIsUnlimited_AndTimeIsUpdatedTwice_ItEmitsTheNewTimes),
+        ("testWhenDemandIsZero_ItEmitsNoValues", testWhenDemandIsZero_ItEmitsNoValues),
+        ("testWhenDemandIsZero_ItDoesNotCompleteImmediately", testWhenDemandIsZero_ItDoesNotCompleteImmediately),
+        ("testWhenInitialDemandIsZero_AndThenFiveValuesAreRequested_ItEmitsFiveValues", testWhenInitialDemandIsZero_AndThenFiveValuesAreRequested_ItEmitsFiveValues),
+        ("testWhenDemandIsOne_ItEmitsOneValue", testWhenDemandIsOne_ItEmitsOneValue),
+        ("testWhenDemandIsTwo_ItEmitsTwoValues", testWhenDemandIsTwo_ItEmitsTwoValues),
+        ("testWhenInitialDemandIsOne_AndAnAdditionalValueIsRequested_ItEmitsTwoValues", testWhenInitialDemandIsOne_AndAnAdditionalValueIsRequested_ItEmitsTwoValues),
+        ("testWhenInitialDemandIsOne_AndNoMoreValuesAreRequested_ThenMoreValuesAreRequested_ItEmitsMoreValues", testWhenInitialDemandIsOne_AndNoMoreValuesAreRequested_ThenMoreValuesAreRequested_ItEmitsMoreValues),
+        ("testWhenSubscriptionIsCancelled_ItStopsObservingThePlayback", testWhenSubscriptionIsCancelled_ItStopsObservingThePlayback),
+        ("testWhenValuesAreRequestedFromMultipleThreads_RequestsAreSerialized", testWhenValuesAreRequestedFromMultipleThreads_RequestsAreSerialized),
+        ("testWhenRequestAndDemandUpdateAreSentFromDifferentThreads_UpdatesAreSerialized", testWhenRequestAndDemandUpdateAreSentFromDifferentThreads_UpdatesAreSerialized)
+        ]
 }
 
 /// Mock AVPlayer implementation.

@@ -6,10 +6,13 @@
 //  Copyright © 2020. József Vesza. All rights reserved.
 //
 
-import UIKit
+// System
 import AVKit
-
 import Combine
+import UIKit
+
+// Third Party
+import AVFoundationCombine
 
 final class VideoPlayerViewController: UIViewController {
     
