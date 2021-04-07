@@ -17,7 +17,7 @@ Once you have a Swift package set up, adding AVFoundationCombine as a dependency
 
 ```
 dependencies: [
-    .package(url: "https://github.com/piterwilson/AVFoundation-Combine", .upToNextMajor(from: "0.0.0"))
+    .package(url: "https://github.com/jozsef-vesza/AVFoundation-Combine", .upToNextMajor(from: "0.0.0"))
 ]
 ```
 
