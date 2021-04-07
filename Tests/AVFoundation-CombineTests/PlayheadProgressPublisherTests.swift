@@ -61,10 +61,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = []
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -97,10 +97,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 2, 3, 4, 5]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -120,10 +120,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -141,10 +141,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 2]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 2) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 2, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -162,10 +162,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 2]
         var receivedValues: [TimeInterval] = []
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1, onValueReceived:  { value in
             receivedValues.append(value)
             return value == 1 ? 1 : 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -183,10 +183,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectedValues: [TimeInterval] = [1, 3]
         var receivedValues: [TimeInterval] = []
 
-        let subscriber = TestSubscriber<TimeInterval>(demand: 1) { value in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 1, onValueReceived:  { value in
             receivedValues.append(value)
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         player.updateClosure?(CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
@@ -217,10 +217,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectation = XCTestExpectation(description: "\(requestCount) values should be received")
         expectation.expectedFulfillmentCount = requestCount
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { _ in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onValueReceived:  { _ in
             expectation.fulfill()
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         
@@ -250,10 +250,10 @@ class PlayheadProgressPublisherTests: XCTestCase {
         let expectation = XCTestExpectation(description: "1 value should be received")
         expectation.expectedFulfillmentCount = 1
         
-        let subscriber = TestSubscriber<TimeInterval>(demand: 0) { _ in
+        let subscriber = TestSubscriber<TimeInterval>(demand: 0, onValueReceived:  { _ in
             expectation.fulfill()
             return 0
-        }
+        })
         
         sut.subscribe(subscriber)
         subscriber.startRequestingValues(1)
