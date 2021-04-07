@@ -8,22 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		4F295DA624D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F295DA524D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift */; };
-		4F7B5745261DE93500EFC600 /* AVFoundation-Combine in Frameworks */ = {isa = PBXBuildFile; productRef = 4F7B5744261DE93500EFC600 /* AVFoundation-Combine */; };
+		4F7B574C261DEB8D00EFC600 /* AVFoundationCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 4F7B574B261DEB8D00EFC600 /* AVFoundationCombine */; };
 		4FB5200A24D7D8B600F6BFD5 /* UIView+Embed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5200924D7D8B600F6BFD5 /* UIView+Embed.swift */; };
-		4FF363DE24C17FF700153AA5 /* AVPlayerItem+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */; };
 		BB4A48D624C090540004DBA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D524C090540004DBA5 /* AppDelegate.swift */; };
 		BB4A48D824C090540004DBA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D724C090540004DBA5 /* SceneDelegate.swift */; };
 		BB4A48DA24C090540004DBA5 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D924C090540004DBA5 /* VideoPlayerViewController.swift */; };
 		BB4A48DD24C090540004DBA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB4A48DB24C090540004DBA5 /* Main.storyboard */; };
 		BB4A48DF24C090560004DBA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB4A48DE24C090560004DBA5 /* Assets.xcassets */; };
 		BB4A48E224C090560004DBA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB4A48E024C090560004DBA5 /* LaunchScreen.storyboard */; };
-		BB4A48EE24C090D00004DBA5 /* AVPlayer+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4F295DA524D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerContentOverlay.swift; sourceTree = "<group>"; };
 		4FB5200924D7D8B600F6BFD5 /* UIView+Embed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Embed.swift"; sourceTree = "<group>"; };
-		4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayerItem+Publishers.swift"; sourceTree = "<group>"; };
 		BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AVFoundation-Combine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB4A48D524C090540004DBA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB4A48D724C090540004DBA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,7 +29,6 @@
 		BB4A48DE24C090560004DBA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB4A48E124C090560004DBA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB4A48E324C090560004DBA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Publishers.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,7 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F7B5745261DE93500EFC600 /* AVFoundation-Combine in Frameworks */,
+				4F7B574C261DEB8D00EFC600 /* AVFoundationCombine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,8 +46,6 @@
 		4F627A4524D4585200998BF7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				BB4A48ED24C090D00004DBA5 /* AVPlayer+Publishers.swift */,
-				4FF363DD24C17FF700153AA5 /* AVPlayerItem+Publishers.swift */,
 				4FB5200924D7D8B600F6BFD5 /* UIView+Embed.swift */,
 			);
 			path = Extensions;
@@ -122,7 +116,7 @@
 			);
 			name = "AVFoundation-Combine";
 			packageProductDependencies = (
-				4F7B5744261DE93500EFC600 /* AVFoundation-Combine */,
+				4F7B574B261DEB8D00EFC600 /* AVFoundationCombine */,
 			);
 			productName = "AVFoundation-Combine";
 			productReference = BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */;
@@ -153,7 +147,7 @@
 			);
 			mainGroup = BB4A48C924C090540004DBA5;
 			packageReferences = (
-				4F7B5743261DE93500EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */,
+				4F7B574A261DEB8D00EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */,
 			);
 			productRefGroup = BB4A48D324C090540004DBA5 /* Products */;
 			projectDirPath = "";
@@ -184,8 +178,6 @@
 			files = (
 				4FB5200A24D7D8B600F6BFD5 /* UIView+Embed.swift in Sources */,
 				BB4A48DA24C090540004DBA5 /* VideoPlayerViewController.swift in Sources */,
-				BB4A48EE24C090D00004DBA5 /* AVPlayer+Publishers.swift in Sources */,
-				4FF363DE24C17FF700153AA5 /* AVPlayerItem+Publishers.swift in Sources */,
 				BB4A48D624C090540004DBA5 /* AppDelegate.swift in Sources */,
 				BB4A48D824C090540004DBA5 /* SceneDelegate.swift in Sources */,
 				4F295DA624D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift in Sources */,
@@ -390,7 +382,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4F7B5743261DE93500EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */ = {
+		4F7B574A261DEB8D00EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/piterwilson/AVFoundation-Combine";
 			requirement = {
@@ -401,10 +393,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4F7B5744261DE93500EFC600 /* AVFoundation-Combine */ = {
+		4F7B574B261DEB8D00EFC600 /* AVFoundationCombine */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4F7B5743261DE93500EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */;
-			productName = "AVFoundation-Combine";
+			package = 4F7B574A261DEB8D00EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */;
+			productName = AVFoundationCombine;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
