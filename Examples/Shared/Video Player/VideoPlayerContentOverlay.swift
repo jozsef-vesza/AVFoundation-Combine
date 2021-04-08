@@ -20,10 +20,11 @@ final class VideoPlayerContentOverlay: UIView {
     
     /// Image that indicates the video is loading or buffering
     private(set) var loadingIndicator: UIImageView!
-    
+
+    #if os(iOS)
     /// This slider acts as the playback progress indication
     private(set) var progressSlider: UISlider!
-    
+    #endif
     /// Semi transparent background that covers the UI when the replay button is shown
     private(set) var replayOverlay = UIView()
     
@@ -58,11 +59,11 @@ final class VideoPlayerContentOverlay: UIView {
         animation.duration = 0.5
         animation.repeatCount = Float.infinity
         loadingIndicator.layer.add(animation, forKey: "rotation")
-        
+        #if os(iOS)
         progressSlider = UISlider()
         progressSlider.tintColor = UIColor(named: "Red")
         progressSlider.setThumbImage(UIImage(named: "SliderThumb"), for: .normal)
-        
+        #endif
         replayOverlay.isHidden = true
         replayOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         replayButton = UIButton(type: .custom)
@@ -95,7 +96,7 @@ final class VideoPlayerContentOverlay: UIView {
             loadingIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
             loadingIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
-        
+        #if os(iOS)
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(progressSlider)
         let trailingConstraint = progressSlider.leadingAnchor.constraint(equalTo: playbackButton.trailingAnchor, constant: 20.0)
@@ -106,6 +107,7 @@ final class VideoPlayerContentOverlay: UIView {
             progressSlider.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
             progressSlider.centerYAnchor.constraint(equalTo: playbackButton.centerYAnchor, constant: 0.0)
         ])
+        #endif
         
         replayOverlay.translatesAutoresizingMaskIntoConstraints = false
         addSubview(replayOverlay)

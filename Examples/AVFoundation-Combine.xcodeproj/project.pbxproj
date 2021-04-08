@@ -8,7 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		4F295DA624D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F295DA524D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift */; };
-		4F7B574C261DEB8D00EFC600 /* AVFoundationCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 4F7B574B261DEB8D00EFC600 /* AVFoundationCombine */; };
+		4F924A5D261F46900014DA8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F924A5C261F46900014DA8A /* AppDelegate.swift */; };
+		4F924A5F261F46900014DA8A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F924A5E261F46900014DA8A /* ViewController.swift */; };
+		4F924A62261F46900014DA8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F924A60261F46900014DA8A /* Main.storyboard */; };
+		4F924A64261F46920014DA8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F924A63261F46920014DA8A /* Assets.xcassets */; };
+		4F924A67261F46920014DA8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F924A65261F46920014DA8A /* LaunchScreen.storyboard */; };
+		4F924A6F261F472C0014DA8A /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D924C090540004DBA5 /* VideoPlayerViewController.swift */; };
+		4F924A72261F472F0014DA8A /* VideoPlayerContentOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F295DA524D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift */; };
+		4F924A75261F47320014DA8A /* UIView+Embed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5200924D7D8B600F6BFD5 /* UIView+Embed.swift */; };
+		4F924A7A261F47AA0014DA8A /* AVFoundationCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 4F924A79261F47AA0014DA8A /* AVFoundationCombine */; };
+		4F924A81261F48070014DA8A /* AVFoundationCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 4F924A80261F48070014DA8A /* AVFoundationCombine */; };
 		4FB5200A24D7D8B600F6BFD5 /* UIView+Embed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5200924D7D8B600F6BFD5 /* UIView+Embed.swift */; };
 		BB4A48D624C090540004DBA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D524C090540004DBA5 /* AppDelegate.swift */; };
 		BB4A48D824C090540004DBA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4A48D724C090540004DBA5 /* SceneDelegate.swift */; };
@@ -20,6 +29,13 @@
 
 /* Begin PBXFileReference section */
 		4F295DA524D6AD1D0030EE7D /* VideoPlayerContentOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerContentOverlay.swift; sourceTree = "<group>"; };
+		4F924A5A261F46900014DA8A /* AVFoundation-Combine-tv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AVFoundation-Combine-tv.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F924A5C261F46900014DA8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F924A5E261F46900014DA8A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F924A61261F46900014DA8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F924A63261F46920014DA8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F924A66261F46920014DA8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F924A68261F46920014DA8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FB5200924D7D8B600F6BFD5 /* UIView+Embed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Embed.swift"; sourceTree = "<group>"; };
 		BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AVFoundation-Combine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB4A48D524C090540004DBA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -32,11 +48,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4F924A57261F46900014DA8A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F924A81261F48070014DA8A /* AVFoundationCombine in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB4A48CF24C090540004DBA5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F7B574C261DEB8D00EFC600 /* AVFoundationCombine in Frameworks */,
+				4F924A7A261F47AA0014DA8A /* AVFoundationCombine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,11 +84,43 @@
 			path = "Video Player";
 			sourceTree = "<group>";
 		};
+		4F924A5B261F46900014DA8A /* AVFoundation-Combine-tv */ = {
+			isa = PBXGroup;
+			children = (
+				4F924A5C261F46900014DA8A /* AppDelegate.swift */,
+				4F924A5E261F46900014DA8A /* ViewController.swift */,
+				4F924A60261F46900014DA8A /* Main.storyboard */,
+				4F924A63261F46920014DA8A /* Assets.xcassets */,
+				4F924A65261F46920014DA8A /* LaunchScreen.storyboard */,
+				4F924A68261F46920014DA8A /* Info.plist */,
+			);
+			path = "AVFoundation-Combine-tv";
+			sourceTree = "<group>";
+		};
+		4F924A6E261F47020014DA8A /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				4F627A4624D4589900998BF7 /* Video Player */,
+				4F627A4524D4585200998BF7 /* Extensions */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		4F924A7F261F48070014DA8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BB4A48C924C090540004DBA5 = {
 			isa = PBXGroup;
 			children = (
+				4F924A6E261F47020014DA8A /* Shared */,
 				BB4A48D424C090540004DBA5 /* AVFoundation-Combine */,
+				4F924A5B261F46900014DA8A /* AVFoundation-Combine-tv */,
 				BB4A48D324C090540004DBA5 /* Products */,
+				4F924A7F261F48070014DA8A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -72,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */,
+				4F924A5A261F46900014DA8A /* AVFoundation-Combine-tv.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,8 +136,6 @@
 		BB4A48D424C090540004DBA5 /* AVFoundation-Combine */ = {
 			isa = PBXGroup;
 			children = (
-				4F627A4624D4589900998BF7 /* Video Player */,
-				4F627A4524D4585200998BF7 /* Extensions */,
 				BB4A48E324C090560004DBA5 /* Info.plist */,
 				BB4A48EC24C090A40004DBA5 /* Supporting Files */,
 			);
@@ -102,6 +157,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4F924A59261F46900014DA8A /* AVFoundation-Combine-tv */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F924A6B261F46920014DA8A /* Build configuration list for PBXNativeTarget "AVFoundation-Combine-tv" */;
+			buildPhases = (
+				4F924A56261F46900014DA8A /* Sources */,
+				4F924A57261F46900014DA8A /* Frameworks */,
+				4F924A58261F46900014DA8A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AVFoundation-Combine-tv";
+			packageProductDependencies = (
+				4F924A80261F48070014DA8A /* AVFoundationCombine */,
+			);
+			productName = "AVFoundation-Combine-tv";
+			productReference = 4F924A5A261F46900014DA8A /* AVFoundation-Combine-tv.app */;
+			productType = "com.apple.product-type.application";
+		};
 		BB4A48D124C090540004DBA5 /* AVFoundation-Combine */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BB4A48E624C090560004DBA5 /* Build configuration list for PBXNativeTarget "AVFoundation-Combine" */;
@@ -116,7 +191,7 @@
 			);
 			name = "AVFoundation-Combine";
 			packageProductDependencies = (
-				4F7B574B261DEB8D00EFC600 /* AVFoundationCombine */,
+				4F924A79261F47AA0014DA8A /* AVFoundationCombine */,
 			);
 			productName = "AVFoundation-Combine";
 			productReference = BB4A48D224C090540004DBA5 /* AVFoundation-Combine.app */;
@@ -128,10 +203,13 @@
 		BB4A48CA24C090540004DBA5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1160;
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = "József Vesza";
 				TargetAttributes = {
+					4F924A59261F46900014DA8A = {
+						CreatedOnToolsVersion = 12.4;
+					};
 					BB4A48D124C090540004DBA5 = {
 						CreatedOnToolsVersion = 11.5;
 					};
@@ -147,18 +225,29 @@
 			);
 			mainGroup = BB4A48C924C090540004DBA5;
 			packageReferences = (
-				4F7B574A261DEB8D00EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */,
+				4F924A78261F47AA0014DA8A /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */,
 			);
 			productRefGroup = BB4A48D324C090540004DBA5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				BB4A48D124C090540004DBA5 /* AVFoundation-Combine */,
+				4F924A59261F46900014DA8A /* AVFoundation-Combine-tv */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4F924A58261F46900014DA8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F924A67261F46920014DA8A /* LaunchScreen.storyboard in Resources */,
+				4F924A64261F46920014DA8A /* Assets.xcassets in Resources */,
+				4F924A62261F46900014DA8A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB4A48D024C090540004DBA5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -172,6 +261,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4F924A56261F46900014DA8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F924A75261F47320014DA8A /* UIView+Embed.swift in Sources */,
+				4F924A6F261F472C0014DA8A /* VideoPlayerViewController.swift in Sources */,
+				4F924A5F261F46900014DA8A /* ViewController.swift in Sources */,
+				4F924A5D261F46900014DA8A /* AppDelegate.swift in Sources */,
+				4F924A72261F472F0014DA8A /* VideoPlayerContentOverlay.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB4A48CE24C090540004DBA5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -187,6 +288,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		4F924A60261F46900014DA8A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F924A61261F46900014DA8A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F924A65261F46920014DA8A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F924A66261F46920014DA8A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		BB4A48DB24C090540004DBA5 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -206,6 +323,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4F924A69261F46920014DA8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2BA7PGZ44F;
+				INFOPLIST_FILE = "AVFoundation-Combine-tv/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "hu.jozsefvesza.AVFoundation-Combine-tvos.AVFoundation-Combine-tv";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.3;
+			};
+			name = Debug;
+		};
+		4F924A6A261F46920014DA8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2BA7PGZ44F;
+				INFOPLIST_FILE = "AVFoundation-Combine-tv/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "hu.jozsefvesza.AVFoundation-Combine-tvos.AVFoundation-Combine-tv";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.3;
+			};
+			name = Release;
+		};
 		BB4A48E424C090560004DBA5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -361,6 +522,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4F924A6B261F46920014DA8A /* Build configuration list for PBXNativeTarget "AVFoundation-Combine-tv" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F924A69261F46920014DA8A /* Debug */,
+				4F924A6A261F46920014DA8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BB4A48CD24C090540004DBA5 /* Build configuration list for PBXProject "AVFoundation-Combine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -382,20 +552,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4F7B574A261DEB8D00EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */ = {
+		4F924A78261F47AA0014DA8A /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/piterwilson/AVFoundation-Combine";
+			repositoryURL = "https://github.com/jozsef-vesza/AVFoundation-Combine";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.0;
+				branch = "add-tvos-support";
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4F7B574B261DEB8D00EFC600 /* AVFoundationCombine */ = {
+		4F924A79261F47AA0014DA8A /* AVFoundationCombine */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4F7B574A261DEB8D00EFC600 /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */;
+			package = 4F924A78261F47AA0014DA8A /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */;
+			productName = AVFoundationCombine;
+		};
+		4F924A80261F48070014DA8A /* AVFoundationCombine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4F924A78261F47AA0014DA8A /* XCRemoteSwiftPackageReference "AVFoundation-Combine" */;
 			productName = AVFoundationCombine;
 		};
 /* End XCSwiftPackageProductDependency section */
