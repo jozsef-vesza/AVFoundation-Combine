@@ -43,6 +43,11 @@ final class VideoPlayerViewController: UIViewController {
     lazy private var avPlayerViewController: AVPlayerViewController = {
         AVPlayerViewController()
     }()
+
+    // MARK: - Overrides
+    override var preferredFocusEnvironments: [UIFocusEnvironment] {
+        [videoPlayerContentOverlay.playbackButton]
+    }
     
     // MARK: - Lifecycle overrides
     
@@ -66,8 +71,9 @@ final class VideoPlayerViewController: UIViewController {
         }
         contentOverlayView.addSubviewAndFillBounds(videoPlayerContentOverlay)
         videoPlayerContentOverlay.translatesAutoresizingMaskIntoConstraints = false
-        videoPlayerContentOverlay.playbackButton.addTarget(self, action: #selector(togglePlayback), for: .touchUpInside)
+        videoPlayerContentOverlay.playbackButton.addTarget(self, action: #selector(togglePlayback), for: .primaryActionTriggered)
         #if os(iOS)
+        videoPlayerContentOverlay.playbackButton.addTarget(self, action: #selector(togglePlayback), for: .touchUpInside)
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedDown), for: .touchDown)
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpOutside)
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpInside)
