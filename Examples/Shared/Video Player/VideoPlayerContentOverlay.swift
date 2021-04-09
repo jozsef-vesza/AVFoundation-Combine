@@ -30,6 +30,15 @@ final class VideoPlayerContentOverlay: UIView {
     
     /// Button used to restart the stream once it has completed
     private(set) var replayButton = UIButton()
+
+    /// Size of the play/pause button
+    private var playButtonSize: CGSize {
+        #if os(iOS)
+        return CGSize(width: 40.0, height: 40.0)
+        #else
+        return CGSize(width: 120.0, height: 120.0)
+        #endif
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,7 +57,7 @@ final class VideoPlayerContentOverlay: UIView {
         
         playbackButton = UIButton(type: .custom)
         playbackButton.backgroundColor = UIColor.black.withAlphaComponent(0.25)
-        playbackButton.layer.cornerRadius = 20.0
+        playbackButton.layer.cornerRadius = playButtonSize.width * 0.5
         playbackButton.layer.masksToBounds = true
         playbackButton.tintColor = .white
 
@@ -86,8 +95,8 @@ final class VideoPlayerContentOverlay: UIView {
         NSLayoutConstraint.activate([
             playbackButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20.0),
             playbackButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20.0),
-            playbackButton.widthAnchor.constraint(equalToConstant: 40.0),
-            playbackButton.heightAnchor.constraint(equalToConstant: 40.0)
+            playbackButton.widthAnchor.constraint(equalToConstant: playButtonSize.width),
+            playbackButton.heightAnchor.constraint(equalToConstant: playButtonSize.height)
         ])
         
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
