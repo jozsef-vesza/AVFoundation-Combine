@@ -25,11 +25,6 @@ final class VideoPlayerContentOverlay: UIView {
     /// This slider acts as the playback progress indication
     private(set) var progressSlider: UISlider!
     #endif
-    /// Semi transparent background that covers the UI when the replay button is shown
-    private(set) var replayOverlay = UIView()
-    
-    /// Button used to restart the stream once it has completed
-    private(set) var replayButton = UIButton()
 
     /// Size of the play/pause button
     private var playButtonSize: CGSize {
@@ -73,11 +68,6 @@ final class VideoPlayerContentOverlay: UIView {
         progressSlider.tintColor = UIColor(named: "Red")
         progressSlider.setThumbImage(UIImage(named: "SliderThumb"), for: .normal)
         #endif
-        replayOverlay.isHidden = true
-        replayOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        replayButton = UIButton(type: .custom)
-        replayButton.tintColor = .white
-        replayButton.setImage(UIImage(named: "Replay"), for: .normal)
     }
     
     override func updateConstraints() {
@@ -117,24 +107,5 @@ final class VideoPlayerContentOverlay: UIView {
             progressSlider.centerYAnchor.constraint(equalTo: playbackButton.centerYAnchor, constant: 0.0)
         ])
         #endif
-        
-        replayOverlay.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(replayOverlay)
-        NSLayoutConstraint.activate([
-            replayOverlay.leadingAnchor.constraint(equalTo: leadingAnchor),
-            replayOverlay.topAnchor.constraint(equalTo: topAnchor),
-            replayOverlay.trailingAnchor.constraint(equalTo: trailingAnchor),
-            replayOverlay.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
-        
-        replayButton.translatesAutoresizingMaskIntoConstraints = false
-        replayOverlay.addSubview(replayButton)
-        
-        NSLayoutConstraint.activate([
-            replayButton.centerXAnchor.constraint(equalTo: replayOverlay.centerXAnchor),
-            replayButton.centerYAnchor.constraint(equalTo: replayOverlay.centerYAnchor),
-            replayButton.widthAnchor.constraint(equalToConstant: 44),
-            replayButton.heightAnchor.constraint(equalToConstant: 44)
-        ])
     }
 }
