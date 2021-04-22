@@ -185,13 +185,6 @@ final class VideoPlayerViewController: UIViewController {
             .assign(to: \.alpha, on: videoPlayerContentOverlay.logoImageView)
             .store(in: &subscriptions)
 
-        statusStream.receive(on: DispatchQueue.main)
-            .prefix(1)
-            .sink {_ in
-                self.avPlayerViewController.player?.seek(to: CMTime(seconds: 600.0, preferredTimescale: 60))
-            }
-            .store(in: &subscriptions)
-
         #if os(iOS)
         item.durationPublisher()
             .map { $0.isNumeric ? Float($0.seconds) : 0.0 }
