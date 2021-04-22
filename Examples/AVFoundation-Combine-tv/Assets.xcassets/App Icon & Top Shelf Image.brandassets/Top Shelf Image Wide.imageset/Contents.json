@@ -1,20 +1,12 @@
 {
   "images" : [
     {
-      "idiom" : "tv",
-      "scale" : "1x"
+      "filename" : "Apple TV Top Shelf (front).pdf",
+      "idiom" : "tv"
     },
     {
-      "idiom" : "tv",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "tv-marketing",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "tv-marketing",
-      "scale" : "2x"
+      "filename" : "Apple TV Top Shelf (front)-1.pdf",
+      "idiom" : "tv-marketing"
     }
   ],
   "info" : {
