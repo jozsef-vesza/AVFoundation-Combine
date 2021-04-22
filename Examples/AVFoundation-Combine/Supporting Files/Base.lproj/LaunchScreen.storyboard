@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AVLogo" translatesAutoresizingMaskIntoConstraints="NO" id="OpR-X7-Ic9">
-                                <rect key="frame" x="20" y="64" width="76" height="76"/>
+                                <rect key="frame" x="20" y="64" width="140" height="140"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -35,7 +35,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AVLogo" width="76" height="76"/>
+        <image name="AVLogo" width="140" height="140"/>
         <namedColor name="Background">
             <color red="0.16500000655651093" green="0.16899999976158142" blue="0.21199999749660492" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
