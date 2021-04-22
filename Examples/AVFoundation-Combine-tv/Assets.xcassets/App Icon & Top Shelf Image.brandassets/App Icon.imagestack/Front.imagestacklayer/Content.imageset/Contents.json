@@ -1,12 +1,8 @@
 {
   "images" : [
     {
-      "idiom" : "tv",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "tv",
-      "scale" : "2x"
+      "filename" : "Apple TV icon (front).pdf",
+      "idiom" : "tv"
     }
   ],
   "info" : {
