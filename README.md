@@ -1,7 +1,8 @@
 ![Combine wrappers for AVPlayer](images/header.png)
-
 # AVFoundationCombine
 Combine extensions for AVFoundation
+
+![test](https://github.com/jozsef-vesza/AVFoundation-Combine/actions/workflows/test.yml/badge.svg?branch=main) [![SPM](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 
 The purpose of this project is to add Combine wrappers around AVFoundation (specifically `AVPlayer` and `AVPlayerItem`) APIs. For a full technical rundown and detailed explanation please visit https://jozsef-vesza.dev/tags/combine/
 
