@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Apple TV icon (middle).pdf",
+      "idiom" : "tv"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -43,6 +43,11 @@ final class VideoPlayerViewController: UIViewController {
     lazy private var avPlayerViewController: AVPlayerViewController = {
         AVPlayerViewController()
     }()
+
+    // MARK: - Overrides
+    override var preferredFocusEnvironments: [UIFocusEnvironment] {
+        [videoPlayerContentOverlay.playbackButton]
+    }
     
     // MARK: - Lifecycle overrides
     
@@ -56,7 +61,7 @@ final class VideoPlayerViewController: UIViewController {
     
     private func setupUI() {
         addChild(avPlayerViewController)
-        avPlayerViewController.entersFullScreenWhenPlaybackBegins = true
+
         view.addSubviewAndFillBounds(avPlayerViewController.view)
         avPlayerViewController.didMove(toParent: self)
         avPlayerViewController.view.backgroundColor = UIColor(named: "Background")
@@ -67,16 +72,19 @@ final class VideoPlayerViewController: UIViewController {
         contentOverlayView.addSubviewAndFillBounds(videoPlayerContentOverlay)
         videoPlayerContentOverlay.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerContentOverlay.playbackButton.addTarget(self, action: #selector(togglePlayback), for: .touchUpInside)
+        videoPlayerContentOverlay.playbackButton.addTarget(self, action: #selector(togglePlayback), for: .primaryActionTriggered)
+        #if os(iOS)
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedDown), for: .touchDown)
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpOutside)
         videoPlayerContentOverlay.progressSlider.addTarget(self, action: #selector(onSliderThumbTouchedUp), for: .touchUpInside)
-        videoPlayerContentOverlay.replayButton.addTarget(self, action: #selector(replay), for: .touchUpInside)
+        #endif
     }
     
     // MARK: - UI Actions
     
     // MARK: - Scubber
-    
+
+    #if os(iOS)
     @objc private func onSliderThumbTouchedDown() {
         isProgressSliderScrubbing = true
     }
@@ -86,21 +94,11 @@ final class VideoPlayerViewController: UIViewController {
             self?.isProgressSliderScrubbing = false
         }
     }
-    
+    #endif
     // MARK: - Play / Pause button
     
     @objc private func togglePlayback() {
         isPlaying ? avPlayerViewController.player?.pause() : avPlayerViewController.player?.play()
-    }
-    
-    // MARK: - Replay button
-    
-    @objc private func replay() {
-        videoPlayerContentOverlay.replayOverlay.isHidden = true
-        videoPlayerContentOverlay.progressSlider.isHidden = false
-        videoPlayerContentOverlay.playbackButton.isHidden = false
-        player.seek(to: CMTime.zero)
-        player.play()
     }
     
     // MARK: - Video Player setup
@@ -114,7 +112,7 @@ final class VideoPlayerViewController: UIViewController {
                 self?.avPlayerViewController.player?.play()
             }
             .store(in: &subscriptions)
-        
+        #if os(iOS)
         player.playheadProgressPublisher()
             .filter {progress in
                 !self.isProgressSliderScrubbing
@@ -122,6 +120,7 @@ final class VideoPlayerViewController: UIViewController {
             .map { Float($0) }
             .assign(to: \.value, on: videoPlayerContentOverlay.progressSlider)
             .store(in: &subscriptions)
+        #endif
         
         let rateStream = player.ratePublisher()
             .receive(on: DispatchQueue.main)
@@ -169,10 +168,12 @@ final class VideoPlayerViewController: UIViewController {
         statusStream.receive(on: DispatchQueue.main)
             .assign(to: \.isEnabled, on: videoPlayerContentOverlay.playbackButton)
             .store(in: &subscriptions)
-        
+
+        #if os(iOS)
         statusStream.receive(on: DispatchQueue.main)
             .assign(to: \.isEnabled, on: videoPlayerContentOverlay.progressSlider)
             .store(in: &subscriptions)
+        #endif
         
         statusStream.receive(on: DispatchQueue.main)
             .map { $0 ? 1.0 : 0.25 }
@@ -183,18 +184,21 @@ final class VideoPlayerViewController: UIViewController {
             .map { $0 ? 0.5 : 1.0 }
             .assign(to: \.alpha, on: videoPlayerContentOverlay.logoImageView)
             .store(in: &subscriptions)
-        
+
+        #if os(iOS)
         item.durationPublisher()
             .map { $0.isNumeric ? Float($0.seconds) : 0.0 }
             .removeDuplicates()
             .assign(to: \.maximumValue, on: videoPlayerContentOverlay.progressSlider)
             .store(in: &subscriptions)
+        #endif
         
         item.didPlayToEndTimePublisher()
             .sink { [weak self] _ in
+                #if os(iOS)
                 self?.videoPlayerContentOverlay.progressSlider.isHidden = true
-                self?.videoPlayerContentOverlay.playbackButton.isHidden = true
-                self?.videoPlayerContentOverlay.replayOverlay.isHidden = false
+                #endif
+                self?.avPlayerViewController.player?.seek(to: CMTime(seconds: 0, preferredTimescale: 60))
             }
             .store(in: &subscriptions)
     }

@@ -20,15 +20,20 @@ final class VideoPlayerContentOverlay: UIView {
     
     /// Image that indicates the video is loading or buffering
     private(set) var loadingIndicator: UIImageView!
-    
+
+    #if os(iOS)
     /// This slider acts as the playback progress indication
     private(set) var progressSlider: UISlider!
-    
-    /// Semi transparent background that covers the UI when the replay button is shown
-    private(set) var replayOverlay = UIView()
-    
-    /// Button used to restart the stream once it has completed
-    private(set) var replayButton = UIButton()
+    #endif
+
+    /// Size of the play/pause button
+    private var playButtonSize: CGSize {
+        #if os(iOS)
+        return CGSize(width: 40.0, height: 40.0)
+        #else
+        return CGSize(width: 120.0, height: 120.0)
+        #endif
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,7 +52,7 @@ final class VideoPlayerContentOverlay: UIView {
         
         playbackButton = UIButton(type: .custom)
         playbackButton.backgroundColor = UIColor.black.withAlphaComponent(0.25)
-        playbackButton.layer.cornerRadius = 20.0
+        playbackButton.layer.cornerRadius = playButtonSize.width * 0.5
         playbackButton.layer.masksToBounds = true
         playbackButton.tintColor = .white
 
@@ -58,16 +63,11 @@ final class VideoPlayerContentOverlay: UIView {
         animation.duration = 0.5
         animation.repeatCount = Float.infinity
         loadingIndicator.layer.add(animation, forKey: "rotation")
-        
+        #if os(iOS)
         progressSlider = UISlider()
         progressSlider.tintColor = UIColor(named: "Red")
         progressSlider.setThumbImage(UIImage(named: "SliderThumb"), for: .normal)
-        
-        replayOverlay.isHidden = true
-        replayOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        replayButton = UIButton(type: .custom)
-        replayButton.tintColor = .white
-        replayButton.setImage(UIImage(named: "Replay"), for: .normal)
+        #endif
     }
     
     override func updateConstraints() {
@@ -85,8 +85,8 @@ final class VideoPlayerContentOverlay: UIView {
         NSLayoutConstraint.activate([
             playbackButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20.0),
             playbackButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20.0),
-            playbackButton.widthAnchor.constraint(equalToConstant: 40.0),
-            playbackButton.heightAnchor.constraint(equalToConstant: 40.0)
+            playbackButton.widthAnchor.constraint(equalToConstant: playButtonSize.width),
+            playbackButton.heightAnchor.constraint(equalToConstant: playButtonSize.height)
         ])
         
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -95,7 +95,7 @@ final class VideoPlayerContentOverlay: UIView {
             loadingIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
             loadingIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
-        
+        #if os(iOS)
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(progressSlider)
         let trailingConstraint = progressSlider.leadingAnchor.constraint(equalTo: playbackButton.trailingAnchor, constant: 20.0)
@@ -106,24 +106,6 @@ final class VideoPlayerContentOverlay: UIView {
             progressSlider.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
             progressSlider.centerYAnchor.constraint(equalTo: playbackButton.centerYAnchor, constant: 0.0)
         ])
-        
-        replayOverlay.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(replayOverlay)
-        NSLayoutConstraint.activate([
-            replayOverlay.leadingAnchor.constraint(equalTo: leadingAnchor),
-            replayOverlay.topAnchor.constraint(equalTo: topAnchor),
-            replayOverlay.trailingAnchor.constraint(equalTo: trailingAnchor),
-            replayOverlay.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
-        
-        replayButton.translatesAutoresizingMaskIntoConstraints = false
-        replayOverlay.addSubview(replayButton)
-        
-        NSLayoutConstraint.activate([
-            replayButton.centerXAnchor.constraint(equalTo: replayOverlay.centerXAnchor),
-            replayButton.centerYAnchor.constraint(equalTo: replayOverlay.centerYAnchor),
-            replayButton.widthAnchor.constraint(equalToConstant: 44),
-            replayButton.heightAnchor.constraint(equalToConstant: 44)
-        ])
+        #endif
     }
 }

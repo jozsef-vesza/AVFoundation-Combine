@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "AVFoundationCombine",
-        "repositoryURL": "https://github.com/piterwilson/AVFoundation-Combine",
+        "repositoryURL": "https://github.com/jozsef-vesza/AVFoundation-Combine",
         "state": {
-          "branch": null,
-          "revision": "a095c544491fd9473cccb4b587789735811a53e4",
-          "version": "0.0.1"
+          "branch": "add-tvos-support",
+          "revision": "04def8c8c848ef4f1cfe63550673a162379fde9d",
+          "version": null
         }
       }
     ]
