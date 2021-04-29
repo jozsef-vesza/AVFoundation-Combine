@@ -572,7 +572,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jozsef-vesza/AVFoundation-Combine";
 			requirement = {
-				branch = "add-tvos-support";
+				branch = master;
 				kind = branch;
 			};
 		};
