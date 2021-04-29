@@ -5,8 +5,8 @@
         "package": "AVFoundationCombine",
         "repositoryURL": "https://github.com/jozsef-vesza/AVFoundation-Combine",
         "state": {
-          "branch": "add-tvos-support",
-          "revision": "04def8c8c848ef4f1cfe63550673a162379fde9d",
+          "branch": "master",
+          "revision": "30da96e9d7775ea87144292c6b59fb5ef420c459",
           "version": null
         }
       }
