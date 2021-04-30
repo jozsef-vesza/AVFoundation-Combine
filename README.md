@@ -39,3 +39,7 @@ All publishers are designed to be lazy: they only start observing properties whe
 |     `isPlaybackLikelyToKeepUpPublisher()`      |    `isPlaybackLikelyToKeepUp`    |
 |     `isPlaybackBufferEmptyPublisher()`      |    `isPlaybackBufferEmpty`    |
 |     `didPlayToEndTimePublisher(_:)`      |    `.AVPlayerItemDidPlayToEndTime` Notification    |
+
+## License
+
+AVFoundationCombine is available under the MIT license. See the [LICENSE](https://github.com/jozsef-vesza/AVFoundation-Combine/blob/master/LICENSE) file for more info.
