@@ -2,8 +2,7 @@
 //  AVPlayerItem+Publishers.swift
 //  AVFoundation-Combine
 //
-//  Created by Juan Carlos Ospina Gonzalez on 17/07/2020.
-//  Copyright © 2020 József Vesza. All rights reserved.
+//  Created by Juan Carlos Ospina Gonzalez on 30/04/2021.
 //
 
 import Foundation
