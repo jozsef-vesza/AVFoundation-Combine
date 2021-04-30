@@ -3,7 +3,6 @@
 //  AVFoundation-CombineTests
 //
 //  Created by József Vesza on 2020. 08. 09..
-//  Copyright © 2020. József Vesza. All rights reserved.
 //
 
 import XCTest

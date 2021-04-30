@@ -3,7 +3,6 @@
 //  AVFoundation-Combine
 //
 //  Created by József Vesza on 2020. 07. 16..
-//  Copyright © 2020. József Vesza. All rights reserved.
 //
 
 import UIKit
