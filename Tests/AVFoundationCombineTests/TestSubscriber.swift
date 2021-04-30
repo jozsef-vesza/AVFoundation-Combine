@@ -3,7 +3,6 @@
 //  AVFoundation-CombineTests
 //
 //  Created by József Vesza on 2020. 07. 24..
-//  Copyright © 2020. József Vesza. All rights reserved.
 //
 
 import Combine
