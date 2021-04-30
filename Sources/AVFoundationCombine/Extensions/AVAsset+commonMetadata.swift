@@ -5,9 +5,12 @@
 //  Created by Juan Carlos Ospina Gonzalez on 30/04/2021.
 //
 
-import Foundation
-import Combine
 import AVKit
+import Combine
+import Foundation
+#if !os(macOS)
+import UIKit
+#endif
 
 public extension AVAsset {
     /**
@@ -84,5 +87,21 @@ public extension AVAsset {
             }
             .eraseToAnyPublisher()
     }
+    
+    func commonMetadataPublisher(commonKey: AVMetadataKey.StringValueCommonKey) -> AnyPublisher<String, Never> {
+        commonMetadataPublisher(key: commonKey.toAVMetadataKey(), as: String.self)
+    }
+    
+    #if !os(macOS)
+    
+    func commonMetadataPublisher(commonKey: AVMetadataKey.UIImageValueCommonKey) -> AnyPublisher<UIImage, Never> {
+        commonMetadataPublisher(key: commonKey.toAVMetadataKey(), as: Data.self)
+            .compactMap { data -> UIImage? in
+                return UIImage(data: data)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    #endif
     
 }
