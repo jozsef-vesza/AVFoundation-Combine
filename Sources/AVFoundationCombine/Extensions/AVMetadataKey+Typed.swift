@@ -16,7 +16,7 @@ protocol AVMetadataKeyConvertible {
 public extension AVMetadataKey {
     
     /// `AVMetadataKey` that can safely assume to have a `Data` value containing an image,  in an `AVAsset`'s `commonMetadata` entry.
-    enum UIImageValueCommonKey: AVMetadataKeyConvertible {
+    enum ImageValueKey: AVMetadataKeyConvertible {
         
         case commonKeyArtwork
         
@@ -29,7 +29,7 @@ public extension AVMetadataKey {
     }
     
     /// `AVMetadataKey` that can safely assume to have a `String` value in an `AVAsset`'s `commonMetadata` entry.
-    enum StringValueCommonKey: AVMetadataKeyConvertible {
+    enum StringValueKey: AVMetadataKeyConvertible {
         
         case commonKeyAlbumName
         case commonKeyArtist

@@ -89,51 +89,51 @@ public extension AVAsset {
     }
     
     /**
-     `Publisher` that emits the `String` value of a `AVMetadataItem` matching a given `AVMetadataKey.StringValueCommonKey`, if it exists in the `AVAsset`'s `commonMetadata` entries.
+     `Publisher` that emits the `String` value of a `AVMetadataItem` matching a given `AVMetadataKey.StringValueKey`, if it exists in the `AVAsset`'s `commonMetadata` entries.
      
-     This will only succeed if the  `AVMetadataItem` matching a given `AVMetadataKey.StringValueCommonKey` converted to a `AVMetadataKey` exists and casting its value to `String` succeeds.
+     This will only succeed if the  `AVMetadataItem` matching a given `AVMetadataKey.StringValueKey` converted to a `AVMetadataKey` exists and casting its value to `String` succeeds.
      
      The following example retrieves `.commonKeyTitle` value in an `AVAsset` which can be safely assumed to be a `String`.
      
      ```
-     asset.commonMetadataPublisher(commonKey: .commonKeyTitle)
+     asset.commonMetadataPublisher(stringValueKey: .commonKeyTitle)
          .receive(on: DispatchQueue.main)
          .sink { title in
              print("the title is \(title)") // title is a String
          }
          .store(in: &subscriptions)
      ```
-     - Parameter commonKey: one of the keys in `AVMetadataKey.StringValueCommonKey` which maps to a known `AVMetadataKey`
+     - Parameter tringValueKey: one of the keys in `AVMetadataKey.StringValueKey` which maps to a known `AVMetadataKey`
      - returns: `Publisher` that emits the `String` value of a `AVMetadataItem` matching a given `AVMetadataKey.StringValueCommonKey`, if it exists in the `AVAsset`'s `commonMetadata` entries.
-     - seeAlso: `AVMetadataKey.StringValueCommonKey`
+     - seeAlso: `AVMetadataKey.StringValueKey`
      */
-    func commonMetadataPublisher(commonKey: AVMetadataKey.StringValueCommonKey) -> AnyPublisher<String, Never> {
-        commonMetadataPublisher(key: commonKey.toAVMetadataKey(), as: String.self)
+    func commonMetadataPublisher(stringValueKey key: AVMetadataKey.StringValueKey) -> AnyPublisher<String, Never> {
+        commonMetadataPublisher(key: key.toAVMetadataKey(), as: String.self)
     }
     
     #if !os(macOS)
     
     /**
-     `Publisher` that emits the `UIImage` value of a `AVMetadataItem` matching a given `AVMetadataKey.UIImageValueCommonKey`, if it exists in the `AVAsset`'s `commonMetadata` entries.
+     `Publisher` that emits the `UIImage` value of a `AVMetadataItem` matching a given `AVMetadataKey.ImageValueKey`, if it exists in the `AVAsset`'s `commonMetadata` entries.
      
-     This will only succeed if the  `AVMetadataItem` matching a given `AVMetadataKey.UIImageValueCommonKey` converted to a `AVMetadataKey` exists and converting  its `Data` value to `UIImage` succeeds.
+     This will only succeed if the  `AVMetadataItem` matching a given `AVMetadataKey.ImageValueKey` converted to a `AVMetadataKey` exists and converting  its `Data` value to `UIImage` succeeds.
      
      The following example retrieves `.commonKeyArtwork` value in an `AVAsset` which can be safely assumed to be a `Data` encoding an image ( represented as `UIImage`).
      
      ```
-     asset.commonMetadataPublisher(commonKey: .commonKeyArtwork)
+     asset.commonMetadataPublisher(imageValueKey: .commonKeyArtwork)
          .receive(on: DispatchQueue.main)
          .sink { image in
              // do something with the image
          }
          .store(in: &subscriptions)
      ```
-     - Parameter commonKey: one of the keys in `AVMetadataKey.UIImageValueCommonKey` which maps to a known `AVMetadataKey`
+     - Parameter imageValueKey: one of the keys in `AVMetadataKey.UIImageValueCommonKey` which maps to a known `AVMetadataKey`
      - returns: a `Publisher` that emits the `UIImage` value of a `AVMetadataItem` matching a given `AVMetadataKey.UIImageValueCommonKey`, if it exists in the `AVAsset`'s `commonMetadata` entries.
-     - seeAlso: `AVMetadataKey.UIImageValueCommonKey`
+     - seeAlso: `AVMetadataKey.ImageValueKey`
      */
-    func commonMetadataPublisher(commonKey: AVMetadataKey.UIImageValueCommonKey) -> AnyPublisher<UIImage, Never> {
-        commonMetadataPublisher(key: commonKey.toAVMetadataKey(), as: Data.self)
+    func commonMetadataPublisher(imageValueKey key: AVMetadataKey.ImageValueKey) -> AnyPublisher<UIImage, Never> {
+        commonMetadataPublisher(key: key.toAVMetadataKey(), as: Data.self)
             .compactMap { data -> UIImage? in
                 return UIImage(data: data)
             }
