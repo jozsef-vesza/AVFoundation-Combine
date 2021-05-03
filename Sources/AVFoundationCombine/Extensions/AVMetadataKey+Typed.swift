@@ -31,15 +31,26 @@ public extension AVMetadataKey {
     /// `AVMetadataKey` that can safely assume to have a `String` value in an `AVAsset`'s `commonMetadata` entry.
     enum StringValueKey: AVMetadataKeyConvertible {
         
-        case commonKeyAlbumName
-        case commonKeyArtist
-        case commonKeyAuthor
-        case commonKeyCreator
-        case commonKeyCopyrights
-        case commonKeyDescription
-        case commonKeyLanguage
-        case commonKeyPublisher
         case commonKeyTitle
+        case commonKeyCreator
+        case commonKeySubject
+        case commonKeyDescription
+        case commonKeyPublisher
+        case commonKeyContributor
+        case commonKeyType
+        case commonKeyFormat
+        case commonKeyIdentifier
+        case commonKeySource
+        case commonKeyLanguage
+        case commonKeyRelation
+        case commonKeyLocation
+        case commonKeyCopyrights
+        case commonKeyAlbumName
+        case commonKeyAuthor
+        case commonKeyArtist
+        case commonKeyMake
+        case commonKeyModel
+        case commonKeySoftware
         
         func toAVMetadataKey() -> AVMetadataKey {
             switch self {
@@ -59,8 +70,30 @@ public extension AVMetadataKey {
                 return .commonKeyLanguage
             case .commonKeyPublisher:
                 return .commonKeyPublisher
+            case .commonKeySubject:
+                return .commonKeySubject
             case .commonKeyTitle:
                 return .commonKeyTitle
+            case .commonKeyContributor:
+                return .commonKeyContributor
+            case .commonKeyType:
+                return .commonKeyType
+            case .commonKeyFormat:
+                return .commonKeyFormat
+            case .commonKeyIdentifier:
+                return .commonKeyIdentifier
+            case .commonKeySource:
+                return .commonKeySource
+            case .commonKeyRelation:
+                return .commonKeyRelation
+            case .commonKeyLocation:
+                return .commonKeyLocation
+            case .commonKeyMake:
+                return .commonKeyMake
+            case .commonKeyModel:
+                return .commonKeyModel
+            case .commonKeySoftware:
+                return .commonKeySoftware
             }
         }
     }
