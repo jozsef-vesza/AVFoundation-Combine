@@ -38,6 +38,30 @@ public extension AVAsset {
     }
     
     /**
+     `Publisher` that emits the value of a specific `AVMetadataItem` matching a given `AVMetadataKey` (if it exists in the `AVAsset`'s `commonMetadata` entries).
+     
+     The following example retrieves value of the `AVMetadataItem` `.commonKeyArtwork` key.
+     
+     ```
+     asset.commonMetadataValuePublisherkey: .commonKeyArtwork)
+         .receive(on: DispatchQueue.main)
+         .sink { value in
+             print("the .commonKeyArtwork has the teh value: \(value)")
+         }
+         .store(in: &subscriptions)
+     ```
+     - Parameter key: key of the `AVMetadataItem`
+     - Returns: A `Publisher` that emits the value of a specific `AVMetadataItem` matching a given `AVMetadataKey` (if it exists in the `AVAsset`'s `commonMetadata` entries).
+     */
+    func commonMetadataValuePublisher(key: AVMetadataKey) -> AnyPublisher<Any, Never> {
+        publisher(for: \.commonMetadata)
+            .compactMap { metadata -> Any? in
+                metadata.filter { $0.commonKey == key }.first?.value
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    /**
      `Publisher` that emits the extras of a specific `AVMetadataItem` matching a given `AVMetadataKey` (if it exists in the `AVAsset`'s `commonMetadata` entries).
      
      The following example retrieves the `AVMetadataItem`'s extras  for the `.commonKeyArtwork` key if it exists in the `AVAsset`
