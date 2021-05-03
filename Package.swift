@@ -28,6 +28,9 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "AVFoundationCombineTests",
-            dependencies: ["AVFoundationCombine"]),
+            dependencies: ["AVFoundationCombine"],
+            resources: [
+                .copy("Resources/Copy/commonKeysSample.mp3")
+            ]),
     ]
 )
