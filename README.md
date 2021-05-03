@@ -4,7 +4,9 @@ Combine extensions for AVFoundation
 
 [![Test](https://github.com/jozsef-vesza/AVFoundation-Combine/actions/workflows/test.yml/badge.svg)](https://github.com/jozsef-vesza/AVFoundation-Combine/actions/workflows/test.yml) [![SPM](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 
-The purpose of this project is to add Combine wrappers around AVFoundation (specifically `AVPlayer` and `AVPlayerItem`) APIs. For a full technical rundown and detailed explanation please visit https://jozsef-vesza.dev/tags/combine/
+This project aims at providing uniformity and reducing boilerplate by providing `Publisher` extensions for common tasks when working with the `AVFoundation` framework.
+
+For a full technical rundown and detailed explanation on this motivation and useful technical details on implementing custom `Publisher`s, please visit https://jozsef-vesza.dev/tags/combine/
 
 You can also check out our talk on the topic:
 
@@ -39,6 +41,13 @@ All publishers are designed to be lazy: they only start observing properties whe
 |     `isPlaybackLikelyToKeepUpPublisher()`      |    `isPlaybackLikelyToKeepUp`    |
 |     `isPlaybackBufferEmptyPublisher()`      |    `isPlaybackBufferEmpty`    |
 |     `didPlayToEndTimePublisher(_:)`      |    `.AVPlayerItemDidPlayToEndTime` Notification    |
+| **AVAsset** | |
+|     `commonMetadataPublisher(key:)`      |    `commonMetadata`    |
+|     `commonMetadataValuePublisher(key:)`      |    `commonMetadata`    |
+|     `commonMetadataExtrasPublisher(key:)`      |    `commonMetadata`    |
+|     `commonMetadataValuePublisher(key:as:)`      |    `commonMetadata`    |
+|     `commonMetadataValuePublisher(stringValueKey:)`      |    `commonMetadata`    |
+|     `commonMetadataValuePublisher(imageValueKey:)`      |    `commonMetadata`    |
 
 ## License
 
