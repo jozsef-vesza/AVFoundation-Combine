@@ -101,6 +101,7 @@ class AVAsset_CommonMetadataPublisherTests: XCTestCase {
     }
     
     func testWhenAVAssetContainsMetadataCommonKeyArtworkValue_UIImageValueIsEmitted() {
+        #if !os(macOS)
         // Given
         let sut = commonKeysTestAVAsset
         let testExpectation = expectation(description: "artwork should be found")
@@ -113,5 +114,14 @@ class AVAsset_CommonMetadataPublisherTests: XCTestCase {
             .store(in: &subscribers)
         
         wait(for: [testExpectation], timeout: 0.5)
+        #endif
     }
+    
+    static var allTests = [
+        ("testWhenAVAssetContainsMetadataCommonKeyTypeValue_StringValueIsEmitted", testWhenAVAssetContainsMetadataCommonKeyTypeValue_StringValueIsEmitted),
+        ("testWhenAVAssetContainsMetadataCommonKeyArtistValue_StringValueIsEmitted", testWhenAVAssetContainsMetadataCommonKeyArtistValue_StringValueIsEmitted),
+        ("testWhenAVAssetContainsMetadataCommonKeyAlbumNameValue_StringValueIsEmitted", testWhenAVAssetContainsMetadataCommonKeyAlbumNameValue_StringValueIsEmitted),
+        ("testWhenAVAssetContainsMetadataCommonKeyTitleValue_StringValueIsEmitted", testWhenAVAssetContainsMetadataCommonKeyTitleValue_StringValueIsEmitted),
+        ("testWhenAVAssetContainsMetadataCommonKeyArtworkValue_UIImageValueIsEmitted", testWhenAVAssetContainsMetadataCommonKeyArtworkValue_UIImageValueIsEmitted),
+    ]
 }
