@@ -47,7 +47,7 @@ All publishers are designed to be lazy: they only start observing properties whe
 |     `commonMetadataExtrasPublisher(key:)`      |    `commonMetadata`    |
 |     `commonMetadataValuePublisher(key:as:)`      |    `commonMetadata`    |
 |     `commonMetadataValuePublisher(stringValueKey:)`      |    `commonMetadata`    |
-|     `commonMetadataValuePublisher(imageValueKey:)`      |    `commonMetadata`    |
+|     `commonMetadataArtworkPublisher()`      |    `commonMetadata`    |
 
 ## License
 

@@ -37,7 +37,7 @@ class AVAsset_CommonMetadataPublisherTests: XCTestCase {
         let sut = commonKeysTestAVAsset
         let testExpectation = expectation(description: "title should be found")
         // When
-        sut.commonMetadataValuePublisher(stringValueKey: .commonKeyTitle)
+        sut.commonMetadataValuePublisher(stringValueKey: .title)
             .sink { value in
                 // Then
                 if value == "AVFoundationCombine Test Track" {
@@ -54,7 +54,7 @@ class AVAsset_CommonMetadataPublisherTests: XCTestCase {
         let sut = commonKeysTestAVAsset
         let testExpectation = expectation(description: "album to title should be found")
         // When
-        sut.commonMetadataValuePublisher(stringValueKey: .commonKeyAlbumName)
+        sut.commonMetadataValuePublisher(stringValueKey: .albumName)
             .sink { value in
                 // Then
                 if value == "AVFoundationCombine Test Tracks" {
@@ -71,7 +71,7 @@ class AVAsset_CommonMetadataPublisherTests: XCTestCase {
         let sut = commonKeysTestAVAsset
         let testExpectation = expectation(description: "artist should be found")
         // When
-        sut.commonMetadataValuePublisher(stringValueKey: .commonKeyArtist)
+        sut.commonMetadataValuePublisher(stringValueKey: .artist)
             .sink { value in
                 // Then
                 if value == "Juan Carlos Ospina Gonzalez" {
@@ -88,7 +88,7 @@ class AVAsset_CommonMetadataPublisherTests: XCTestCase {
         let sut = commonKeysTestAVAsset
         let testExpectation = expectation(description: "type should be found")
         // When
-        sut.commonMetadataValuePublisher(stringValueKey: .commonKeyType)
+        sut.commonMetadataValuePublisher(stringValueKey: .type)
             .sink { value in
                 // Then
                 if value == "Noise" {
@@ -105,7 +105,7 @@ class AVAsset_CommonMetadataPublisherTests: XCTestCase {
         let sut = commonKeysTestAVAsset
         let testExpectation = expectation(description: "artwork should be found")
         // When
-        sut.commonMetadataValuePublisher(imageValueKey: .commonKeyArtwork)
+        sut.commonMetadataArtworkPublisher()
             .sink { value in
                 // Then
                 testExpectation.fulfill()

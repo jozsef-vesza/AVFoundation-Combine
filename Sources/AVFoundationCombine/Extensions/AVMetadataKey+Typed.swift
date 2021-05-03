@@ -15,84 +15,71 @@ protocol AVMetadataKeyConvertible {
 
 public extension AVMetadataKey {
     
-    /// `AVMetadataKey` that can safely assume to have a `Data` value containing an image,  in an `AVAsset`'s `commonMetadata` entry.
-    enum ImageValueKey: AVMetadataKeyConvertible {
-        
-        case commonKeyArtwork
-        
-        func toAVMetadataKey() -> AVMetadataKey {
-            switch self {
-            case .commonKeyArtwork:
-                return .commonKeyArtwork
-            }
-        }
-    }
-    
-    /// `AVMetadataKey` that can safely assume to have a `String` value in an `AVAsset`'s `commonMetadata` entry.
+    /// Common `AVMetadataKey` that can safely assume to have a `String` value in an `AVAsset`'s `commonMetadata` entry.
     enum StringValueKey: AVMetadataKeyConvertible {
         
-        case commonKeyTitle
-        case commonKeyCreator
-        case commonKeySubject
-        case commonKeyDescription
-        case commonKeyPublisher
-        case commonKeyContributor
-        case commonKeyType
-        case commonKeyFormat
-        case commonKeyIdentifier
-        case commonKeySource
-        case commonKeyLanguage
-        case commonKeyRelation
-        case commonKeyLocation
-        case commonKeyCopyrights
-        case commonKeyAlbumName
-        case commonKeyAuthor
-        case commonKeyArtist
-        case commonKeyMake
-        case commonKeyModel
-        case commonKeySoftware
+        case title
+        case creator
+        case subject
+        case description
+        case publisher
+        case contributor
+        case type
+        case format
+        case identifier
+        case source
+        case language
+        case relation
+        case location
+        case copyrights
+        case albumName
+        case author
+        case artist
+        case make
+        case model
+        case software
         
         func toAVMetadataKey() -> AVMetadataKey {
             switch self {
-            case .commonKeyAlbumName:
+            case .albumName:
                 return .commonKeyAlbumName
-            case .commonKeyArtist:
+            case .artist:
                 return .commonKeyArtist
-            case .commonKeyAuthor:
+            case .author:
                 return .commonKeyAuthor
-            case .commonKeyCreator:
+            case .creator:
                 return .commonKeyCreator
-            case .commonKeyCopyrights:
+            case .copyrights:
                 return .commonKeyCopyrights
-            case .commonKeyDescription:
+            case .description:
                 return .commonKeyDescription
-            case .commonKeyLanguage:
+            case .language:
                 return .commonKeyLanguage
-            case .commonKeyPublisher:
+            case .publisher:
                 return .commonKeyPublisher
-            case .commonKeySubject:
+            case .subject:
                 return .commonKeySubject
-            case .commonKeyTitle:
+            case .title:
                 return .commonKeyTitle
-            case .commonKeyContributor:
+            case .contributor:
                 return .commonKeyContributor
-            case .commonKeyType:
+            case .type:
                 return .commonKeyType
-            case .commonKeyFormat:
+            case .format:
                 return .commonKeyFormat
-            case .commonKeyIdentifier:
+            case .identifier:
                 return .commonKeyIdentifier
-            case .commonKeySource:
+            case .source:
                 return .commonKeySource
-            case .commonKeyRelation:
+            case .relation:
                 return .commonKeyRelation
-            case .commonKeyLocation:
+            case .location:
                 return .commonKeyLocation
-            case .commonKeyMake:
+            case .make:
                 return .commonKeyMake
-            case .commonKeyModel:
+            case .model:
                 return .commonKeyModel
-            case .commonKeySoftware:
+            case .software:
                 return .commonKeySoftware
             }
         }
