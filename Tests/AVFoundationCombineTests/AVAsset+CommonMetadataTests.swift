@@ -108,7 +108,7 @@ class AVAsset_CommonMetadataPublisherTests: XCTestCase {
         sut.commonMetadataValuePublisher(imageValueKey: .commonKeyArtwork)
             .sink { value in
                 // Then
-                XCTAssertNotNil(value)
+                testExpectation.fulfill()
             }
             .store(in: &subscribers)
         
