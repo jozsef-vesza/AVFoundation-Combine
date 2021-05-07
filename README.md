@@ -2,7 +2,7 @@
 # AVFoundationCombine
 Combine extensions for AVFoundation
 
-[![Test](https://github.com/jozsef-vesza/AVFoundation-Combine/actions/workflows/test.yml/badge.svg)](https://github.com/jozsef-vesza/AVFoundation-Combine/actions/workflows/test.yml) [![SPM](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
+[![Test](https://github.com/jozsef-vesza/AVFoundation-Combine/actions/workflows/test.yml/badge.svg)](https://github.com/jozsef-vesza/AVFoundation-Combine/actions/workflows/test.yml) [![SPM](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fjozsef-vesza%2FAVFoundation-Combine%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/jozsef-vesza/AVFoundation-Combine) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fjozsef-vesza%2FAVFoundation-Combine%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/jozsef-vesza/AVFoundation-Combine)
 
 This project aims at providing uniformity and reducing boilerplate by providing `Publisher` extensions for common tasks when working with the `AVFoundation` framework.
 
